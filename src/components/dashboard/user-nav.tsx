@@ -104,20 +104,6 @@ export function UserNav({ user }: UserNavProps) {
           </div>
         </div>
       )}
-
-      {/* Bouton direct Déconnexion rapide visible sur grand écran */}
-      <form action={logout} className="hidden sm:block">
-        <Button
-          type="submit"
-          variant="ghost"
-          size="sm"
-          className="text-xs text-muted-foreground hover:text-red-400 hover:bg-red-500/10 rounded-xl gap-1.5 h-9"
-          title="Se déconnecter"
-        >
-          <LogOut className="h-4 w-4" />
-          <span className="hidden lg:inline">Déconnexion</span>
-        </Button>
-      </form>
     </div>
   );
 }

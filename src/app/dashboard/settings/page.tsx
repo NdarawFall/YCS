@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SettingsForm } from "./settings-form";
@@ -22,6 +24,13 @@ export default async function SettingsPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div>
+        <Link 
+          href="/dashboard" 
+          className="inline-flex items-center gap-2 text-xs font-semibold text-white/50 hover:text-white transition-colors mb-4 p-2 rounded-lg hover:bg-white/5"
+        >
+          <ArrowLeft className="h-4 w-4 text-red-500" />
+          <span>Retour au tableau de bord</span>
+        </Link>
         <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">Paramètres du compte</h1>
         <p className="text-muted-foreground text-sm">Gérez vos informations personnelles et votre abonnement.</p>
       </div>
