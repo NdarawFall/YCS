@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
-import { Sparkles, Youtube, Zap } from "lucide-react";
+import { Sparkles, Zap } from "lucide-react";
 
 export default function AuthLayout({
   children,
