@@ -1,0 +1,28 @@
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { KanbanBoard } from "@/components/workspace/kanban-board";
+
+export default async function WorkspacePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) redirect("/auth/login");
+
+  // Fetch videos for this workspace
+  const { data: videos } = await supabase
+    .from("videos")
+    .select("*")
+    .eq("workspace_id", id)
+    .order("created_at", { ascending: false });
+
+  return (
+    <div className="h-full p-4 sm:p-6 flex flex-col">
+      <KanbanBoard videos={videos || []} workspaceId={id} />
+    </div>
+  );
+}
