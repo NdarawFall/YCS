@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
 import { UserNav } from "@/components/dashboard/user-nav";
+import { MobileGuard } from "@/components/mobile-guard";
 
 export default async function DashboardLayout({
   children,
@@ -25,28 +26,30 @@ export default async function DashboardLayout({
   const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || undefined;
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Top navbar */}
-      <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between px-4 sm:px-6 lg:px-8 glass border-b border-white/5">
-        <div className="flex items-center gap-6">
-          <Logo size="md" />
-        </div>
-        <div className="flex items-center gap-4">
-          <UserNav
-            user={{
-              email: user.email,
-              fullName,
-              avatarUrl,
-            }}
-          />
-        </div>
-      </header>
+    <MobileGuard>
+      <div className="flex min-h-screen flex-col">
+        {/* Top navbar */}
+        <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between px-4 sm:px-6 lg:px-8 glass border-b border-white/5">
+          <div className="flex items-center gap-6">
+            <Logo size="md" />
+          </div>
+          <div className="flex items-center gap-4">
+            <UserNav
+              user={{
+                email: user.email,
+                fullName,
+                avatarUrl,
+              }}
+            />
+          </div>
+        </header>
 
-      <main className="flex-1">
-        <div className="py-10">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
-        </div>
-      </main>
-    </div>
+        <main className="flex-1">
+          <div className="py-10">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+          </div>
+        </main>
+      </div>
+    </MobileGuard>
   );
 }

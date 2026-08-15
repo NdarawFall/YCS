@@ -40,6 +40,16 @@ export async function updateSession(request: NextRequest) {
   const isDashboardRoute = request.nextUrl.pathname.startsWith('/dashboard')
   const isWorkspaceRoute = request.nextUrl.pathname.startsWith('/workspace')
 
+  // Mobile User-Agent check: restrict mobile access to dashboard and workspace
+  const userAgent = request.headers.get('user-agent') || ''
+  const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(userAgent)
+
+  if (isMobileUserAgent && (isDashboardRoute || isWorkspaceRoute)) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/desktop-only'
+    return NextResponse.redirect(url)
+  }
+
   if (!user && (isDashboardRoute || isWorkspaceRoute)) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()

@@ -17,7 +17,9 @@ import {
   Video,
   User,
   Zap,
-  Film
+  Film,
+  Monitor,
+  Laptop
 } from "lucide-react";
 
 export default async function LandingPage() {
@@ -268,6 +270,51 @@ export default async function LandingPage() {
                   </p>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Grand Écran / Ordinateur */}
+        <section className="w-full py-16 bg-gradient-to-b from-[#0a0a14]/80 to-[#080810] border-t border-white/5">
+          <div className="container px-4 md:px-6 mx-auto max-w-5xl">
+            <div className="glass p-8 md:p-12 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
+              <div className="absolute -top-24 -right-24 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
+                <div className="md:col-span-7 space-y-4 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-3.5 py-1 text-xs font-bold text-red-400">
+                    <Monitor className="h-3.5 w-3.5 text-red-500" />
+                    <span>Expérience Studio Optimisée</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                    Une interface pensée pour <br className="hidden sm:inline" />
+                    <span className="bg-gradient-to-r from-white to-red-400 bg-clip-text text-transparent">les grands écrans & ordinateurs</span>
+                  </h2>
+                  <p className="text-white/60 text-sm md:text-base leading-relaxed">
+                    Pour vous offrir un confort de production inégalé — double panneau de rédaction de scripts, timeline d'étapes, prévisualisation de miniatures et checklists SEO —, YouTube Creator Studio est conçu pour être utilisé sur PC ou Mac.
+                  </p>
+                  <div className="pt-2 flex flex-wrap justify-center md:justify-start gap-3 text-xs font-semibold text-white/80">
+                    <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
+                      <CheckCircle2 className="h-4 w-4 text-red-500" /> Ordinateur (PC / Mac)
+                    </span>
+                    <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
+                      <CheckCircle2 className="h-4 w-4 text-red-500" /> Productivité Maximale
+                    </span>
+                  </div>
+                </div>
+
+                <div className="md:col-span-5 flex justify-center">
+                  <div className="p-6 rounded-2xl bg-[#0f0f18] border border-white/10 text-center space-y-3 shadow-2xl max-w-sm w-full">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-600/15 text-red-500 mx-auto border border-red-500/20">
+                      <Laptop className="h-7 w-7 text-red-500" />
+                    </div>
+                    <div className="font-bold text-white text-base">Utilisation recommandée</div>
+                    <p className="text-xs text-white/50 leading-relaxed">
+                      Découvrez le site sur mobile pour vous informer et vous inscrire, puis connectez-vous sur votre ordinateur pour produire vos vidéos.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
