@@ -402,9 +402,9 @@ export default async function LandingPage() {
             <p className="text-xs">© {new Date().getFullYear()} YCS. Tous droits réservés.</p>
           </div>
           <div className="flex gap-6 text-xs">
-            <Link href="#" className="hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="#" className="hover:text-white transition-colors">Confidentialité</Link>
-            <Link href="#" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
         </div>
       </footer>
