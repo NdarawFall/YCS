@@ -28,7 +28,7 @@ export default async function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#080810] text-[#f0f0f5]">
       {/* Navbar */}
-      <header className="px-6 lg:px-14 h-18 flex items-center border-b border-white/5 glass sticky top-0 z-50">
+      <header className="px-6 lg:px-14 h-16 flex items-center border-b border-white/5 glass sticky top-0 z-50">
         <Logo size="md" />
 
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
@@ -68,48 +68,27 @@ export default async function LandingPage() {
       </header>
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="w-full py-16 md:py-24 lg:py-32 flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden">
-          <div className="relative z-10 max-w-[920px] space-y-8 flex flex-col items-center">
+        {/* Hero Section — Tight Padding, High Impact */}
+        <section className="w-full pt-8 pb-14 md:pt-14 md:pb-20 flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden">
+          <div className="relative z-10 max-w-[900px] space-y-6 flex flex-col items-center">
             
-            {/* Avatars Pair Badge */}
-            <div className="flex items-center gap-3 bg-white/5 border border-white/10 p-2 pr-4 rounded-full backdrop-blur-md shadow-xl">
-              <div className="flex -space-x-3">
-                <div className="relative w-11 h-11 rounded-full border-2 border-red-600 overflow-hidden shadow-lg">
-                  <Image
-                    src="/avatar-boy.jpg"
-                    alt="Créateur YouTube Male Avatar"
-                    width={44}
-                    height={44}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <div className="relative w-11 h-11 rounded-full border-2 border-white/40 overflow-hidden shadow-lg">
-                  <Image
-                    src="/avatar-team.jpg"
-                    alt="Équipe YouTube Creators Avatar"
-                    width={44}
-                    height={44}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              </div>
-              <div className="text-left text-xs font-semibold text-white/80">
-                <span className="text-red-400 font-bold">Adopté par les créateurs</span> YouTube
-              </div>
+            {/* YouTube Creator Studio Main Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-950/40 px-4 py-1.5 text-xs font-bold text-red-400 backdrop-blur-md shadow-lg shadow-red-500/10">
+              <Sparkles className="h-3.5 w-3.5 text-red-500 animate-pulse" />
+              <span>YouTube Creator Studio (YCS)</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl font-black tracking-tight sm:text-6xl md:text-7xl leading-tight">
-              Pilotez vos chaînes YouTube <br className="hidden sm:inline" />
+            <h1 className="text-4xl font-black tracking-tight sm:text-6xl md:text-7xl leading-[1.1]">
+              Gérez l'ensemble de vos <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-white via-red-100 to-red-500 bg-clip-text text-transparent">
-                sans aucun désordre
+                chaînes & vidéos YouTube
               </span>
             </h1>
 
             {/* Subtext */}
-            <p className="mx-auto max-w-[680px] text-white/60 text-base md:text-xl leading-relaxed font-medium">
-              Une plateforme claire et épurée pour orchestrer vos idées, vos scripts, vos enregistrements et vos montages vidéo.
+            <p className="mx-auto max-w-[660px] text-white/60 text-base md:text-lg leading-relaxed font-medium">
+              Une plateforme moderne conçue pour les créateurs. Suivez la production de vos vidéos de l'idée initiale jusqu'à la publication officielle.
             </p>
 
             {/* CTA Group */}
@@ -156,72 +135,72 @@ export default async function LandingPage() {
             </div>
 
             {/* Stats / Trust Badges */}
-            <div className="pt-8 grid grid-cols-3 gap-6 max-w-xl mx-auto border-t border-white/10 text-center w-full">
+            <div className="pt-6 grid grid-cols-3 gap-6 max-w-lg mx-auto border-t border-white/10 text-center w-full">
               <div>
-                <div className="text-2xl font-black text-white">8 Étapes</div>
-                <div className="text-xs text-white/40">Pipeline structuré</div>
+                <div className="text-xl font-black text-white">8 Étapes</div>
+                <div className="text-xs text-white/40">Workflow guidé</div>
               </div>
               <div>
-                <div className="text-2xl font-black text-red-500">100%</div>
-                <div className="text-xs text-white/40">Simple & Intuitif</div>
+                <div className="text-xl font-black text-red-500">100%</div>
+                <div className="text-xs text-white/40">Organisation claire</div>
               </div>
               <div>
-                <div className="text-2xl font-black text-white">Stockage HD</div>
-                <div className="text-xs text-white/40">Fichiers & Miniatures</div>
+                <div className="text-xl font-black text-white">Solo & Équipe</div>
+                <div className="text-xs text-white/40">Pour tous les formats</div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section Showcase Creators (featuring Solo Avatar & 3-People Team Avatar) */}
-        <section className="w-full py-16 bg-[#0a0a14]/60 border-y border-white/5">
+        {/* Section Showcase Creators (Solo + 3-People Team Avatar) */}
+        <section className="w-full py-14 bg-[#0a0a14]/60 border-y border-white/5">
           <div className="container px-4 md:px-6 mx-auto max-w-5xl">
-            <div className="text-center mb-12 space-y-3">
+            <div className="text-center mb-10 space-y-2">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
-                <Sparkles className="h-4 w-4" /> Conçu pour tous les formats
+                <Sparkles className="h-4 w-4" /> YouTube Creator Studio
               </div>
-              <h2 className="text-3xl font-extrabold text-white">Que vous soyez Solo ou en Équipe</h2>
+              <h2 className="text-3xl font-extrabold text-white">Une organisation sur-mesure</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
               {/* Solo Creator Card */}
-              <div className="glass p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden group">
-                <div className="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden border-2 border-red-500/40 shadow-xl">
+              <div className="glass p-7 rounded-3xl border border-white/10 flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden group">
+                <div className="relative w-24 h-24 shrink-0 rounded-2xl overflow-hidden border-2 border-red-500/40 shadow-xl">
                   <Image
                     src="/avatar-boy.jpg"
-                    alt="Créateur Solo"
+                    alt="Créateur Solo YouTube"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="space-y-2 text-center md:text-left">
+                <div className="space-y-2 text-center sm:text-left">
                   <div className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
                     <User className="h-3 w-3" /> Mode Solo
                   </div>
-                  <h3 className="text-xl font-bold text-white">Le Créateur Autonome</h3>
+                  <h3 className="text-lg font-bold text-white">Créateur Autonome</h3>
                   <p className="text-sm text-white/60 leading-relaxed">
-                    Gérez vos chaînes en solo sans perte de temps. Suivez l'avancement de chaque vidéo avec sérénité.
+                    Organisez vos projets vidéo de manière autonome, validez vos idées et avancez à votre propre rythme.
                   </p>
                 </div>
               </div>
 
               {/* Team Creator Card (3 People Team Avatar) */}
-              <div className="glass p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden group">
-                <div className="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-900">
+              <div className="glass p-7 rounded-3xl border border-white/10 flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden group">
+                <div className="relative w-24 h-24 shrink-0 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-900">
                   <Image
                     src="/avatar-team.jpg"
-                    alt="Équipe de 3 créateurs"
+                    alt="Équipe de créateurs YouTube"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="space-y-2 text-center md:text-left">
+                <div className="space-y-2 text-center sm:text-left">
                   <div className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
                     <Users className="h-3 w-3" /> Mode Équipe
                   </div>
-                  <h3 className="text-xl font-bold text-white">Le Studio Collaboratif</h3>
+                  <h3 className="text-lg font-bold text-white">Studio Collaboratif</h3>
                   <p className="text-sm text-white/60 leading-relaxed">
-                    Déléguez le montage, la voix off et les miniatures à vos collaborateurs avec des rôles et des validations claires.
+                    Distribuez le travail entre monteurs, voix off et miniamakers avec un suivi précis à chaque étape.
                   </p>
                 </div>
               </div>
@@ -229,18 +208,18 @@ export default async function LandingPage() {
           </div>
         </section>
 
-        {/* Features / Clear Value Proposition */}
-        <section id="features" className="w-full py-20 md:py-28">
+        {/* Features Section */}
+        <section id="features" className="w-full py-16 md:py-24">
           <div className="container px-4 md:px-6 mx-auto">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
+            <div className="flex flex-col items-center justify-center space-y-3 text-center mb-14">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
-                <Flame className="h-4 w-4" /> Organisation Limpide
+                <Flame className="h-4 w-4" /> Fonctionnalités Clés
               </div>
-              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-white">
-                Tout ce dont votre chaîne a besoin
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
+                Tout pour gérer vos chaînes YouTube
               </h2>
-              <p className="max-w-[650px] text-white/50 md:text-lg">
-                Rassemblez toute la production de vos vidéos dans un seul espace fluide.
+              <p className="max-w-[600px] text-white/50 text-base">
+                Un espace unifié pour concevoir, valider et publier vos vidéos.
               </p>
             </div>
 
@@ -266,11 +245,11 @@ export default async function LandingPage() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2 ring-1 ring-red-500/20 group-hover:scale-110 transition-transform duration-300">
                     <Users className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Gestion d'Équipe</CardTitle>
+                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Attribution des Rôles</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/50 text-sm leading-relaxed">
-                    Assignez précisément vos monteurs, voix off, copywriters et miniamakers pour faire avancer le projet sans friction.
+                    Assignez des collaborateurs précis (Monteur, Voix off, Miniamaker) à chaque étape de votre projet vidéo.
                   </p>
                 </CardContent>
               </Card>
@@ -281,11 +260,11 @@ export default async function LandingPage() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2 ring-1 ring-red-500/20 group-hover:scale-110 transition-transform duration-300">
                     <Layers className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Médias & Images HD</CardTitle>
+                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Validation des Visuels</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/50 text-sm leading-relaxed">
-                    Stockez et validez directement vos propositions de miniatures et visuels HD pour chaque projet vidéo.
+                    Prévisualisez et validez les propositions de miniatures directement depuis la fiche de chaque vidéo.
                   </p>
                 </CardContent>
               </Card>
@@ -294,17 +273,17 @@ export default async function LandingPage() {
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="w-full py-20 md:py-28 bg-[#0a0a14]/60 border-t border-white/5">
+        <section id="pricing" className="w-full py-16 md:py-24 bg-[#0a0a14]/60 border-t border-white/5">
           <div className="container px-4 md:px-6 mx-auto">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
+            <div className="flex flex-col items-center justify-center space-y-3 text-center mb-14">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
                 <TrendingUp className="h-4 w-4" /> Tarification Transparente
               </div>
-              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-white">
-                Choisissez votre formule
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
+                Formules d'abonnement
               </h2>
-              <p className="max-w-[650px] text-white/50 md:text-lg">
-                Commencez gratuitement, passez au niveau supérieur quand votre chaîne grandit.
+              <p className="max-w-[600px] text-white/50 text-base">
+                Commencez gratuitement, adaptez votre plan au fil de la croissance de vos chaînes.
               </p>
             </div>
             
@@ -356,7 +335,7 @@ export default async function LandingPage() {
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Jusqu'à 7 Chaînes (Workspaces)</li>
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Jusqu'à 10 Vidéos au total</li>
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Mode Équipe (Monteurs, Voix off)</li>
-                    <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Stockage d'images & Médias HD</li>
+                    <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Validation de miniatures HD</li>
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-6">
@@ -374,14 +353,14 @@ export default async function LandingPage() {
         </section>
 
         {/* Final CTA */}
-        <section className="w-full py-20 bg-gradient-to-b from-transparent to-red-950/20 border-t border-white/5">
+        <section className="w-full py-16 bg-gradient-to-b from-transparent to-red-950/20 border-t border-white/5">
           <div className="container px-4 md:px-6 mx-auto flex flex-col items-center justify-center text-center space-y-6 max-w-3xl">
             <Logo size="lg" withLink={false} />
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
-              Prêt à propulser vos contenus YouTube ?
+              Propulsez vos vidéos avec YouTube Creator Studio
             </h2>
-            <p className="text-white/50 text-base md:text-lg">
-              Organisez le succès de vos prochaines vidéos dès aujourd'hui.
+            <p className="text-white/50 text-base">
+              Rejoignez les créateurs qui organisent leur succès dès aujourd'hui.
             </p>
             <Link href="/auth/signup">
               <Button size="lg" className="h-13 px-10 text-base font-bold text-white border-0 rounded-xl shadow-xl transition-all hover:scale-105 active:scale-95"
@@ -399,7 +378,7 @@ export default async function LandingPage() {
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
             <Logo size="sm" withLink={false} />
-            <p className="text-xs">© {new Date().getFullYear()} YCS. Tous droits réservés.</p>
+            <p className="text-xs">© {new Date().getFullYear()} YCS Studio. Tous droits réservés.</p>
           </div>
           <div className="flex gap-6 text-xs">
             <Link href="/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
