@@ -2,44 +2,64 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Logo } from "@/components/ui/logo";
-import { 
-  CheckCircle2, 
-  LayoutDashboard, 
-  Users, 
-  Sparkles, 
-  Play, 
-  ShieldCheck, 
-  Flame, 
-  Layers, 
+import { createClient } from "@/utils/supabase/server";
+import {
+  CheckCircle2,
+  LayoutDashboard,
+  Users,
+  Sparkles,
+  Play,
+  Flame,
+  Layers,
   ArrowRight,
-  TrendingUp
+  TrendingUp,
+  LayoutGrid,
 } from "lucide-react";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isLoggedIn = !!user;
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
-      <header className="px-6 lg:px-14 h-18 flex items-center border-b border-border/10 glass sticky top-0 z-50">
+      <header className="px-6 lg:px-14 h-16 flex items-center border-b border-border/10 glass sticky top-0 z-50">
         <Logo size="md" />
 
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-          <Link className="text-sm font-medium text-muted-foreground hover:text-white transition-colors" href="#features">
+          <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#features">
             Fonctionnalités
           </Link>
-          <Link className="text-sm font-medium text-muted-foreground hover:text-white transition-colors" href="#pricing">
+          <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#pricing">
             Tarifs
           </Link>
-          <div className="h-4 w-px bg-border/60 hidden sm:block" />
-          <Link href="/auth/login">
-            <Button variant="ghost" size="sm" className="hidden sm:inline-flex hover:bg-white/10 text-white font-medium">
-              Se connecter
-            </Button>
-          </Link>
-          <Link href="/auth/signup">
-            <Button size="sm" className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-semibold shadow-lg shadow-red-600/25 border-0">
-              Commencer
-            </Button>
-          </Link>
+          <div className="h-4 w-px bg-white/10 hidden sm:block" />
+          {isLoggedIn ? (
+            <Link href="/dashboard">
+              <Button size="sm" className="font-bold text-white border-0 rounded-xl transition-all hover:scale-105"
+                style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 4px 20px rgba(255,0,0,0.3)' }}
+              >
+                <LayoutGrid className="mr-1.5 h-4 w-4" />
+                Mon Espace
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link href="/auth/login">
+                <Button variant="ghost" size="sm" className="hidden sm:inline-flex hover:bg-white/8 text-white/80 hover:text-white font-medium rounded-xl">
+                  Se connecter
+                </Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button size="sm" className="font-semibold text-white border-0 rounded-xl transition-all hover:scale-105"
+                  style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 4px 20px rgba(255,0,0,0.25)' }}
+                >
+                  Commencer
+                </Button>
+              </Link>
+            </>
+          )}
         </nav>
       </header>
 
@@ -69,18 +89,45 @@ export default function LandingPage() {
 
             {/* CTA Group */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Link href="/auth/signup">
-                <Button size="lg" className="h-13 px-8 text-base font-bold bg-[#FF0000] hover:bg-[#CC0000] text-white shadow-xl shadow-red-600/30 transition-all hover:scale-105 border-0 rounded-xl">
-                  <Play className="mr-2 h-4 w-4 fill-current" />
-                  Créer mon Studio Gratuit
-                </Button>
-              </Link>
-              <Link href="#features">
-                <Button variant="outline" size="lg" className="h-13 px-8 text-base font-medium border-border/80 hover:bg-white/5 rounded-xl">
-                  Découvrir le Kanban
-                  <ArrowRight className="ml-2 h-4 w-4 text-red-500" />
-                </Button>
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link href="/dashboard">
+                    <Button size="lg" className="h-13 px-8 text-base font-bold text-white border-0 rounded-xl shadow-xl transition-all hover:scale-105 active:scale-95"
+                      style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 12px 40px rgba(255,0,0,0.35)' }}
+                    >
+                      <LayoutGrid className="mr-2 h-5 w-5" />
+                      Accéder à mon espace
+                    </Button>
+                  </Link>
+                  <Link href="#features">
+                    <Button variant="outline" size="lg" className="h-13 px-8 text-base font-medium rounded-xl"
+                      style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.7)' }}
+                    >
+                      Voir les fonctionnalités
+                      <ArrowRight className="ml-2 h-4 w-4 text-red-500" />
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/signup">
+                    <Button size="lg" className="h-13 px-8 text-base font-bold text-white border-0 rounded-xl shadow-xl transition-all hover:scale-105 active:scale-95"
+                      style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 12px 40px rgba(255,0,0,0.35)' }}
+                    >
+                      <Play className="mr-2 h-4 w-4 fill-current" />
+                      Créer mon Studio Gratuit
+                    </Button>
+                  </Link>
+                  <Link href="#features">
+                    <Button variant="outline" size="lg" className="h-13 px-8 text-base font-medium rounded-xl"
+                      style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.7)' }}
+                    >
+                      Découvrir les fonctionnalités
+                      <ArrowRight className="ml-2 h-4 w-4 text-red-500" />
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Stats / Trust Badges */}
