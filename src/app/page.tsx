@@ -15,8 +15,10 @@ import {
   TrendingUp,
   LayoutGrid,
   Video,
+  User,
   Zap,
-  Film
+  Film,
+  ShieldCheck
 } from "lucide-react";
 
 export default async function LandingPage() {
@@ -31,6 +33,9 @@ export default async function LandingPage() {
         <Logo size="md" />
 
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+          <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#creators">
+            Créateurs
+          </Link>
           <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#features">
             Fonctionnalités
           </Link>
@@ -71,20 +76,30 @@ export default async function LandingPage() {
         <section className="w-full py-16 md:py-24 lg:py-32 flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden">
           <div className="relative z-10 max-w-[920px] space-y-8 flex flex-col items-center">
             
-            {/* Creator Sticker Avatar + Badge */}
-            <div className="flex flex-col items-center gap-3">
-              <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full p-1 bg-gradient-to-tr from-red-600 via-white to-red-500 shadow-2xl shadow-red-600/40 hover:scale-105 transition-transform duration-300">
-                <Image
-                  src="/avatar-creator.jpg"
-                  alt="YouTube Creator Avatar"
-                  width={112}
-                  height={112}
-                  className="rounded-full object-cover w-full h-full"
-                />
+            {/* Avatars Pair Badge */}
+            <div className="flex items-center gap-3 bg-white/5 border border-white/10 p-2 pr-4 rounded-full backdrop-blur-md shadow-xl">
+              <div className="flex -space-x-3">
+                <div className="relative w-11 h-11 rounded-full border-2 border-red-600 overflow-hidden shadow-lg">
+                  <Image
+                    src="/avatar-boy.jpg"
+                    alt="Créateur YouTube Male Avatar"
+                    width={44}
+                    height={44}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="relative w-11 h-11 rounded-full border-2 border-white/40 overflow-hidden shadow-lg">
+                  <Image
+                    src="/avatar-girl.jpg"
+                    alt="Créatrice YouTube Female Avatar"
+                    width={44}
+                    height={44}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-950/40 px-4 py-1.5 text-xs font-semibold text-red-400 backdrop-blur-md shadow-inner shadow-red-500/10">
-                <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                La plateforme n°1 des créateurs de contenu YouTube
+              <div className="text-left text-xs font-semibold text-white/80">
+                <span className="text-red-400 font-bold">Adopté par les créateurs</span> YouTube
               </div>
             </div>
 
@@ -98,7 +113,7 @@ export default async function LandingPage() {
 
             {/* Subtext */}
             <p className="mx-auto max-w-[680px] text-white/60 text-base md:text-xl leading-relaxed font-medium">
-              Une interface ultra-claire pour orchestrer vos idées, vos scripts, vos enregistrements et vos montages. Du premier concept à la mise en ligne.
+              Une plateforme claire et épurée pour organiser vos idées, vos scripts, vos enregistrements et vos montages vidéo.
             </p>
 
             {/* CTA Group */}
@@ -136,7 +151,7 @@ export default async function LandingPage() {
                     <Button variant="outline" size="lg" className="h-13 px-8 text-base font-medium rounded-xl"
                       style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.7)' }}
                     >
-                      Découvrir les fonctionnalités
+                      Découvrir l'outil
                       <ArrowRight className="ml-2 h-4 w-4 text-red-500" />
                     </Button>
                   </Link>
@@ -152,7 +167,7 @@ export default async function LandingPage() {
               </div>
               <div>
                 <div className="text-2xl font-black text-red-500">100%</div>
-                <div className="text-xs text-white/40">Organisé & Fluide</div>
+                <div className="text-xs text-white/40">Simple & Intuitif</div>
               </div>
               <div>
                 <div className="text-2xl font-black text-white">Cloud HD</div>
@@ -162,18 +177,74 @@ export default async function LandingPage() {
           </div>
         </section>
 
+        {/* Section Showcase Creators (featuring the 2 sticker avatars) */}
+        <section id="creators" className="w-full py-16 bg-[#0a0a14]/60 border-y border-white/5">
+          <div className="container px-4 md:px-6 mx-auto max-w-5xl">
+            <div className="text-center mb-12 space-y-3">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
+                <Sparkles className="h-4 w-4" /> Conçu pour vous
+              </div>
+              <h2 className="text-3xl font-extrabold text-white">Que vous soyez Solo ou en Équipe</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+              {/* Solo Creator Card */}
+              <div className="glass p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden group">
+                <div className="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden border-2 border-red-500/40 shadow-xl">
+                  <Image
+                    src="/avatar-boy.jpg"
+                    alt="Créateur Solo"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="space-y-2 text-center md:text-left">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
+                    <User className="h-3 w-3" /> Mode Solo
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Le Créateur Autonome</h3>
+                  <p className="text-sm text-white/60 leading-relaxed">
+                    Gérez vos chaînes en solo sans perte de temps. Suivez l'avancement de chaque idée de vidéo avec sérénité.
+                  </p>
+                </div>
+              </div>
+
+              {/* Team Creator Card */}
+              <div className="glass p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden group">
+                <div className="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl">
+                  <Image
+                    src="/avatar-girl.jpg"
+                    alt="Créatrice Équipe"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="space-y-2 text-center md:text-left">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                    <Users className="h-3 w-3" /> Mode Équipe
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Le Studio Collaboratif</h3>
+                  <p className="text-sm text-white/60 leading-relaxed">
+                    Déléguez le montage, la voix off et les miniatures à vos collaborateurs avec des rôles et des validations claires.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Features / Clear Value Proposition */}
-        <section id="features" className="w-full py-20 md:py-28 bg-[#0a0a14]/80 border-y border-white/5 relative">
+        <section id="features" className="w-full py-20 md:py-28">
           <div className="container px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
-                <Flame className="h-4 w-4" /> Vos Vidéos Sous Contrôle
+                <Flame className="h-4 w-4" /> Organisation Limpide
               </div>
               <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-white">
-                Structurez la production de A à Z
+                Tout ce dont votre chaîne a besoin
               </h2>
               <p className="max-w-[650px] text-white/50 md:text-lg">
-                Fini le désordre entre les notes volantes, Google Drive et WhatsApp.
+                Rassemblez toute la production de vos vidéos dans un seul espace fluide.
               </p>
             </div>
 
@@ -188,7 +259,7 @@ export default async function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/50 text-sm leading-relaxed">
-                    De l'idée initiale au script, voix off, montage, musique, miniature, SEO et upload final. Suivez l'avancement en 1 clic.
+                    Idée, Script, Voix off, Montage, Musique, Miniature, SEO et Publication. Validez chaque phase étape par étape.
                   </p>
                 </CardContent>
               </Card>
@@ -199,11 +270,11 @@ export default async function LandingPage() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2 ring-1 ring-red-500/20 group-hover:scale-110 transition-transform duration-300">
                     <Users className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Mode Solo & Équipe</CardTitle>
+                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Gestion d'Équipe</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/50 text-sm leading-relaxed">
-                    Produisez vos contenus seul ou assignez vos collaborateurs (Monteur, Voix off, Miniamaker, Copywriter) à chaque étape.
+                    Assignez précisément vos monteurs, voix off, copywriters et miniamakers pour faire avancer le projet sans friction.
                   </p>
                 </CardContent>
               </Card>
@@ -214,11 +285,11 @@ export default async function LandingPage() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2 ring-1 ring-red-500/20 group-hover:scale-110 transition-transform duration-300">
                     <Layers className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Fichiers & Médias HD</CardTitle>
+                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Médias & Images HD</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/50 text-sm leading-relaxed">
-                    Stockez vos propositions de miniatures et assets directement sur Cloudinary depuis la fiche de chaque vidéo.
+                    Téléversez et validez directement vos propositions de miniatures et visuels sur Cloudinary depuis chaque vidéo.
                   </p>
                 </CardContent>
               </Card>
@@ -227,7 +298,7 @@ export default async function LandingPage() {
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="w-full py-20 md:py-28">
+        <section id="pricing" className="w-full py-20 md:py-28 bg-[#0a0a14]/60 border-t border-white/5">
           <div className="container px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
@@ -255,7 +326,7 @@ export default async function LandingPage() {
                 <CardContent className="flex-1 px-6">
                   <ul className="space-y-4 text-sm text-white/70">
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> 1 Chaîne (Workspace)</li>
-                    <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> 3 Vidéos maximum au total</li>
+                    <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> 3 Vidéos au total</li>
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Mode Solo complet</li>
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Pipeline 8 étapes</li>
                   </ul>

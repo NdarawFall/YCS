@@ -24,10 +24,10 @@ export default function AuthLayout({
         
         {/* Left Side — Full Bleed Red & White Fluid Artwork Banner */}
         <div className="relative md:col-span-6 p-8 md:p-10 flex flex-col justify-between overflow-hidden min-h-[340px] md:min-h-[540px]">
-          {/* Background image full frame */}
+          {/* Background image full frame v2 */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/auth-banner.jpg"
+              src="/auth-banner-v2.jpg"
               alt="YCS Red Fluid Artwork"
               fill
               className="object-cover scale-105"
@@ -44,7 +44,7 @@ export default function AuthLayout({
 
           {/* Bottom Callout Text */}
           <div className="relative z-10 space-y-3 pt-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/30 border border-red-500/40 text-white text-xs font-bold backdrop-blur-md shadow-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/40 border border-red-500/50 text-white text-xs font-bold backdrop-blur-md shadow-md">
               <Sparkles className="h-3.5 w-3.5 text-red-400" />
               <span>Studio pour créateurs YouTube</span>
             </div>
