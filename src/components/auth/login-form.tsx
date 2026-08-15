@@ -2,22 +2,32 @@
 
 import { signInWithGoogle } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sparkles, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 
 export function LoginForm() {
   return (
-    <Card className="w-full bg-[#141418] border-border/80 rounded-3xl shadow-2xl shadow-black/80 p-4">
-      <CardHeader className="text-center pb-6">
-        <CardTitle className="text-2xl font-black text-white tracking-tight">Accès Studio</CardTitle>
-        <CardDescription className="text-muted-foreground text-sm mt-1">
-          Connectez-vous instantanément avec votre compte Google.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <div className="w-full space-y-6">
+      {/* Header */}
+      <div className="space-y-2">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600/15 border border-red-500/20 text-red-500 mb-4">
+          <Sparkles className="h-5 w-5 text-red-500" />
+        </div>
+        <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          Connexion au Studio
+        </h1>
+        <p className="text-sm text-white/50 leading-relaxed">
+          Accédez à vos chaînes et gérez votre pipeline de vidéos.
+        </p>
+      </div>
+
+      {/* Google Auth Form */}
+      <div className="pt-2">
         <form action={signInWithGoogle}>
           <Button 
             type="submit" 
-            className="w-full h-13 rounded-2xl bg-white hover:bg-neutral-100 text-black font-bold text-base shadow-xl transition-transform hover:scale-102 flex items-center justify-center gap-3 border-0 cursor-pointer"
+            className="w-full h-13 rounded-2xl bg-white hover:bg-neutral-100 text-black font-bold text-base shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 border-0 cursor-pointer"
+            style={{ boxShadow: '0 8px 30px rgba(255,255,255,0.12)' }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5">
               <path
@@ -40,11 +50,13 @@ export function LoginForm() {
             Continuer avec Google
           </Button>
         </form>
+      </div>
 
-        <p className="text-center text-xs text-muted-foreground pt-2">
-          En continuant, vous acceptez les conditions d'utilisation de YCS Studio.
-        </p>
-      </CardContent>
-    </Card>
+      {/* Trust message */}
+      <div className="flex items-center gap-2 pt-2 text-xs text-white/40 justify-center">
+        <ShieldCheck className="h-4 w-4 text-red-500/80 shrink-0" />
+        <span>Authentification 100% sécurisée par Google</span>
+      </div>
+    </div>
   );
 }
