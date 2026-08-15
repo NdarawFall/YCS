@@ -1,9 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Video, Tv } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { CreateVideoDialog } from "@/components/workspace/create-video-dialog";
-import { Logo } from "@/components/ui/logo";
+import { UserNav } from "@/components/dashboard/user-nav";
 
 export default async function WorkspaceLayout({
   children,
@@ -27,6 +27,16 @@ export default async function WorkspaceLayout({
 
   if (!workspace) redirect("/dashboard");
 
+  // Fetch user profile from database
+  const { data: profile } = await supabase
+    .from("users")
+    .select("full_name, avatar_url")
+    .eq("id", user.id)
+    .single();
+
+  const fullName = profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Créateur";
+  const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || undefined;
+
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#0b0b0d]">
       {/* Workspace Top Navigation Bar */}
@@ -43,11 +53,14 @@ export default async function WorkspaceLayout({
           <div className="h-5 w-px bg-border/60" />
 
           <div className="flex items-center gap-2.5">
-            {/* YouTube Play badge */}
-            <div className="flex h-8 w-9 items-center justify-center rounded-lg bg-[#FF0000] text-white shadow-xs">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5 fill-current translate-x-0.5">
-                <path d="M8 5v14l11-7z" />
-              </svg>
+            {/* YouTube 4-box Menu Icon Badge */}
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FF0000] text-white shadow-xs">
+              <div className="grid grid-cols-2 gap-0.5 p-0.5">
+                <div className="w-1 h-1 bg-white rounded-xs" />
+                <div className="w-1 h-1 bg-white rounded-xs" />
+                <div className="w-1 h-1 bg-white rounded-xs" />
+                <div className="w-1 h-1 bg-white rounded-xs" />
+              </div>
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
@@ -62,6 +75,14 @@ export default async function WorkspaceLayout({
 
         <div className="flex items-center gap-3">
           <CreateVideoDialog workspaceId={id} />
+          <div className="h-5 w-px bg-border/60 hidden sm:block" />
+          <UserNav 
+            user={{
+              email: user.email,
+              fullName,
+              avatarUrl,
+            }} 
+          />
         </div>
       </header>
 
