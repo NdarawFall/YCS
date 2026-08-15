@@ -63,3 +63,21 @@ export async function createWorkspace(formData: FormData) {
   revalidatePath('/dashboard')
   redirect(`/workspace/${workspace.id}`)
 }
+
+export async function deleteWorkspace(workspaceId: string) {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Non autorisé' }
+
+  const { error } = await supabase
+    .from('workspaces')
+    .delete()
+    .eq('id', workspaceId)
+    .eq('user_id', user.id)
+
+  if (error) return { error: error.message }
+
+  revalidatePath('/dashboard')
+  return { success: true }
+}

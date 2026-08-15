@@ -21,7 +21,7 @@ export default async function WorkspacePage({
     .order("created_at", { ascending: false });
 
   return (
-    <div className="h-full p-4 sm:p-6 flex flex-col">
+    <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
       <KanbanBoard videos={videos || []} workspaceId={id} />
     </div>
   );
