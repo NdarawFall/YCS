@@ -64,26 +64,27 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
 
   return (
     <div className="flex-1 min-h-0 flex gap-6 overflow-hidden">
-      {/* LEFT SIDEBAR — Stage Navigator */}
-      <aside className="w-56 shrink-0 flex flex-col gap-1 overflow-y-auto custom-scrollbar pr-2">
-        {/* Progress Summary */}
-        <div className="mb-4 p-4 glass rounded-2xl border-border/10">
+      {/* LEFT SIDEBAR — Stage Navigator — narrow, progress sticky */}
+      <aside className="w-44 shrink-0 flex flex-col gap-0 overflow-hidden">
+        {/* Progress Summary — STICKY, never scrolls */}
+        <div className="shrink-0 mb-3 p-3.5 glass rounded-2xl border-border/10">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-white uppercase tracking-wider">Progression</span>
+            <span className="text-[10px] font-bold text-white uppercase tracking-wider">Progression</span>
             <span className="text-sm font-black text-white font-mono">{progress}%</span>
           </div>
-          <div className="h-2 w-full bg-white/8 rounded-full overflow-hidden">
+          <div className="h-1.5 w-full bg-white/8 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-500"
               style={{ width: `${Math.max(3, progress)}%` }}
             />
           </div>
-          <div className="mt-2 text-xs text-muted-foreground">
+          <div className="mt-2 text-[10px] text-muted-foreground">
             {validatedCount} / {STAGES.length} étapes validées
           </div>
         </div>
 
-        {/* Stage list */}
+        {/* Stage list — only this scrolls */}
+        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar flex flex-col gap-0.5 pr-1">
         {STAGES.map((stage, idx) => {
           const isValidated = localVideo[stage.validateKey];
           const isActive = activeStage === stage.id;
@@ -127,6 +128,7 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
             </button>
           );
         })}
+        </div>
       </aside>
 
       {/* RIGHT — Active Panel */}
