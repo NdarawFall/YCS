@@ -165,10 +165,9 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
           </div>
         </div>
 
-        {/* Panel Content — Scrollable */}
         <div 
           key={activeStage} 
-          className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-7 py-6 animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both"
+          className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-7 py-6 animate-in fade-in duration-150"
         >
           <ActivePanel
             video={localVideo}
