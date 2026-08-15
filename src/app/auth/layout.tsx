@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
-import { Sparkles, Zap } from "lucide-react";
+import { Sparkles, ArrowLeft } from "lucide-react";
 
 export default function AuthLayout({
   children,
@@ -33,22 +33,13 @@ export default function AuthLayout({
               className="object-cover scale-105"
               priority
             />
-            {/* Subtle dark gradient overlay for high text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-black/20 to-black/40" />
+            {/* Dark gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#080810]/90 via-black/20 to-black/40" />
           </div>
 
-          {/* Top Header: Logo + Creator Sticker Avatar */}
-          <div className="relative z-10 flex items-center justify-between">
+          {/* Top Header: Logo */}
+          <div className="relative z-10">
             <Logo size="md" />
-            <div className="w-12 h-12 rounded-full p-0.5 bg-white shadow-lg shadow-black/50 hover:scale-110 transition-transform">
-              <Image
-                src="/avatar-creator.jpg"
-                alt="Creator Sticker Avatar"
-                width={48}
-                height={48}
-                className="rounded-full object-cover w-full h-full"
-              />
-            </div>
           </div>
 
           {/* Bottom Callout Text */}
@@ -66,9 +57,26 @@ export default function AuthLayout({
           </div>
         </div>
 
-        {/* Right Side — Auth Form */}
-        <div className="md:col-span-6 p-8 md:p-12 flex flex-col justify-center bg-[#0a0a14]/95 backdrop-blur-xl border-t md:border-t-0 md:border-l border-white/5">
-          {children}
+        {/* Right Side — Auth Form + Back Link */}
+        <div className="md:col-span-6 p-8 md:p-12 flex flex-col justify-between bg-[#0a0a14]/95 backdrop-blur-xl border-t md:border-t-0 md:border-l border-white/5">
+          {/* Top: Back to Home Link */}
+          <div>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-white/50 hover:text-white transition-colors p-2 -ml-2 rounded-xl hover:bg-white/5 mb-6"
+            >
+              <ArrowLeft className="h-4 w-4 text-red-500" />
+              <span>Retour à l'accueil</span>
+            </Link>
+          </div>
+
+          {/* Center: Auth Children */}
+          <div className="my-auto">
+            {children}
+          </div>
+
+          {/* Bottom spacing balance */}
+          <div className="h-4" />
         </div>
 
       </div>
