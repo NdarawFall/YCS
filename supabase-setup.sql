@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS public.users (
     id UUID REFERENCES auth.users ON DELETE CASCADE NOT NULL PRIMARY KEY,
     full_name TEXT,
     avatar_url TEXT,
+    plan TEXT DEFAULT 'free' NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -292,3 +293,6 @@ CREATE POLICY "Videos delete policy"
   USING (
     EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND w.user_id = auth.uid())
   );
+
+----
+ALTER TABLE public.users ADD COLUMN IF NOT EXISTS plan TEXT DEFAULT 'free' NOT NULL;

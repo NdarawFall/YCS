@@ -47,8 +47,8 @@ export function CreateWorkspaceDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {variant === "hero" ? (
+      <DialogTrigger render={
+        variant === "hero" ? (
           <Button size="lg" className="h-12 px-6 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold shadow-lg shadow-red-600/30 rounded-xl transition-transform hover:scale-105 border-0">
             <Plus className="mr-2 h-5 w-5" />
             {buttonText}
@@ -58,8 +58,8 @@ export function CreateWorkspaceDialog({
             <Plus className="mr-1.5 h-4 w-4" />
             {buttonText}
           </Button>
-        )}
-      </DialogTrigger>
+        )
+      } />
       <DialogContent className="sm:max-w-[450px] bg-[#141418] border-border/80 text-foreground">
         <DialogHeader>
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2">

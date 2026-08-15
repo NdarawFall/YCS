@@ -44,12 +44,12 @@ export function CreateVideoDialog({ workspaceId }: { workspaceId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger render={
         <Button className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold shadow-md shadow-red-600/30 rounded-xl border-0">
           <Plus className="mr-1.5 h-4 w-4" />
           Nouvelle Vidéo
         </Button>
-      </DialogTrigger>
+      } />
       <DialogContent className="sm:max-w-[460px] bg-[#141418] border-border/80 text-foreground">
         <DialogHeader>
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2">

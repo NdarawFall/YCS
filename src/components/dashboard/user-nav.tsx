@@ -81,6 +81,14 @@ export function UserNav({ user }: UserNavProps) {
               <LayoutGrid className="h-4 w-4 text-red-500" />
               <span>Mes Workspaces</span>
             </Link>
+            <Link
+              href="/dashboard/settings"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-2.5 px-3 py-2 text-sm text-white hover:bg-white/10 rounded-xl transition-colors font-medium"
+            >
+              <UserIcon className="h-4 w-4 text-red-500" />
+              <span>Paramètres</span>
+            </Link>
           </div>
 
           <div className="border-t border-border/50 mt-1 pt-1">
