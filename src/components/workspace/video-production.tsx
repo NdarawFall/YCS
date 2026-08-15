@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   Lightbulb, FileText, Mic, Scissors, Music,
   Image as ImageIcon, Search, UploadCloud,
-  CheckCircle2, Circle, ChevronRight, Save,
+  CheckCircle2, ChevronRight,
 } from "lucide-react";
 import { updateVideoStage } from "@/app/workspace/actions-video";
 import { IdeaPanel } from "./panels/idea-panel";
@@ -61,6 +61,7 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
 
   const ActivePanel = PANELS[activeStage];
   const activeStageData = STAGES.find((s) => s.id === activeStage)!;
+  const ActiveStageIcon = activeStageData.icon;
 
   return (
     <div className="flex-1 min-h-0 flex gap-6 overflow-hidden">
@@ -140,7 +141,7 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
               className="flex h-10 w-10 items-center justify-center rounded-xl"
               style={{ backgroundColor: `${activeStageData.color}18` }}
             >
-              <activeStageData.icon className="h-5 w-5" style={{ color: activeStageData.color }} />
+              <ActiveStageIcon className="h-5 w-5" style={{ color: activeStageData.color }} />
             </div>
             <div>
               <h2 className="font-extrabold text-white text-lg leading-tight">{activeStageData.label}</h2>

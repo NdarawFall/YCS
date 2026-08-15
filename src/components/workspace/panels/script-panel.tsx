@@ -14,14 +14,15 @@ export function ScriptPanel({ video, onSave, saving }: any) {
   const words = content.trim() === "" ? 0 : content.trim().split(/\s+/).filter((w: string) => w.length > 0).length;
 
   // 130 wpm = comfortable narration pace (YouTube standard ~120-140 wpm)
-  const totalSeconds = Math.round((words / 130) * 60);
-  const durationLabel = words === 0
-    ? "--"
-    : totalSeconds < 60
-    ? `~${totalSeconds}s`
-    : totalSeconds % 60 === 0
-    ? `~${Math.floor(totalSeconds / 60)}mn`
-    : `~${Math.floor(totalSeconds / 60)}mn${totalSeconds % 60}s`;
+  const totalSeconds = words > 0 ? Math.round((words / 130) * 60) : 0;
+  const durationLabel =
+    words === 0 || totalSeconds === 0
+      ? "--"
+      : totalSeconds < 60
+      ? `~${totalSeconds}s`
+      : totalSeconds % 60 === 0
+      ? `~${Math.floor(totalSeconds / 60)}mn`
+      : `~${Math.floor(totalSeconds / 60)}mn${totalSeconds % 60}s`;
 
   return (
     <div className="space-y-6 max-w-3xl">
