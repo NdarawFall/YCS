@@ -25,60 +25,68 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="text-2xl">Connexion</CardTitle>
-        <CardDescription>
-          Entrez votre email pour accéder à votre compte.
+    <Card className="w-full bg-[#141418] border-border/80 rounded-2xl shadow-xl shadow-black/40">
+      <CardHeader className="pb-4 text-center">
+        <CardTitle className="text-2xl font-bold text-white">Connexion</CardTitle>
+        <CardDescription className="text-muted-foreground text-sm">
+          Accédez à votre espace créateur YouTube.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-6">
+        <div className="grid gap-5">
           <form onSubmit={handleSubmit}>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-sm font-medium text-white">Email</Label>
                 <Input
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="createur@youtube.com"
+                  className="bg-[#1a1a22] border-border/80 focus-visible:ring-red-500 text-white rounded-xl h-11"
                   required
                 />
               </div>
               <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Mot de passe</Label>
-                  <Link
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline text-muted-foreground"
-                  >
-                    Mot de passe oublié ?
-                  </Link>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password" className="text-sm font-medium text-white">Mot de passe</Label>
                 </div>
-                <Input id="password" name="password" type="password" required />
+                <Input 
+                  id="password" 
+                  name="password" 
+                  type="password" 
+                  placeholder="••••••••"
+                  className="bg-[#1a1a22] border-border/80 focus-visible:ring-red-500 text-white rounded-xl h-11"
+                  required 
+                />
               </div>
               {error && (
-                <div className="text-sm text-destructive font-medium">{error}</div>
+                <div className="p-3 text-xs bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg font-medium">
+                  {error}
+                </div>
               )}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Connexion..." : "Se connecter"}
+              <Button 
+                type="submit" 
+                className="w-full h-11 mt-1 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl shadow-lg shadow-red-600/30 border-0" 
+                disabled={isLoading}
+              >
+                {isLoading ? "Connexion en cours..." : "Se connecter"}
               </Button>
             </div>
           </form>
           
-          <div className="relative">
+          <div className="relative my-1">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+              <span className="w-full border-t border-border/60" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">Ou</span>
+              <span className="bg-[#141418] px-3 text-muted-foreground font-semibold">Ou continuer avec</span>
             </div>
           </div>
           
           <form action={signInWithGoogle}>
-            <Button variant="outline" className="w-full" type="submit">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="mr-2 h-4 w-4">
+            <Button variant="outline" className="w-full h-11 rounded-xl border-border/80 hover:bg-white/5 font-semibold text-white" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="mr-2.5 h-4 w-4">
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                   fill="#4285F4"
@@ -96,14 +104,14 @@ export function LoginForm() {
                   fill="#EA4335"
                 />
               </svg>
-              Se connecter avec Google
+              Google
             </Button>
           </form>
         </div>
-        <div className="mt-4 text-center text-sm">
-          Vous n&apos;avez pas de compte ?{" "}
-          <Link href="/auth/signup" className="underline underline-offset-4 font-medium">
-            S&apos;inscrire
+        <div className="mt-6 text-center text-sm text-muted-foreground">
+          Nouveau sur YCS ?{" "}
+          <Link href="/auth/signup" className="text-red-500 hover:text-red-400 font-semibold underline underline-offset-4">
+            Créer un compte
           </Link>
         </div>
       </CardContent>

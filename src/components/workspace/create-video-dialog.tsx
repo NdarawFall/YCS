@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Video, Film, Users, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -44,50 +44,77 @@ export function CreateVideoDialog({ workspaceId }: { workspaceId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80 transition-colors">
-        <Plus className="h-4 w-4" />
-        Nouvelle Vidéo
+      <DialogTrigger asChild>
+        <Button className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold shadow-md shadow-red-600/30 rounded-xl border-0">
+          <Plus className="mr-1.5 h-4 w-4" />
+          Nouvelle Vidéo
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[460px] bg-[#141418] border-border/80 text-foreground">
         <DialogHeader>
-          <DialogTitle>Créer une vidéo</DialogTitle>
-          <DialogDescription>
-            Ajoutez une nouvelle vidéo au kanban de votre workspace.
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2">
+            <Film className="h-5 w-5" />
+          </div>
+          <DialogTitle className="text-xl font-bold text-white">Ajouter une nouvelle vidéo</DialogTitle>
+          <DialogDescription className="text-muted-foreground text-sm">
+            La vidéo sera ajoutée à l'étape "Idées" de votre tableau Kanban.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="title">Titre ou concept (provisoire)</Label>
-              <Input id="title" name="title" placeholder="Ex: Les 5 secrets de..." required />
+              <Label htmlFor="title" className="text-sm font-medium text-white">Titre du concept / Idée</Label>
+              <Input 
+                id="title" 
+                name="title" 
+                placeholder="Ex: Comment j'ai automatisé ma chaîne en 30 jours..." 
+                className="bg-[#1b1b22] border-border focus-visible:ring-red-500 text-white rounded-xl"
+                required 
+              />
             </div>
             
             <div className="grid gap-2">
-              <Label htmlFor="mode">Mode de création</Label>
+              <Label htmlFor="mode" className="text-sm font-medium text-white">Mode de production</Label>
               <Select value={mode} onValueChange={(val: string | null) => { if (val) setMode(val as "solo" | "equipe"); }}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-[#1b1b22] border-border focus:ring-red-500 text-white rounded-xl">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="solo">Solo (Je fais tout)</SelectItem>
-                  <SelectItem value="equipe">Équipe (Délégation)</SelectItem>
+                <SelectContent className="bg-[#1b1b22] border-border text-white">
+                  <SelectItem value="solo" className="focus:bg-white/10">
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4 text-red-500" />
+                      <span>Mode Solo (Création autonome)</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="equipe" className="focus:bg-white/10">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-red-500" />
+                      <span>Mode Équipe (Délégation & Collaborateurs)</span>
+                    </div>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {mode === "equipe" && (
-              <div className="p-3 bg-muted/30 border rounded-md text-sm text-muted-foreground">
-                <p>En mode équipe, vous pourrez assigner des collaborateurs (Copywriter, Monteur, etc.) aux différentes étapes de la vidéo.</p>
+              <div className="p-3 bg-red-600/10 border border-red-600/20 rounded-xl text-xs text-red-300">
+                <p>💡 En mode équipe, vous pourrez assigner vos collaborateurs (Monteur, Voix off, Miniamaker) à chaque phase.</p>
               </div>
             )}
 
             {error && (
-              <div className="text-sm text-destructive font-medium">{error}</div>
+              <div className="p-3 text-xs bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg font-medium">
+                {error}
+              </div>
             )}
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Création..." : "Créer la vidéo"}
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl shadow-lg shadow-red-600/25 border-0"
+            >
+              {isLoading ? "Ajout au Kanban..." : "Ajouter la vidéo"}
             </Button>
           </DialogFooter>
         </form>

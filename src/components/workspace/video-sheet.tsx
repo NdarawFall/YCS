@@ -17,28 +17,35 @@ export function VideoSheet({ video, open, onOpenChange, workspaceId }: any) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-2xl overflow-hidden flex flex-col p-0">
-        <div className="p-6 pb-2 border-b">
+      <SheetContent className="w-full sm:max-w-2xl overflow-hidden flex flex-col p-0 bg-[#141418] border-border/80 text-white">
+        <div className="p-6 pb-4 border-b border-border/60 bg-[#18181f]">
           <SheetHeader>
-            <SheetTitle className="text-xl">{video.title}</SheetTitle>
-            <SheetDescription>
-              Gérez les détails de cette vidéo. N'oubliez pas de valider chaque étape pour la faire avancer.
+            <div className="flex items-center gap-2">
+              <div className="flex h-6 w-8 items-center justify-center rounded-md bg-[#FF0000] text-white">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 fill-current translate-x-0.5">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <SheetTitle className="text-xl font-bold text-white line-clamp-1">{video.title}</SheetTitle>
+            </div>
+            <SheetDescription className="text-muted-foreground text-xs">
+              Gérez les détails de votre production. Cochez "Étape Validée" pour faire progresser la vidéo dans le Kanban.
             </SheetDescription>
           </SheetHeader>
         </div>
 
         <Tabs defaultValue="idea" className="flex-1 flex flex-col overflow-hidden">
-          <div className="px-6 py-2 border-b">
+          <div className="px-6 py-2 border-b border-border/60 bg-[#101014]/60">
             <ScrollArea className="w-full whitespace-nowrap">
-              <TabsList className="w-max h-9">
-                <TabsTrigger value="idea">Idée</TabsTrigger>
-                <TabsTrigger value="script">Script</TabsTrigger>
-                <TabsTrigger value="voiceover">Voix off</TabsTrigger>
-                <TabsTrigger value="editing">Montage</TabsTrigger>
-                <TabsTrigger value="music">Musique</TabsTrigger>
-                <TabsTrigger value="thumbnail">Miniature</TabsTrigger>
-                <TabsTrigger value="seo">SEO</TabsTrigger>
-                <TabsTrigger value="upload">Upload</TabsTrigger>
+              <TabsList className="w-max h-9 bg-[#1b1b22] p-1 rounded-xl">
+                <TabsTrigger value="idea" className="rounded-lg data-active:bg-red-600 data-active:text-white">Idée</TabsTrigger>
+                <TabsTrigger value="script" className="rounded-lg data-active:bg-red-600 data-active:text-white">Script</TabsTrigger>
+                <TabsTrigger value="voiceover" className="rounded-lg data-active:bg-red-600 data-active:text-white">Voix off</TabsTrigger>
+                <TabsTrigger value="editing" className="rounded-lg data-active:bg-red-600 data-active:text-white">Montage</TabsTrigger>
+                <TabsTrigger value="music" className="rounded-lg data-active:bg-red-600 data-active:text-white">Musique</TabsTrigger>
+                <TabsTrigger value="thumbnail" className="rounded-lg data-active:bg-red-600 data-active:text-white">Miniature</TabsTrigger>
+                <TabsTrigger value="seo" className="rounded-lg data-active:bg-red-600 data-active:text-white">SEO</TabsTrigger>
+                <TabsTrigger value="upload" className="rounded-lg data-active:bg-red-600 data-active:text-white">Upload</TabsTrigger>
               </TabsList>
             </ScrollArea>
           </div>
