@@ -73,8 +73,8 @@ export default async function WorkspacePage({
 
       {list.length === 0 ? (
         /* Empty State */
-        <div className="flex-1 flex flex-col items-center justify-center text-center py-20">
-          <div className="w-16 h-16 rounded-2xl bg-red-600/10 border border-red-600/20 flex items-center justify-center mb-5">
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-20 glass rounded-3xl border border-dashed border-red-500/30">
+          <div className="w-16 h-16 rounded-2xl bg-red-600/10 border border-red-600/20 flex items-center justify-center mb-5 ring-1 ring-red-500/20 shadow-lg shadow-red-600/10">
             <Film className="h-8 w-8 text-red-500" />
           </div>
           <h3 className="text-xl font-bold text-white mb-2">Aucune vidéo en production</h3>
@@ -95,7 +95,7 @@ export default async function WorkspacePage({
               <Link
                 key={video.id}
                 href={`/workspace/${id}/video/${video.id}`}
-                className="group flex items-center gap-5 p-5 bg-[#141418] hover:bg-[#1a1a22] border border-border/60 hover:border-red-600/50 rounded-2xl transition-all duration-200 hover:shadow-lg hover:shadow-red-600/8"
+                className="group flex items-center gap-5 p-5 glass border-border/10 hover:border-red-600/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-red-600/10 hover:-translate-y-1"
               >
                 {/* Left: Thumbnail placeholder or icon */}
                 <div className={`shrink-0 w-14 h-14 rounded-xl flex items-center justify-center font-black text-xl border ${isComplete ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-red-600/10 border-red-600/20 text-red-500"}`}>

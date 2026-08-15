@@ -19,7 +19,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
-      <header className="px-6 lg:px-14 h-18 flex items-center border-b border-border/40 backdrop-blur-md sticky top-0 z-50 bg-background/80">
+      <header className="px-6 lg:px-14 h-18 flex items-center border-b border-border/10 glass sticky top-0 z-50">
         <Logo size="md" />
 
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
@@ -117,13 +117,13 @@ export default function LandingPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              <Card className="bg-[#141418] border-border/60 shadow-lg hover:border-red-600/40 transition-all hover:-translate-y-1 rounded-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rounded-full blur-2xl group-hover:bg-red-600/10 transition-colors" />
+              <Card className="glass border-border/10 shadow-2xl hover:border-red-600/50 hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-2 rounded-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-colors duration-500" />
                 <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2 ring-1 ring-red-500/20 group-hover:scale-110 transition-transform duration-300">
                     <LayoutDashboard className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl text-white">Kanban en 8 Phases</CardTitle>
+                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Kanban en 8 Phases</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground text-sm leading-relaxed">
@@ -132,13 +132,13 @@ export default function LandingPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-[#141418] border-border/60 shadow-lg hover:border-red-600/40 transition-all hover:-translate-y-1 rounded-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rounded-full blur-2xl group-hover:bg-red-600/10 transition-colors" />
+              <Card className="glass border-border/10 shadow-2xl hover:border-red-600/50 hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-2 rounded-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-colors duration-500" />
                 <CardHeader>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600/15 text-red-500 mb-2 ring-1 ring-red-500/20 group-hover:scale-110 transition-transform duration-300">
                     <Users className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl text-white">Mode Solo ou Équipe</CardTitle>
+                  <CardTitle className="text-xl text-white group-hover:text-red-400 transition-colors">Mode Solo ou Équipe</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground text-sm leading-relaxed">

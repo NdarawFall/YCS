@@ -65,9 +65,9 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
   return (
     <div className="flex-1 min-h-0 flex gap-6 overflow-hidden">
       {/* LEFT SIDEBAR — Stage Navigator */}
-      <aside className="w-56 shrink-0 flex flex-col gap-1 overflow-y-auto custom-scrollbar">
+      <aside className="w-56 shrink-0 flex flex-col gap-1 overflow-y-auto custom-scrollbar pr-2">
         {/* Progress Summary */}
-        <div className="mb-4 p-4 bg-[#141418] rounded-2xl border border-border/60">
+        <div className="mb-4 p-4 glass rounded-2xl border-border/10">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-bold text-white uppercase tracking-wider">Progression</span>
             <span className="text-sm font-black text-white font-mono">{progress}%</span>
@@ -94,10 +94,10 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
               key={stage.id}
               type="button"
               onClick={() => setActiveStage(stage.id)}
-              className={`group w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-left transition-all duration-150 cursor-pointer ${
+              className={`group w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-left transition-all duration-300 cursor-pointer ${
                 isActive
-                  ? "bg-[#1f1f28] border border-white/10 shadow-sm"
-                  : "hover:bg-white/4 border border-transparent"
+                  ? "glass border-border/20 shadow-lg shadow-black/20 translate-x-1"
+                  : "hover:bg-white/5 border border-transparent"
               }`}
             >
               {/* Step number / check */}
@@ -130,7 +130,7 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
       </aside>
 
       {/* RIGHT — Active Panel */}
-      <main className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden bg-[#141418] border border-border/60 rounded-2xl">
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden glass border-border/10 rounded-2xl shadow-2xl relative">
         {/* Panel Header */}
         <div className="shrink-0 flex items-center justify-between px-7 py-5 border-b border-border/60">
           <div className="flex items-center gap-3">
@@ -164,7 +164,10 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
         </div>
 
         {/* Panel Content — Scrollable */}
-        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-7 py-6">
+        <div 
+          key={activeStage} 
+          className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-7 py-6 animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both"
+        >
           <ActivePanel
             video={localVideo}
             onSave={(updates: Record<string, unknown>) => handleSave(activeStage, updates)}

@@ -41,7 +41,7 @@ export function WorkspaceCard({ workspace }: { workspace: any }) {
       />
 
       <Card
-        className={`group relative overflow-hidden bg-[#141418] border-border/70 hover:border-red-600/60 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-600/10 rounded-2xl ${isDeleting ? "opacity-40 pointer-events-none" : ""}`}
+        className={`group relative overflow-hidden glass border-border/20 hover:border-red-600/60 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/20 rounded-2xl ${isDeleting ? "opacity-40 pointer-events-none" : ""}`}
       >
         <Link href={`/workspace/${workspace.id}`} className="absolute inset-0 z-10">
           <span className="sr-only">Ouvrir {workspace.name}</span>

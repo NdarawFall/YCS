@@ -45,7 +45,7 @@ export default async function DashboardPage() {
       {/* Content Area */}
       {!hasWorkspaces ? (
         /* Empty State UX : Point d'action unique au centre */
-        <div className="flex flex-col items-center justify-center p-12 md:p-16 border border-dashed rounded-3xl border-red-500/30 bg-[#141418]/60 text-center relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center p-12 md:p-16 border border-dashed rounded-3xl border-red-500/30 glass text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-radial from-red-600/5 via-transparent to-transparent pointer-events-none" />
           
           {/* YouTube 4-box Menu Icon */}
