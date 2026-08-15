@@ -17,8 +17,7 @@ import {
   Video,
   User,
   Zap,
-  Film,
-  ShieldCheck
+  Film
 } from "lucide-react";
 
 export default async function LandingPage() {
@@ -33,9 +32,6 @@ export default async function LandingPage() {
         <Logo size="md" />
 
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-          <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#creators">
-            Créateurs
-          </Link>
           <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#features">
             Fonctionnalités
           </Link>
@@ -90,8 +86,8 @@ export default async function LandingPage() {
                 </div>
                 <div className="relative w-11 h-11 rounded-full border-2 border-white/40 overflow-hidden shadow-lg">
                   <Image
-                    src="/avatar-girl.jpg"
-                    alt="Créatrice YouTube Female Avatar"
+                    src="/avatar-team.jpg"
+                    alt="Équipe YouTube Creators Avatar"
                     width={44}
                     height={44}
                     className="object-cover w-full h-full"
@@ -113,7 +109,7 @@ export default async function LandingPage() {
 
             {/* Subtext */}
             <p className="mx-auto max-w-[680px] text-white/60 text-base md:text-xl leading-relaxed font-medium">
-              Une plateforme claire et épurée pour organiser vos idées, vos scripts, vos enregistrements et vos montages vidéo.
+              Une plateforme claire et épurée pour orchestrer vos idées, vos scripts, vos enregistrements et vos montages vidéo.
             </p>
 
             {/* CTA Group */}
@@ -170,19 +166,19 @@ export default async function LandingPage() {
                 <div className="text-xs text-white/40">Simple & Intuitif</div>
               </div>
               <div>
-                <div className="text-2xl font-black text-white">Cloud HD</div>
-                <div className="text-xs text-white/40">Stockage médias</div>
+                <div className="text-2xl font-black text-white">Stockage HD</div>
+                <div className="text-xs text-white/40">Fichiers & Miniatures</div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section Showcase Creators (featuring the 2 sticker avatars) */}
-        <section id="creators" className="w-full py-16 bg-[#0a0a14]/60 border-y border-white/5">
+        {/* Section Showcase Creators (featuring Solo Avatar & 3-People Team Avatar) */}
+        <section className="w-full py-16 bg-[#0a0a14]/60 border-y border-white/5">
           <div className="container px-4 md:px-6 mx-auto max-w-5xl">
             <div className="text-center mb-12 space-y-3">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
-                <Sparkles className="h-4 w-4" /> Conçu pour vous
+                <Sparkles className="h-4 w-4" /> Conçu pour tous les formats
               </div>
               <h2 className="text-3xl font-extrabold text-white">Que vous soyez Solo ou en Équipe</h2>
             </div>
@@ -204,17 +200,17 @@ export default async function LandingPage() {
                   </div>
                   <h3 className="text-xl font-bold text-white">Le Créateur Autonome</h3>
                   <p className="text-sm text-white/60 leading-relaxed">
-                    Gérez vos chaînes en solo sans perte de temps. Suivez l'avancement de chaque idée de vidéo avec sérénité.
+                    Gérez vos chaînes en solo sans perte de temps. Suivez l'avancement de chaque vidéo avec sérénité.
                   </p>
                 </div>
               </div>
 
-              {/* Team Creator Card */}
+              {/* Team Creator Card (3 People Team Avatar) */}
               <div className="glass p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden group">
-                <div className="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl">
+                <div className="relative w-28 h-28 shrink-0 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-900">
                   <Image
-                    src="/avatar-girl.jpg"
-                    alt="Créatrice Équipe"
+                    src="/avatar-team.jpg"
+                    alt="Équipe de 3 créateurs"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -289,7 +285,7 @@ export default async function LandingPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-white/50 text-sm leading-relaxed">
-                    Téléversez et validez directement vos propositions de miniatures et visuels sur Cloudinary depuis chaque vidéo.
+                    Stockez et validez directement vos propositions de miniatures et visuels HD pour chaque projet vidéo.
                   </p>
                 </CardContent>
               </Card>
@@ -360,7 +356,7 @@ export default async function LandingPage() {
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Jusqu'à 7 Chaînes (Workspaces)</li>
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Jusqu'à 10 Vidéos au total</li>
                     <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Mode Équipe (Monteurs, Voix off)</li>
-                    <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Upload d'images Cloudinary</li>
+                    <li className="flex items-center text-white font-medium"><CheckCircle2 className="mr-3 h-4 w-4 text-red-500" /> Stockage d'images & Médias HD</li>
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-6">

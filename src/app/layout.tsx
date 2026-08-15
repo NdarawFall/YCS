@@ -38,6 +38,11 @@ export default function RootLayout({
           }}
         />
 
+        {/* Slow floating red gradient orb in background */}
+        <div className="fixed top-1/4 left-1/3 w-[500px] h-[500px] rounded-full pointer-events-none z-0 opacity-20 blur-[120px] animated-bg-orb"
+          style={{ background: 'radial-gradient(circle, rgba(255, 0, 0, 0.4) 0%, rgba(180, 0, 40, 0.2) 50%, transparent 80%)' }}
+        />
+
         {/* Subtle bottom glow */}
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none z-0"
           style={{ background: 'radial-gradient(ellipse at bottom, rgba(120,0,0,0.08) 0%, transparent 70%)' }}
