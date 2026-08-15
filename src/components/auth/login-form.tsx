@@ -57,6 +57,16 @@ export function LoginForm() {
         <ShieldCheck className="h-4 w-4 text-red-500/80 shrink-0" />
         <span>Authentification 100% sécurisée par Google</span>
       </div>
+
+      {/* Navigation link to signup */}
+      <div className="pt-2 text-center border-t border-white/5">
+        <p className="text-xs text-white/50">
+          Vous n'avez pas encore de compte ?{" "}
+          <Link href="/auth/signup" className="text-red-400 font-bold hover:text-red-300 transition-colors">
+            S'inscrire
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

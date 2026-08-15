@@ -3,6 +3,7 @@
 import { signInWithGoogle } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 
 export function SignupForm() {
   return (
@@ -55,6 +56,16 @@ export function SignupForm() {
       <div className="flex items-center gap-2 pt-2 text-xs text-white/40 justify-center">
         <ShieldCheck className="h-4 w-4 text-red-500/80 shrink-0" />
         <span>Accès instantané et 100% sécurisé via Google</span>
+      </div>
+
+      {/* Navigation link to login */}
+      <div className="pt-2 text-center border-t border-white/5">
+        <p className="text-xs text-white/50">
+          Vous avez déjà un compte ?{" "}
+          <Link href="/auth/login" className="text-red-400 font-bold hover:text-red-300 transition-colors">
+            Se connecter
+          </Link>
+        </p>
       </div>
     </div>
   );
