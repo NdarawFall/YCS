@@ -4,6 +4,8 @@
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 DROP FUNCTION IF EXISTS public.handle_new_user() CASCADE;
+DROP FUNCTION IF EXISTS public.is_workspace_member(UUID, UUID) CASCADE;
+DROP FUNCTION IF EXISTS public.is_team_member_or_owner(UUID, UUID) CASCADE;
 DROP TABLE IF EXISTS public.videos CASCADE;
 DROP TABLE IF EXISTS public.team_members CASCADE;
 DROP TABLE IF EXISTS public.teams CASCADE;
@@ -105,14 +107,14 @@ BEGIN
   INSERT INTO public.users (id, full_name, avatar_url, created_at)
   VALUES (
     new.id,
-    COALESCE(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', ''),
-    COALESCE(new.raw_user_meta_data->>'avatar_url', ''),
+    COALESCE(new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
+    COALESCE(new.raw_user_meta_data->>'avatar_url', new.raw_user_meta_data->>'picture', ''),
     now()
   )
   ON CONFLICT (id) DO UPDATE
   SET 
-    full_name = EXCLUDED.full_name,
-    avatar_url = EXCLUDED.avatar_url;
+    full_name = COALESCE(EXCLUDED.full_name, public.users.full_name),
+    avatar_url = COALESCE(EXCLUDED.avatar_url, public.users.avatar_url);
   RETURN new;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -121,6 +123,41 @@ DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+INSERT INTO public.users (id, full_name, avatar_url, created_at)
+SELECT 
+  id, 
+  COALESCE(raw_user_meta_data->>'full_name', raw_user_meta_data->>'name', split_part(email, '@', 1)),
+  COALESCE(raw_user_meta_data->>'avatar_url', raw_user_meta_data->>'picture', ''),
+  now()
+FROM auth.users
+ON CONFLICT (id) DO NOTHING;
+
+CREATE OR REPLACE FUNCTION public.is_workspace_member(ws_id UUID, u_id UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM public.teams t
+    JOIN public.team_members tm ON tm.team_id = t.id
+    WHERE t.workspace_id = ws_id
+    AND tm.user_id = u_id
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE FUNCTION public.is_team_member_or_owner(t_id UUID, u_id UUID)
+RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM public.teams t
+    JOIN public.workspaces w ON w.id = t.workspace_id
+    WHERE t.id = t_id AND w.user_id = u_id
+  ) OR EXISTS (
+    SELECT 1 FROM public.team_members tm
+    WHERE tm.team_id = t_id AND tm.user_id = u_id
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.workspaces ENABLE ROW LEVEL SECURITY;
@@ -146,60 +183,112 @@ CREATE POLICY "Users can update their own profile"
   TO authenticated
   USING (auth.uid() = id);
 
-DROP POLICY IF EXISTS "Users can manage their workspaces" ON public.workspaces;
-CREATE POLICY "Users can manage their workspaces"
-  ON public.workspaces FOR ALL
+DROP POLICY IF EXISTS "Workspaces select policy" ON public.workspaces;
+CREATE POLICY "Workspaces select policy"
+  ON public.workspaces FOR SELECT
   TO authenticated
-  USING (
-    user_id = auth.uid() 
-    OR id IN (
-      SELECT workspace_id FROM public.teams 
-      JOIN public.team_members ON public.team_members.team_id = public.teams.id 
-      WHERE public.team_members.user_id = auth.uid()
-    )
-  )
+  USING (user_id = auth.uid() OR public.is_workspace_member(id, auth.uid()));
+
+DROP POLICY IF EXISTS "Workspaces insert policy" ON public.workspaces;
+CREATE POLICY "Workspaces insert policy"
+  ON public.workspaces FOR INSERT
+  TO authenticated
   WITH CHECK (user_id = auth.uid());
 
-DROP POLICY IF EXISTS "Users can manage teams" ON public.teams;
-CREATE POLICY "Users can manage teams"
-  ON public.teams FOR ALL
+DROP POLICY IF EXISTS "Workspaces update policy" ON public.workspaces;
+CREATE POLICY "Workspaces update policy"
+  ON public.workspaces FOR UPDATE
   TO authenticated
-  USING (
-    workspace_id IN (SELECT id FROM public.workspaces WHERE user_id = auth.uid())
-    OR id IN (SELECT team_id FROM public.team_members WHERE user_id = auth.uid())
-  )
+  USING (user_id = auth.uid());
+
+DROP POLICY IF EXISTS "Workspaces delete policy" ON public.workspaces;
+CREATE POLICY "Workspaces delete policy"
+  ON public.workspaces FOR DELETE
+  TO authenticated
+  USING (user_id = auth.uid());
+
+DROP POLICY IF EXISTS "Teams select policy" ON public.teams;
+CREATE POLICY "Teams select policy"
+  ON public.teams FOR SELECT
+  TO authenticated
+  USING (public.is_team_member_or_owner(id, auth.uid()));
+
+DROP POLICY IF EXISTS "Teams insert policy" ON public.teams;
+CREATE POLICY "Teams insert policy"
+  ON public.teams FOR INSERT
+  TO authenticated
   WITH CHECK (
-    workspace_id IN (SELECT id FROM public.workspaces WHERE user_id = auth.uid())
+    EXISTS (SELECT 1 FROM public.workspaces WHERE id = workspace_id AND user_id = auth.uid())
   );
 
-DROP POLICY IF EXISTS "Users can manage team members" ON public.team_members;
-CREATE POLICY "Users can manage team members"
-  ON public.team_members FOR ALL
+DROP POLICY IF EXISTS "Teams update policy" ON public.teams;
+CREATE POLICY "Teams update policy"
+  ON public.teams FOR UPDATE
   TO authenticated
   USING (
-    user_id = auth.uid()
-    OR team_id IN (
-      SELECT id FROM public.teams 
-      WHERE workspace_id IN (SELECT id FROM public.workspaces WHERE user_id = auth.uid())
-    )
-  )
-  WITH CHECK (
-    user_id = auth.uid()
-    OR team_id IN (
-      SELECT id FROM public.teams 
-      WHERE workspace_id IN (SELECT id FROM public.workspaces WHERE user_id = auth.uid())
-    )
+    EXISTS (SELECT 1 FROM public.workspaces WHERE id = workspace_id AND user_id = auth.uid())
   );
 
-DROP POLICY IF EXISTS "Users can manage workspace videos" ON public.videos;
-CREATE POLICY "Users can manage workspace videos"
-  ON public.videos FOR ALL
+DROP POLICY IF EXISTS "Teams delete policy" ON public.teams;
+CREATE POLICY "Teams delete policy"
+  ON public.teams FOR DELETE
   TO authenticated
   USING (
-    workspace_id IN (SELECT id FROM public.workspaces WHERE user_id = auth.uid())
-    OR team_id IN (SELECT team_id FROM public.team_members WHERE user_id = auth.uid())
-  )
+    EXISTS (SELECT 1 FROM public.workspaces WHERE id = workspace_id AND user_id = auth.uid())
+  );
+
+DROP POLICY IF EXISTS "Team members select policy" ON public.team_members;
+CREATE POLICY "Team members select policy"
+  ON public.team_members FOR SELECT
+  TO authenticated
+  USING (user_id = auth.uid() OR public.is_team_member_or_owner(team_id, auth.uid()));
+
+DROP POLICY IF EXISTS "Team members insert policy" ON public.team_members;
+CREATE POLICY "Team members insert policy"
+  ON public.team_members FOR INSERT
+  TO authenticated
+  WITH CHECK (public.is_team_member_or_owner(team_id, auth.uid()) OR user_id = auth.uid());
+
+DROP POLICY IF EXISTS "Team members update policy" ON public.team_members;
+CREATE POLICY "Team members update policy"
+  ON public.team_members FOR UPDATE
+  TO authenticated
+  USING (public.is_team_member_or_owner(team_id, auth.uid()));
+
+DROP POLICY IF EXISTS "Team members delete policy" ON public.team_members;
+CREATE POLICY "Team members delete policy"
+  ON public.team_members FOR DELETE
+  TO authenticated
+  USING (public.is_team_member_or_owner(team_id, auth.uid()));
+
+DROP POLICY IF EXISTS "Videos select policy" ON public.videos;
+CREATE POLICY "Videos select policy"
+  ON public.videos FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND (w.user_id = auth.uid() OR public.is_workspace_member(w.id, auth.uid())))
+  );
+
+DROP POLICY IF EXISTS "Videos insert policy" ON public.videos;
+CREATE POLICY "Videos insert policy"
+  ON public.videos FOR INSERT
+  TO authenticated
   WITH CHECK (
-    workspace_id IN (SELECT id FROM public.workspaces WHERE user_id = auth.uid())
-    OR team_id IN (SELECT team_id FROM public.team_members WHERE user_id = auth.uid())
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND (w.user_id = auth.uid() OR public.is_workspace_member(w.id, auth.uid())))
+  );
+
+DROP POLICY IF EXISTS "Videos update policy" ON public.videos;
+CREATE POLICY "Videos update policy"
+  ON public.videos FOR UPDATE
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND (w.user_id = auth.uid() OR public.is_workspace_member(w.id, auth.uid())))
+  );
+
+DROP POLICY IF EXISTS "Videos delete policy" ON public.videos;
+CREATE POLICY "Videos delete policy"
+  ON public.videos FOR DELETE
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND w.user_id = auth.uid())
   );
