@@ -26,6 +26,31 @@ export async function createWorkspace(formData: FormData) {
     avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
   }, { onConflict: 'id' })
 
+  // Récupérer le plan de l'utilisateur
+  const { data: profile } = await supabase
+    .from('users')
+    .select('plan')
+    .eq('id', user.id)
+    .single()
+
+  const plan = profile?.plan || 'free'
+
+  // Compter le nombre de workspaces actuels
+  const { count: workspaceCount, error: countError } = await supabase
+    .from('workspaces')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+
+  if (countError) return { error: "Erreur lors de la vérification de vos chaînes." }
+
+  // Appliquer les limites selon le plan
+  if (plan === 'free' && (workspaceCount || 0) >= 1) {
+    return { error: "Plan Débutant: Vous avez atteint la limite de 1 chaîne (Workspace). Passez au plan Premium." }
+  }
+  if (plan === 'premium' && (workspaceCount || 0) >= 7) {
+    return { error: "Plan Premium: Vous avez atteint la limite de 7 chaînes (Workspaces)." }
+  }
+
   // Créer le Workspace
   const { data: workspace, error: workspaceError } = await supabase
     .from('workspaces')

@@ -17,6 +17,36 @@ export async function createVideo(formData: FormData) {
 
   const isTeamMode = mode === 'equipe'
 
+  // Récupérer le plan de l'utilisateur
+  const { data: profile } = await supabase
+    .from('users')
+    .select('plan')
+    .eq('id', user.id)
+    .single()
+
+  const plan = profile?.plan || 'free'
+
+  // Restreindre le mode équipe
+  if (isTeamMode && plan === 'free') {
+    return { error: 'Le mode Équipe est réservé au plan Premium.' }
+  }
+
+  // Compter le nombre TOTAL de vidéos de l'utilisateur (tous workspaces confondus)
+  const { count: videoCount, error: countError } = await supabase
+    .from('videos')
+    .select('*, workspaces!inner(user_id)', { count: 'exact', head: true })
+    .eq('workspaces.user_id', user.id)
+
+  if (countError) return { error: "Erreur lors de la vérification de vos vidéos." }
+
+  // Appliquer les limites selon le plan
+  if (plan === 'free' && (videoCount || 0) >= 3) {
+    return { error: "Plan Débutant: Vous avez atteint la limite de 3 vidéos au total. Passez au plan Premium." }
+  }
+  if (plan === 'premium' && (videoCount || 0) >= 10) {
+    return { error: "Plan Premium: Vous avez atteint la limite maximale de 10 vidéos au total." }
+  }
+
   const { data: video, error } = await supabase
     .from('videos')
     .insert({

@@ -36,29 +36,20 @@ export function SettingsForm({ initialFullName, currentPlan }: { initialFullName
     {
       id: "free",
       name: "Débutant (Gratuit)",
-      description: "Pour commencer à structurer vos vidéos.",
+      description: "L'essentiel pour démarrer sur YouTube.",
       price: "0€",
-      features: ["3 vidéos simultanées", "Tableau de bord basique", "Mode solo uniquement"],
+      features: ["1 seule chaîne (Workspace)", "3 vidéos maximum", "Mode solo uniquement"],
       color: "border-border/60 bg-[#141418]",
       badge: null
     },
     {
-      id: "pro",
-      name: "Créateur Pro",
-      description: "Pour les chaînes en pleine croissance.",
-      price: "19€ / mois",
-      features: ["Vidéos illimitées", "Mode Équipe (collaborateurs)", "Support prioritaire"],
+      id: "premium",
+      name: "Créateur Premium",
+      description: "Pour les créateurs ambitieux.",
+      price: "1,15€ / mois",
+      features: ["Jusqu'à 7 chaînes (Workspaces)", "Jusqu'à 10 vidéos", "Mode Équipe (collaborateurs)"],
       color: "border-red-500/50 bg-red-500/5 shadow-lg shadow-red-500/10",
       badge: <span className="absolute -top-3 right-4 px-3 py-1 bg-gradient-to-r from-red-600 to-red-400 text-white text-[10px] font-bold rounded-full flex items-center gap-1 shadow-md shadow-red-600/30"><Sparkles className="h-3 w-3" /> RECOMMANDÉ</span>
-    },
-    {
-      id: "agency",
-      name: "Agence / MCN",
-      description: "Pour les professionnels gérant plusieurs chaînes.",
-      price: "49€ / mois",
-      features: ["Workspaces illimités", "Rôles avancés (Admin, Éditeur)", "Accès API"],
-      color: "border-purple-500/50 bg-purple-500/5 shadow-lg shadow-purple-500/10",
-      badge: <span className="absolute -top-3 right-4 px-3 py-1 bg-gradient-to-r from-purple-600 to-purple-400 text-white text-[10px] font-bold rounded-full flex items-center gap-1 shadow-md shadow-purple-600/30"><Crown className="h-3 w-3" /> PREMIUM</span>
     }
   ];
 
