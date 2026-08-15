@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "YCS - YouTube Creator Studio",
-  description: "Centralisez, organisez et suivez tout le processus de création de vos vidéos YouTube faceless.",
+  title: "YCS – YouTube Creator Studio",
+  description: "Gérez votre chaîne YouTube comme un pro. Pipeline de production, gestion d'équipe, upload HD.",
 };
 
 export default function RootLayout({
@@ -24,12 +24,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} dark antialiased h-full`}>
-      <body className="min-h-full flex flex-col bg-[#0b0b0d] text-[#f1f1f1] relative overflow-x-hidden">
-        {/* Subtil Halo Rouge YouTube en arrière-plan */}
+      <body className="min-h-full flex flex-col bg-[#080810] text-[#f0f0f5] relative overflow-x-hidden">
+
+        {/* Big top glow */}
         <div className="fixed inset-0 pointer-events-none yt-glow z-0" />
-        
-        {/* Subtle grid mesh */}
-        <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] z-0" />
+
+        {/* Dot grid pattern */}
+        <div className="fixed inset-0 pointer-events-none z-0 opacity-30"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+            maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%)',
+          }}
+        />
+
+        {/* Subtle bottom glow */}
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none z-0"
+          style={{ background: 'radial-gradient(ellipse at bottom, rgba(120,0,0,0.08) 0%, transparent 70%)' }}
+        />
 
         <div className="relative z-10 flex-1 flex flex-col">
           {children}

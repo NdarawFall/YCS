@@ -15,7 +15,6 @@ export default async function DashboardLayout({
     redirect("/auth/login");
   }
 
-  // Fetch user profile from database
   const { data: profile } = await supabase
     .from("users")
     .select("full_name, avatar_url")
@@ -26,19 +25,19 @@ export default async function DashboardLayout({
   const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || undefined;
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0b0b0d]">
-      <header className="sticky top-0 z-40 flex h-18 shrink-0 items-center justify-between border-b border-border/50 bg-[#101014]/90 backdrop-blur-md px-4 sm:px-6 lg:px-8 shadow-xs">
+    <div className="flex min-h-screen flex-col">
+      {/* Top navbar */}
+      <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between px-4 sm:px-6 lg:px-8 glass border-b border-white/5">
         <div className="flex items-center gap-6">
           <Logo size="md" />
         </div>
-
         <div className="flex items-center gap-4">
-          <UserNav 
+          <UserNav
             user={{
               email: user.email,
               fullName,
               avatarUrl,
-            }} 
+            }}
           />
         </div>
       </header>
