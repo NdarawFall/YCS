@@ -22,43 +22,52 @@ export default function AuthLayout({
       {/* Main Container Card */}
       <div className="relative z-10 w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 rounded-3xl overflow-hidden glass border border-white/10 shadow-2xl shadow-black/90">
         
-        {/* Left Side — Gradient Artwork Banner */}
-        <div className="relative md:col-span-6 p-8 md:p-10 flex flex-col justify-between overflow-hidden min-h-[320px] md:min-h-[520px]">
-          {/* Background image & gradient overlay */}
+        {/* Left Side — Full Bleed Red & White Fluid Artwork Banner */}
+        <div className="relative md:col-span-6 p-8 md:p-10 flex flex-col justify-between overflow-hidden min-h-[340px] md:min-h-[540px]">
+          {/* Background image full frame */}
           <div className="absolute inset-0 z-0">
             <Image
               src="/auth-banner.jpg"
-              alt="YCS Studio Mesh"
+              alt="YCS Red Fluid Artwork"
               fill
-              className="object-cover opacity-80 scale-105"
+              className="object-cover scale-105"
               priority
             />
-            {/* Dark gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#090912] via-transparent to-[#090912]/50" />
+            {/* Subtle dark gradient overlay for high text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#080810] via-black/20 to-black/40" />
           </div>
 
-          {/* Top Logo */}
-          <div className="relative z-10">
+          {/* Top Header: Logo + Creator Sticker Avatar */}
+          <div className="relative z-10 flex items-center justify-between">
             <Logo size="md" />
+            <div className="w-12 h-12 rounded-full p-0.5 bg-white shadow-lg shadow-black/50 hover:scale-110 transition-transform">
+              <Image
+                src="/avatar-creator.jpg"
+                alt="Creator Sticker Avatar"
+                width={48}
+                height={48}
+                className="rounded-full object-cover w-full h-full"
+              />
+            </div>
           </div>
 
           {/* Bottom Callout Text */}
           <div className="relative z-10 space-y-3 pt-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-semibold backdrop-blur-md">
-              <Sparkles className="h-3.5 w-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/30 border border-red-500/40 text-white text-xs font-bold backdrop-blur-md shadow-md">
+              <Sparkles className="h-3.5 w-3.5 text-red-400" />
               <span>Studio pour créateurs YouTube</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight drop-shadow-md">
               Pilotez la création de vos vidéos en un seul endroit.
             </h2>
-            <p className="text-sm text-white/60 leading-relaxed font-medium">
+            <p className="text-sm text-white/80 leading-relaxed font-medium drop-shadow">
               Centralisez vos idées, scripts, voix off, montages et miniatures avec une clarté absolue.
             </p>
           </div>
         </div>
 
         {/* Right Side — Auth Form */}
-        <div className="md:col-span-6 p-8 md:p-12 flex flex-col justify-center bg-[#0d0d18]/90 backdrop-blur-xl border-t md:border-t-0 md:border-l border-white/5">
+        <div className="md:col-span-6 p-8 md:p-12 flex flex-col justify-center bg-[#0a0a14]/95 backdrop-blur-xl border-t md:border-t-0 md:border-l border-white/5">
           {children}
         </div>
 
