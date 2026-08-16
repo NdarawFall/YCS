@@ -367,7 +367,7 @@ export default async function LandingPage() {
                 <div className="absolute top-0 right-0 bg-[#FF0000] text-white px-4 py-1 text-xs font-extrabold rounded-bl-xl uppercase tracking-wider">
                   Recommandé
                 </div>
-                <CardHeader className="text-center pb-6">
+                <CardHeader className="text-center pb-6 pt-10">
                   <CardTitle className="text-2xl font-bold text-red-500 flex items-center justify-center gap-2">
                     <Sparkles className="h-5 w-5" /> Créateur Premium
                   </CardTitle>

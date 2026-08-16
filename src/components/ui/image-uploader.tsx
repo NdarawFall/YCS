@@ -78,9 +78,22 @@ export function ImageUploader({
     }
   };
 
-  const handleRemove = (index: number) => {
+  const handleRemove = async (index: number) => {
+    const urlToRemove = images[index];
     const newImages = images.filter((_, i) => i !== index);
     onChange(newImages);
+
+    if (urlToRemove && urlToRemove.includes("cloudinary.com")) {
+      try {
+        await fetch("/api/cloudinary/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: urlToRemove }),
+        });
+      } catch (err) {
+        console.error("Erreur suppression Cloudinary:", err);
+      }
+    }
   };
 
   return (
