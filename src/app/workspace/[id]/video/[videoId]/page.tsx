@@ -17,7 +17,7 @@ export default async function VideoPage({
 
   const { data: video } = await supabase
     .from("videos")
-    .select("id, title, idea_validated, script_validated, voiceover_validated, editing_validated, music_validated, thumbnail_validated, seo_validated, upload_validated, is_team_mode")
+    .select("id, title, idea_validated, script_validated, voiceover_validated, editing_validated, music_validated, thumbnail_validated, seo_validated, upload_validated, is_team_mode, thumbnail_images, thumbnail_notes")
     .eq("id", videoId)
     .single();
 
