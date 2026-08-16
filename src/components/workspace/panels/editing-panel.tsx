@@ -32,7 +32,7 @@ export function EditingPanel({ video, onSave, saving }: any) {
         />
       </div>
 
-      <div className="flex items-center justify-between p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
         <div className="flex items-center gap-3">
           <Checkbox
             id="edit-valid"
@@ -47,7 +47,7 @@ export function EditingPanel({ video, onSave, saving }: any) {
         <Button
           onClick={() => onSave({ editing_notes: notes, editing_resources: resources, editing_validated: validated })}
           disabled={saving}
-          className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
         >
           <Save className="mr-1.5 h-4 w-4" />
           {saving ? "..." : "Enregistrer"}

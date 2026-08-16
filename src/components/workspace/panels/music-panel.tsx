@@ -51,7 +51,7 @@ export function MusicPanel({ video, onSave, saving }: any) {
             >
               <X className="h-4 w-4" />
             </button>
-            <div className="grid grid-cols-2 gap-3 pr-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-8">
               <div className="space-y-1.5">
                 <Label className="text-xs text-muted-foreground">Titre de la piste</Label>
                 <Input
@@ -85,7 +85,7 @@ export function MusicPanel({ video, onSave, saving }: any) {
         />
       </div>
 
-      <div className="flex items-center justify-between p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
         <div className="flex items-center gap-3">
           <Checkbox
             id="music-valid"
@@ -100,7 +100,7 @@ export function MusicPanel({ video, onSave, saving }: any) {
         <Button
           onClick={() => onSave({ music_tracks: tracks, music_notes: notes, music_validated: validated })}
           disabled={saving}
-          className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
         >
           <Save className="mr-1.5 h-4 w-4" />
           {saving ? "..." : "Enregistrer"}

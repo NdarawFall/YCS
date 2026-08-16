@@ -26,15 +26,15 @@ export function ScriptPanel({ video, onSave, saving }: any) {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex gap-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {[
           { label: "Mots", value: words, color: "text-white" },
           { label: "Durée estimée", value: durationLabel, color: "text-blue-400" },
           { label: "Caractères", value: content.length, color: "text-muted-foreground" },
         ].map((stat) => (
-          <div key={stat.label} className="flex-1 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
-            <div className="text-xs text-muted-foreground mb-1">{stat.label}</div>
-            <div className={`text-lg font-bold font-mono ${stat.color}`}>{stat.value}</div>
+          <div key={stat.label} className="p-2.5 sm:p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+            <div className="text-[10px] sm:text-xs text-muted-foreground mb-1 truncate">{stat.label}</div>
+            <div className={`text-sm sm:text-lg font-bold font-mono ${stat.color}`}>{stat.value}</div>
           </div>
         ))}
       </div>
@@ -45,7 +45,7 @@ export function ScriptPanel({ video, onSave, saving }: any) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Écrivez votre script complet ici. [INTRO] Bonjour et bienvenue sur..."
-          className="min-h-[280px] bg-[#0f0f13] border-border/80 text-white rounded-xl text-sm font-mono leading-relaxed focus-visible:ring-blue-500/50 resize-none"
+          className="min-h-[240px] sm:min-h-[280px] bg-[#0f0f13] border-border/80 text-white rounded-xl text-sm font-mono leading-relaxed focus-visible:ring-blue-500/50 resize-none"
         />
       </div>
 
@@ -59,7 +59,7 @@ export function ScriptPanel({ video, onSave, saving }: any) {
         />
       </div>
 
-      <div className="flex items-center justify-between p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
         <div className="flex items-center gap-3">
           <Checkbox
             id="script-valid"
@@ -74,7 +74,7 @@ export function ScriptPanel({ video, onSave, saving }: any) {
         <Button
           onClick={() => onSave({ script_content: content, script_notes: notes, script_validated: validated })}
           disabled={saving}
-          className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5 shadow-md shadow-red-600/20"
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5 shadow-md shadow-red-600/20"
         >
           <Save className="mr-1.5 h-4 w-4" />
           {saving ? "..." : "Enregistrer"}

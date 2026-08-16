@@ -23,7 +23,7 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
       </div>
 
       {thumbnails.length > 0 && (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {thumbnails.map((url, i) => (
             <div key={i} className="relative aspect-video rounded-xl overflow-hidden border border-border/60 bg-black">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -46,7 +46,7 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
         />
       </div>
 
-      <div className="flex items-center justify-between p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
         <div className="flex items-center gap-3">
           <Checkbox
             id="thumb-valid"
@@ -61,7 +61,7 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
         <Button
           onClick={() => onSave({ thumbnail_images: thumbnails, thumbnail_notes: notes, thumbnail_validated: validated })}
           disabled={saving}
-          className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
         >
           <Save className="mr-1.5 h-4 w-4" />
           {saving ? "..." : "Enregistrer"}

@@ -16,7 +16,7 @@ export function VoiceoverPanel({ video, onSave, saving }: any) {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label className="text-sm font-bold text-white">Type de voix</Label>
           <div className="flex gap-2">
@@ -67,7 +67,7 @@ export function VoiceoverPanel({ video, onSave, saving }: any) {
         />
       </div>
 
-      <div className="flex items-center justify-between p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
         <div className="flex items-center gap-3">
           <Checkbox
             id="vo-valid"
@@ -82,7 +82,7 @@ export function VoiceoverPanel({ video, onSave, saving }: any) {
         <Button
           onClick={() => onSave({ voiceover_type: type, voiceover_narrator: narrator, voiceover_links: links, voiceover_notes: notes, voiceover_validated: validated })}
           disabled={saving}
-          className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
         >
           <Save className="mr-1.5 h-4 w-4" />
           {saving ? "..." : "Enregistrer"}

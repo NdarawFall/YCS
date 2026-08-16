@@ -64,9 +64,49 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
   const ActiveStageIcon = activeStageData.icon;
 
   return (
-    <div className="flex-1 min-h-0 flex gap-6 overflow-hidden">
-      {/* LEFT SIDEBAR — Stage Navigator — narrow, progress sticky */}
-      <aside className="w-44 shrink-0 flex flex-col gap-0 overflow-hidden">
+    <div className="flex-1 min-h-0 flex flex-col md:flex-row gap-4 md:gap-6 overflow-hidden">
+      {/* MOBILE ONLY — Top Horizontal Stage Bar */}
+      <div className="md:hidden shrink-0 flex flex-col gap-2 glass p-3 rounded-2xl border-border/10">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-[10px] font-bold text-white uppercase tracking-wider">Progression : {progress}%</span>
+          <span className="text-[10px] text-emerald-400 font-semibold">{validatedCount}/{STAGES.length} validées</span>
+        </div>
+        <div className="h-1.5 w-full bg-white/8 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full transition-all duration-500"
+            style={{ width: `${Math.max(3, progress)}%` }}
+          />
+        </div>
+        {/* Horizontal Scrollable Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar pt-1 pb-1">
+          {STAGES.map((stage, idx) => {
+            const isValidated = localVideo[stage.validateKey];
+            const isActive = activeStage === stage.id;
+            const Icon = stage.icon;
+
+            return (
+              <button
+                key={stage.id}
+                type="button"
+                onClick={() => setActiveStage(stage.id)}
+                className={`shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                  isActive
+                    ? "bg-red-600 text-white shadow-md shadow-red-600/30"
+                    : isValidated
+                    ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
+                    : "bg-white/5 border border-white/8 text-muted-foreground hover:text-white"
+                }`}
+              >
+                {isValidated ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> : <Icon className="h-3.5 w-3.5" />}
+                <span>{stage.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* DESKTOP ONLY SIDEBAR — Stage Navigator */}
+      <aside className="hidden md:flex md:w-44 shrink-0 flex-col gap-0 overflow-hidden">
         {/* Progress Summary — STICKY, never scrolls */}
         <div className="shrink-0 mb-3 p-3.5 glass rounded-2xl border-border/10">
           <div className="flex items-center justify-between mb-2">
@@ -135,17 +175,17 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
       {/* RIGHT — Active Panel */}
       <main className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden glass border-border/10 rounded-2xl shadow-2xl relative">
         {/* Panel Header */}
-        <div className="shrink-0 flex items-center justify-between px-7 py-5 border-b border-border/60">
-          <div className="flex items-center gap-3">
+        <div className="shrink-0 flex items-center justify-between px-4 py-3.5 sm:px-7 sm:py-5 border-b border-border/60">
+          <div className="flex items-center gap-3 min-w-0">
             <div
-              className="flex h-10 w-10 items-center justify-center rounded-xl"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl shrink-0"
               style={{ backgroundColor: `${activeStageData.color}18` }}
             >
-              <ActiveStageIcon className="h-5 w-5" style={{ color: activeStageData.color }} />
+              <ActiveStageIcon className="h-4 w-4 sm:h-5 sm:w-5" style={{ color: activeStageData.color }} />
             </div>
-            <div>
-              <h2 className="font-extrabold text-white text-lg leading-tight">{activeStageData.label}</h2>
-              <p className="text-xs text-muted-foreground">
+            <div className="min-w-0">
+              <h2 className="font-extrabold text-white text-base sm:text-lg leading-tight truncate">{activeStageData.label}</h2>
+              <p className="text-xs text-muted-foreground truncate">
                 {localVideo[activeStageData.validateKey]
                   ? "✓ Étape validée"
                   : "En cours de production"}
@@ -154,7 +194,7 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
           </div>
 
           {/* Save state indicator */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             {saving && (
               <span className="text-xs text-muted-foreground animate-pulse">Enregistrement...</span>
             )}
@@ -168,7 +208,7 @@ export function VideoProduction({ video, workspaceId }: { video: any; workspaceI
 
         <div 
           key={activeStage} 
-          className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-7 py-6 animate-in fade-in duration-150"
+          className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-4 py-4 sm:px-7 sm:py-6 animate-in fade-in duration-150"
         >
           <ActivePanel
             video={localVideo}

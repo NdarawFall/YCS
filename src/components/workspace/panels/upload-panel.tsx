@@ -24,13 +24,13 @@ export function UploadPanel({ video, onSave, saving }: any) {
       {/* Status Selector */}
       <div className="space-y-2">
         <Label className="text-sm font-bold text-white">Statut de publication</Label>
-        <div className="flex gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
           {(Object.keys(statusConfig) as Array<keyof typeof statusConfig>).map((s) => (
             <button
               key={s}
               type="button"
               onClick={() => setStatus(s)}
-              className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold border transition-all cursor-pointer ${
+              className={`py-2.5 px-3 sm:py-3 sm:px-4 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer ${
                 status === s ? statusConfig[s].color : "bg-[#0f0f13] border-border/70 text-muted-foreground hover:text-white"
               }`}
             >
@@ -48,7 +48,7 @@ export function UploadPanel({ video, onSave, saving }: any) {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://youtu.be/xxxxxxxxxxx"
-            className="flex-1 h-12 bg-[#0f0f13] border-border/80 text-white rounded-xl"
+            className="flex-1 h-12 bg-[#0f0f13] border-border/80 text-white rounded-xl text-xs sm:text-sm"
           />
           {url && (
             <a
@@ -76,7 +76,7 @@ export function UploadPanel({ video, onSave, saving }: any) {
 
       {/* Final validation — most prominent CTA */}
       {!validated ? (
-        <div className="p-5 bg-gradient-to-r from-red-600/10 to-red-600/5 border border-red-600/30 rounded-2xl space-y-3">
+        <div className="p-4 sm:p-5 bg-gradient-to-r from-red-600/10 to-red-600/5 border border-red-600/30 rounded-2xl space-y-3">
           <p className="text-sm text-white font-semibold">🎉 Dernière étape — Marquer comme terminée</p>
           <p className="text-xs text-muted-foreground">Cochez uniquement quand la vidéo est live sur YouTube et tout le post-pub est fait.</p>
           <div className="flex items-center gap-3 pt-1">
@@ -92,7 +92,7 @@ export function UploadPanel({ video, onSave, saving }: any) {
           </div>
         </div>
       ) : (
-        <div className="p-5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center gap-3">
+        <div className="p-4 sm:p-5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center gap-3">
           <CheckCircle2 className="h-6 w-6 text-emerald-400 shrink-0" />
           <div>
             <p className="text-sm font-bold text-emerald-400">Vidéo terminée & publiée !</p>
@@ -112,7 +112,7 @@ export function UploadPanel({ video, onSave, saving }: any) {
         <Button
           onClick={() => onSave({ upload_status: status, upload_url: url, upload_notes: notes, upload_validated: validated })}
           disabled={saving}
-          className="bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-6 py-2.5 shadow-md shadow-red-600/20"
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-6 py-2.5 shadow-md shadow-red-600/20"
         >
           <Save className="mr-1.5 h-4 w-4" />
           {saving ? "Enregistrement..." : "Enregistrer"}

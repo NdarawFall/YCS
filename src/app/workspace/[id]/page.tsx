@@ -59,9 +59,9 @@ export default async function WorkspacePage({
   return (
     <div className="h-full flex flex-col gap-6 overflow-y-auto custom-scrollbar">
       {/* Stats bar */}
-      <div className="flex items-center gap-6 text-sm">
+      <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm">
         <span className="text-muted-foreground">
-          <span className="text-white font-bold text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
+          <span className="text-white font-bold text-base sm:text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
         </span>
         <span className="text-muted-foreground">
           <span className="text-amber-400 font-bold">{inProgress}</span> en production
@@ -95,30 +95,42 @@ export default async function WorkspacePage({
               <Link
                 key={video.id}
                 href={`/workspace/${id}/video/${video.id}`}
-                className="group flex items-center gap-5 p-5 glass border-border/10 hover:border-red-600/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-red-600/10 hover:-translate-y-1"
+                className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 p-4 sm:p-5 glass border-border/10 hover:border-red-600/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-red-600/10 hover:-translate-y-1"
               >
-                {/* Left: Thumbnail placeholder or icon */}
-                <div className={`shrink-0 w-14 h-14 rounded-xl flex items-center justify-center font-black text-xl border ${isComplete ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-red-600/10 border-red-600/20 text-red-500"}`}>
-                  {isComplete ? "✓" : <Film className="h-6 w-6" />}
+                {/* Header row on mobile / Left on desktop */}
+                <div className="flex items-center gap-3.5 min-w-0">
+                  {/* Thumbnail placeholder or icon */}
+                  <div className={`shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center font-black text-lg sm:text-xl border ${isComplete ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-red-600/10 border-red-600/20 text-red-500"}`}>
+                    {isComplete ? "✓" : <Film className="h-5 w-5 sm:h-6 sm:w-6" />}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-white text-sm sm:text-base truncate group-hover:text-red-400 transition-colors">
+                        {video.title}
+                      </h3>
+                      {video.is_team_mode ? (
+                        <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
+                          <Users className="h-2.5 w-2.5" /> Équipe
+                        </span>
+                      ) : (
+                        <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/5 border border-border text-muted-foreground">
+                          <User className="h-2.5 w-2.5" /> Solo
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="sm:hidden text-xs text-muted-foreground flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {timeAgo(video.updated_at)}
+                    </div>
+                  </div>
+
+                  <ArrowRight className="sm:hidden h-5 w-5 text-muted-foreground shrink-0 group-hover:text-red-500 group-hover:translate-x-1 transition-all" />
                 </div>
 
                 {/* Center: Title + progress */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <h3 className="font-bold text-white text-base truncate group-hover:text-red-400 transition-colors">
-                      {video.title}
-                    </h3>
-                    {video.is_team_mode ? (
-                      <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
-                        <Users className="h-2.5 w-2.5" /> Équipe
-                      </span>
-                    ) : (
-                      <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/5 border border-border text-muted-foreground">
-                        <User className="h-2.5 w-2.5" /> Solo
-                      </span>
-                    )}
-                  </div>
-
+                <div className="flex-1 min-w-0 space-y-2">
                   {/* Progress bar */}
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-1.5 bg-white/8 rounded-full overflow-hidden">
@@ -130,23 +142,25 @@ export default async function WorkspacePage({
                     <span className="shrink-0 text-xs font-mono text-muted-foreground w-8 text-right">{pct}%</span>
                   </div>
 
-                  {/* Stage pills */}
-                  <div className="flex items-center gap-1 mt-2 flex-wrap">
-                    {STAGES.map((s) => (
-                      <div
-                        key={s.key}
-                        className={`h-1.5 w-5 rounded-full transition-colors ${video[s.key] ? "bg-emerald-500" : "bg-white/10"}`}
-                        title={s.label}
-                      />
-                    ))}
-                    <span className="ml-2 text-[10px] text-muted-foreground font-medium">
-                      {isComplete ? "✓ Terminée" : `En cours : ${currentStage}`}
+                  {/* Stage pills (Desktop full pills, Mobile clean badge) */}
+                  <div className="flex items-center gap-1 flex-wrap">
+                    <div className="hidden sm:flex items-center gap-1">
+                      {STAGES.map((s) => (
+                        <div
+                          key={s.key}
+                          className={`h-1.5 w-5 rounded-full transition-colors ${video[s.key] ? "bg-emerald-500" : "bg-white/10"}`}
+                          title={s.label}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-[10px] sm:ml-2 text-muted-foreground font-medium">
+                      {isComplete ? "✓ Terminée" : `Étape : ${currentStage} (${stageDone}/${total})`}
                     </span>
                   </div>
                 </div>
 
-                {/* Right: Date + arrow */}
-                <div className="shrink-0 flex flex-col items-end gap-3 text-right">
+                {/* Right: Date + arrow (Desktop only) */}
+                <div className="hidden sm:flex shrink-0 flex-col items-end gap-3 text-right">
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
                     <Clock className="h-3 w-3" />
                     {timeAgo(video.updated_at)}
