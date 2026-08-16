@@ -87,7 +87,7 @@ export default async function WorkspaceLayout({
         </header>
 
         {/* Main Workspace Area */}
-        <main className="flex-1 min-h-0 overflow-hidden flex flex-col p-4 sm:p-5">
+        <main className="flex-1 min-h-0 overflow-hidden flex flex-col p-3 sm:p-4">
           {children}
         </main>
       </div>
