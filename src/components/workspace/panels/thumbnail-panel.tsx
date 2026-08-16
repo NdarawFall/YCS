@@ -1,11 +1,32 @@
 "use client";
 import { useState } from "react";
+import {
+  DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy, useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Save } from "lucide-react";
+import { Save, GripVertical } from "lucide-react";
 import { ImageUploader } from "@/components/ui/image-uploader";
+
+// Sortable Item Component
+function SortableThumbnail({ url, index, onRemove }: { url: string, index: number, onRemove: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: url });
+  const style = { transform: CSS.Transform.toString(transform), transition };
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative aspect-video rounded-lg overflow-hidden border border-border/80 bg-muted/40 shadow-sm">
+      <img src={url} alt={`Miniature ${index + 1}`} className="w-full h-full object-cover" />
+      <button {...attributes} {...listeners} className="absolute top-1.5 left-1.5 p-1 bg-black/50 text-white rounded cursor-grab"><GripVertical className="h-4 w-4" /></button>
+      <button type="button" onClick={onRemove} className="absolute top-1.5 right-1.5 p-1 bg-black/70 hover:bg-red-600 text-white rounded-full">×</button>
+    </div>
+  );
+}
 
 export function ThumbnailPanel({ video, onSave, saving }: any) {
   const [thumbnails, setThumbnails] = useState<string[]>(
@@ -13,6 +34,19 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
   );
   const [notes, setNotes] = useState(video.thumbnail_notes || "");
   const [validated, setValidated] = useState(video.thumbnail_validated || false);
+
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+
+  function handleDragEnd(event: any) {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setThumbnails((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +60,17 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       <div className="space-y-2">
-        <Label className="text-sm font-bold text-white">Propositions de miniature (A/B test conseillé)</Label>
-        <p className="text-xs text-muted-foreground">Uploadez jusqu'à 3 variantes pour tester celle qui génère le plus de clics.</p>
-        <ImageUploader images={thumbnails} onChange={setThumbnails} maxImages={3} label="Uploader vos miniatures (1280×720px)" />
+        <Label className="text-sm font-bold text-white">Propositions de miniature (Glissez pour réordonner)</Label>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={thumbnails} strategy={rectSortingStrategy}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {thumbnails.map((url, idx) => (
+                <SortableThumbnail key={url} url={url} index={idx} onRemove={() => setThumbnails(thumbnails.filter((_, i) => i !== idx))} />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+        {thumbnails.length < 3 && <ImageUploader images={thumbnails} onChange={setThumbnails} maxImages={3} label="Uploader vos miniatures" />}
       </div>
 
       <div className="space-y-2">
@@ -36,7 +78,7 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
         <Textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Texte max 3 mots, couleurs vives (rouge/jaune), visage expressif, contraste fort, format 1280×720..."
+          placeholder="Texte max 3 mots, couleurs vives..."
           className="min-h-[120px] bg-[#0f0f13] border-border/80 text-white rounded-xl resize-none"
         />
       </div>

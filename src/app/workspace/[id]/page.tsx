@@ -47,7 +47,7 @@ export default async function WorkspacePage({
 
   const { data: videos } = await supabase
     .from("videos")
-    .select("id, title, updated_at, upload_validated, is_team_mode, idea_validated, script_validated, voiceover_validated, editing_validated, music_validated, thumbnail_validated, seo_validated")
+    .select("id, title, updated_at, upload_validated, is_team_mode, idea_validated, script_validated, voiceover_validated, editing_validated, music_validated, thumbnail_validated, seo_validated, thumbnail_images")
     .eq("workspace_id", id)
     .order("updated_at", { ascending: false });
 
@@ -100,8 +100,14 @@ export default async function WorkspacePage({
                 {/* Header row on mobile / Left on desktop */}
                 <div className="flex items-center gap-3.5 min-w-0">
                   {/* Thumbnail placeholder or icon */}
-                  <div className={`shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center font-black text-lg sm:text-xl border ${isComplete ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-red-600/10 border-red-600/20 text-red-500"}`}>
-                    {isComplete ? "✓" : <Film className="h-5 w-5 sm:h-6 sm:w-6" />}
+                  <div className={`shrink-0 w-12 h-12 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex items-center justify-center font-black text-lg sm:text-xl border ${isComplete ? "border-emerald-500/30" : "border-red-600/20"}`}>
+                    {video.thumbnail_images && Array.isArray(video.thumbnail_images) && video.thumbnail_images.length > 0 ? (
+                      <img src={video.thumbnail_images[0]} alt="Miniature" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className={`w-full h-full flex items-center justify-center ${isComplete ? "bg-emerald-500/10 text-emerald-400" : "bg-red-600/10 text-red-500"}`}>
+                        {isComplete ? "✓" : <Film className="h-5 w-5 sm:h-8 sm:w-8" />}
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex-1 min-w-0">
