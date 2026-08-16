@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Lightbulb, FileText, Mic, Scissors, Music,
@@ -46,22 +46,26 @@ export function VideoProduction({
   video,
   workspaceId,
   workspaceName,
+  initialStage,
 }: {
   video: any;
   workspaceId: string;
   workspaceName: string;
+  initialStage?: string;
 }) {
-  const [activeStage, setActiveStageState] = useState<StageId>("idea");
-
-  useEffect(() => {
+  const [activeStage, setActiveStageState] = useState<StageId>(() => {
+    if (initialStage && STAGES.some((s) => s.id === initialStage)) {
+      return initialStage as StageId;
+    }
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const stageParam = params.get("stage") as StageId | null;
       if (stageParam && STAGES.some((s) => s.id === stageParam)) {
-        setActiveStageState(stageParam);
+        return stageParam;
       }
     }
-  }, []);
+    return "idea";
+  });
 
   const setActiveStage = (stageId: StageId) => {
     setActiveStageState(stageId);

@@ -1,16 +1,16 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft, Trash2, Users, User } from "lucide-react";
 import { VideoProduction } from "@/components/workspace/video-production";
-import { DeleteVideoButton } from "@/components/workspace/delete-video-button";
 
 export default async function VideoPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string; videoId: string }>;
+  searchParams: Promise<{ stage?: string }>;
 }) {
   const { id: workspaceId, videoId } = await params;
+  const { stage } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login");
@@ -36,6 +36,7 @@ export default async function VideoPage({
         video={video}
         workspaceId={workspaceId}
         workspaceName={workspace?.name || "Workspace"}
+        initialStage={stage}
       />
     </div>
   );
