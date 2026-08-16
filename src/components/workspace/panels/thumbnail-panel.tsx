@@ -14,12 +14,20 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
   const [notes, setNotes] = useState(video.thumbnail_notes || "");
   const [validated, setValidated] = useState(video.thumbnail_validated || false);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({ 
+      thumbnail_images: thumbnails, 
+      thumbnail_notes: notes, 
+      thumbnail_validated: validated 
+    });
+  };
+
   return (
-    <div className="space-y-6 max-w-3xl">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       <div className="space-y-2">
         <Label className="text-sm font-bold text-white">Propositions de miniature (A/B test conseillé)</Label>
         <p className="text-xs text-muted-foreground">Uploadez jusqu'à 3 variantes pour tester celle qui génère le plus de clics.</p>
-        {/* ImageUploader handles preview, delete and lightbox — no duplicate grid */}
         <ImageUploader images={thumbnails} onChange={setThumbnails} maxImages={3} label="Uploader vos miniatures (1280×720px)" />
       </div>
 
@@ -46,15 +54,14 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
           </Label>
         </div>
         <Button
-          type="button"
-          onClick={() => onSave({ thumbnail_images: thumbnails, thumbnail_notes: notes, thumbnail_validated: validated })}
+          type="submit"
           disabled={saving}
           className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
         >
           <Save className="mr-1.5 h-4 w-4" />
-          {saving ? "..." : "Enregistrer"}
+          {saving ? "Enregistrement..." : "Enregistrer"}
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
