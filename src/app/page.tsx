@@ -54,10 +54,10 @@ export default async function LandingPage() {
             <>
               <Link href="/auth/login">
                 <Button variant="ghost" size="sm" className="hover:bg-white/8 text-white/80 hover:text-white font-medium rounded-xl text-xs sm:text-sm px-2.5 sm:px-3">
-                  Se connecter
+                  <User className="mr-1.5 h-3.5 w-3.5" /> Se connecter
                 </Button>
               </Link>
-              <Link href="/auth/signup">
+              <Link href="/auth/signup" className="hidden sm:inline-flex">
                 <Button size="sm" className="font-semibold text-white border-0 rounded-xl text-xs sm:text-sm px-3 sm:px-4 transition-all hover:scale-105"
                   style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 4px 20px rgba(255,0,0,0.25)' }}
                 >
