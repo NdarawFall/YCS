@@ -19,22 +19,9 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
       <div className="space-y-2">
         <Label className="text-sm font-bold text-white">Propositions de miniature (A/B test conseillé)</Label>
         <p className="text-xs text-muted-foreground">Uploadez jusqu'à 3 variantes pour tester celle qui génère le plus de clics.</p>
+        {/* ImageUploader handles preview, delete and lightbox — no duplicate grid */}
         <ImageUploader images={thumbnails} onChange={setThumbnails} maxImages={3} label="Uploader vos miniatures (1280×720px)" />
       </div>
-
-      {thumbnails.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {thumbnails.map((url, i) => (
-            <div key={i} className="relative aspect-video rounded-xl overflow-hidden border border-border/60 bg-black">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt={`Miniature ${i + 1}`} className="w-full h-full object-cover" />
-              <span className="absolute top-2 left-2 text-[10px] font-bold bg-black/70 text-white px-1.5 py-0.5 rounded">
-                Option {i + 1}
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
 
       <div className="space-y-2">
         <Label className="text-sm font-bold text-white">Instructions pour le designer</Label>
@@ -59,6 +46,7 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
           </Label>
         </div>
         <Button
+          type="button"
           onClick={() => onSave({ thumbnail_images: thumbnails, thumbnail_notes: notes, thumbnail_validated: validated })}
           disabled={saving}
           className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
