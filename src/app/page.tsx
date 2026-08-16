@@ -337,13 +337,17 @@ export default async function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
               {/* Gratuit */}
               <Card className="flex flex-col relative overflow-hidden glass border-white/10 rounded-3xl p-2">
-                <CardHeader className="text-center pb-6">
-                  <CardTitle className="text-2xl font-bold text-white">Débutant (Gratuit)</CardTitle>
+                <CardHeader className="text-center pb-6 pt-7">
+                  <CardTitle className="text-2xl font-bold text-white flex items-center justify-center gap-2 h-8">
+                    Débutant (Gratuit)
+                  </CardTitle>
                   <div className="mt-4 flex items-baseline justify-center text-5xl font-black text-white">
                     0€
                     <span className="ml-1 text-lg font-medium text-white/40">/mois</span>
                   </div>
-                  <CardDescription className="mt-3 text-white/50">Pour structurer et lancer sa première chaîne YouTube.</CardDescription>
+                  <CardDescription className="mt-3 text-white/50 h-10 flex items-center justify-center">
+                    Pour structurer et lancer sa première chaîne YouTube.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 px-6">
                   <ul className="space-y-4 text-sm text-white/70">
@@ -364,18 +368,20 @@ export default async function LandingPage() {
               
               {/* Premium */}
               <Card className="flex flex-col relative overflow-hidden glass border-2 border-red-600 shadow-2xl shadow-red-600/20 rounded-3xl p-2">
-                <div className="absolute top-0 right-0 bg-[#FF0000] text-white px-4 py-1 text-xs font-extrabold rounded-bl-xl uppercase tracking-wider">
+                <div className="absolute top-0 right-0 bg-[#FF0000] text-white px-3.5 py-1 text-[11px] font-extrabold rounded-bl-xl uppercase tracking-wider z-10">
                   Recommandé
                 </div>
-                <CardHeader className="text-center pb-6 pt-10">
-                  <CardTitle className="text-2xl font-bold text-red-500 flex items-center justify-center gap-2">
+                <CardHeader className="text-center pb-6 pt-7">
+                  <CardTitle className="text-2xl font-bold text-red-500 flex items-center justify-center gap-2 h-8">
                     <Sparkles className="h-5 w-5" /> Créateur Premium
                   </CardTitle>
                   <div className="mt-4 flex items-baseline justify-center text-5xl font-black text-white">
                     1,15€
                     <span className="ml-1 text-lg font-medium text-white/40">/mois</span>
                   </div>
-                  <CardDescription className="mt-3 text-white/50">Pour les créateurs ambitieux et les équipes de production.</CardDescription>
+                  <CardDescription className="mt-3 text-white/50 h-10 flex items-center justify-center">
+                    Pour les créateurs ambitieux et les équipes de production.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 px-6">
                   <ul className="space-y-4 text-sm">
