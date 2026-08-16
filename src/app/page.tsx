@@ -30,35 +30,35 @@ export default async function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#080810] text-[#f0f0f5]">
       {/* Navbar */}
-      <header className="px-6 lg:px-14 h-16 flex items-center border-b border-white/5 glass sticky top-0 z-50">
+      <header className="px-4 sm:px-6 lg:px-14 h-16 flex items-center justify-between border-b border-white/5 glass sticky top-0 z-50">
         <Logo size="md" />
 
-        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-          <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#features">
+        <nav className="flex gap-2 sm:gap-4 items-center">
+          <Link className="hidden md:inline-flex text-sm font-medium text-white/50 hover:text-white transition-colors" href="#features">
             Fonctionnalités
           </Link>
-          <Link className="text-sm font-medium text-white/50 hover:text-white transition-colors" href="#pricing">
+          <Link className="hidden md:inline-flex text-sm font-medium text-white/50 hover:text-white transition-colors" href="#pricing">
             Tarifs
           </Link>
-          <div className="h-4 w-px bg-white/10 hidden sm:block" />
+          <div className="h-4 w-px bg-white/10 hidden md:block" />
           {isLoggedIn ? (
             <Link href="/dashboard">
-              <Button size="sm" className="font-bold text-white border-0 rounded-xl transition-all hover:scale-105"
+              <Button size="sm" className="font-bold text-white border-0 rounded-xl text-xs sm:text-sm transition-all hover:scale-105"
                 style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 4px 20px rgba(255,0,0,0.3)' }}
               >
-                <LayoutGrid className="mr-1.5 h-4 w-4" />
+                <LayoutGrid className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Mon Espace
               </Button>
             </Link>
           ) : (
             <>
               <Link href="/auth/login">
-                <Button variant="ghost" size="sm" className="hidden sm:inline-flex hover:bg-white/8 text-white/80 hover:text-white font-medium rounded-xl">
+                <Button variant="ghost" size="sm" className="hover:bg-white/8 text-white/80 hover:text-white font-medium rounded-xl text-xs sm:text-sm px-2.5 sm:px-3">
                   Se connecter
                 </Button>
               </Link>
               <Link href="/auth/signup">
-                <Button size="sm" className="font-semibold text-white border-0 rounded-xl transition-all hover:scale-105"
+                <Button size="sm" className="font-semibold text-white border-0 rounded-xl text-xs sm:text-sm px-3 sm:px-4 transition-all hover:scale-105"
                   style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', boxShadow: '0 4px 20px rgba(255,0,0,0.25)' }}
                 >
                   Commencer
@@ -291,7 +291,7 @@ export default async function LandingPage() {
                     <span className="bg-gradient-to-r from-white to-red-400 bg-clip-text text-transparent">les grands écrans & ordinateurs</span>
                   </h2>
                   <p className="text-white/60 text-sm md:text-base leading-relaxed">
-                    Pour vous offrir un confort de production inégalé — double panneau de rédaction de scripts, timeline d'étapes, prévisualisation de miniatures et checklists SEO —, YouTube Creator Studio est conçu pour être utilisé sur PC ou Mac.
+                    Pour vous offrir une expérience optimale et un confort de production maximal, YouTube Creator Studio est conçu pour être utilisé sur PC ou Mac.
                   </p>
                   <div className="pt-2 flex flex-wrap justify-center md:justify-start gap-3 text-xs font-semibold text-white/80">
                     <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">

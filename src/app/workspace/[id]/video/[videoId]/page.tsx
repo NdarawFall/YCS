@@ -32,8 +32,8 @@ export default async function VideoPage({
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Page Header */}
-      <div className="shrink-0 flex items-center justify-between gap-4 pb-5 border-b border-border/50 mb-6">
-        <div className="flex items-center gap-4 min-w-0">
+      <div className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 sm:pb-5 border-b border-border/50 mb-3 sm:mb-6">
+        <div className="flex items-center gap-3 min-w-0">
           <Link
             href={`/workspace/${workspaceId}`}
             className="shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-xl text-muted-foreground hover:text-white hover:bg-white/8 transition-colors"
@@ -46,17 +46,17 @@ export default async function VideoPage({
               <span className="text-muted-foreground/40 text-xs">›</span>
               <span className="text-xs text-muted-foreground font-medium">Vidéos</span>
             </div>
-            <h1 className="text-xl font-extrabold text-white leading-tight truncate">{video.title}</h1>
+            <h1 className="text-base sm:text-xl font-extrabold text-white leading-tight truncate">{video.title}</h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
           {video.is_team_mode ? (
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400">
               <Users className="h-3.5 w-3.5" /> Équipe
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-white/5 border border-border text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-white/5 border border-border text-muted-foreground">
               <User className="h-3.5 w-3.5" /> Solo
             </span>
           )}

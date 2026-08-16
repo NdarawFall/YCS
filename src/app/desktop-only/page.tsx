@@ -40,7 +40,7 @@ export default function DesktopOnlyPage() {
       </header>
 
       {/* Main Message Card */}
-      <main className="w-full max-w-lg my-auto relative z-10 py-6">
+      <main className="w-full max-w-md my-auto relative z-10 py-6">
         <div className="glass p-7 sm:p-9 rounded-3xl border border-white/10 shadow-2xl text-center space-y-6 relative overflow-hidden">
           {/* Top glowing ambient circle */}
           <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-40 h-40 bg-red-600/20 rounded-full blur-3xl pointer-events-none" />
@@ -59,30 +59,15 @@ export default function DesktopOnlyPage() {
           {/* Title & Explanation */}
           <div className="space-y-3">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-              Application conçue pour Ordinateur & Grand Écran
+              Conçu pour Grand Écran
             </h1>
             <p className="text-sm text-white/60 leading-relaxed font-medium">
-              YouTube Creator Studio est un espace de production vidéo complet (scripting 2 colonnes, timeline de montage, checklists SEO et gestion d'équipe).
+              Pour une expérience optimale et un confort de production maximal, YouTube Creator Studio est conçu pour être utilisé sur ordinateur (<strong className="text-white font-semibold">PC ou Mac</strong>).
             </p>
-            <p className="text-xs text-white/40 leading-relaxed pt-1">
-              Pour garantir une expérience optimale et un confort de travail maximal, le studio est exclusivement réservé aux ordinateurs (<strong className="text-white/70 font-semibold">PC ou Mac</strong>).
-            </p>
-          </div>
-
-          {/* Features bullet box */}
-          <div className="p-4 rounded-2xl bg-white/4 border border-white/5 text-left text-xs space-y-2.5">
-            <div className="flex items-center gap-2.5 text-white/70">
-              <Laptop className="h-4 w-4 text-red-500 shrink-0" />
-              <span>Double panneau de rédaction de scripts & notes</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-white/70">
-              <Monitor className="h-4 w-4 text-red-500 shrink-0" />
-              <span>Tableau Kanban & suivi de production 8 étapes</span>
-            </div>
           </div>
 
           {/* Actions */}
-          <div className="pt-2 flex flex-col sm:flex-row gap-3">
+          <div className="pt-2 flex flex-col gap-3">
             <Button
               onClick={copyLink}
               variant="outline"
