@@ -47,7 +47,7 @@ export default async function WorkspacePage({
 
   const { data: videos } = await supabase
     .from("videos")
-    .select("*")
+    .select("id, title, updated_at, upload_validated, is_team_mode, idea_validated, script_validated, voiceover_validated, editing_validated, music_validated, thumbnail_validated, seo_validated")
     .eq("workspace_id", id)
     .order("updated_at", { ascending: false });
 
