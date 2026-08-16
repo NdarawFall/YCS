@@ -47,10 +47,7 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
         </div>
         <Button
           type="button"
-          onClick={() => {
-            console.log("Save button clicked, triggering onSave with:", { thumbnail_images: thumbnails, thumbnail_notes: notes, thumbnail_validated: validated });
-            onSave({ thumbnail_images: thumbnails, thumbnail_notes: notes, thumbnail_validated: validated });
-          }}
+          onClick={() => onSave({ thumbnail_images: thumbnails, thumbnail_notes: notes, thumbnail_validated: validated })}
           disabled={saving}
           className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
         >
