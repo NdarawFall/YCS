@@ -23,12 +23,12 @@ function SortableThumbnail({ url, index, onRemove, onZoom }: { url: string, inde
     <div ref={setNodeRef} style={style} className="relative aspect-video rounded-xl overflow-hidden border border-border/80 bg-muted/40 shadow-sm group">
       <img src={url} alt={`Miniature ${index + 1}`} className="w-full h-full object-cover" />
       
-      {/* Darkened Overlay on hover */}
+      {/* Controls Overlay */}
       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
         <button 
           type="button"
           onClick={onZoom}
-          className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+          className="p-2 bg-white hover:bg-neutral-200 text-black rounded-lg transition-colors"
           title="Voir en grand"
         >
           <ZoomIn className="h-5 w-5" />
@@ -36,7 +36,7 @@ function SortableThumbnail({ url, index, onRemove, onZoom }: { url: string, inde
         <button 
           {...attributes} 
           {...listeners} 
-          className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg cursor-grab active:cursor-grabbing transition-colors"
+          className="p-2 bg-white hover:bg-neutral-200 text-black rounded-lg cursor-grab active:cursor-grabbing transition-colors"
           title="Glisser pour réordonner"
         >
           <GripVertical className="h-5 w-5" />
@@ -44,7 +44,7 @@ function SortableThumbnail({ url, index, onRemove, onZoom }: { url: string, inde
         <button 
           type="button" 
           onClick={onRemove} 
-          className="p-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg transition-colors"
+          className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
           title="Supprimer"
         >
           <X className="h-5 w-5" />
