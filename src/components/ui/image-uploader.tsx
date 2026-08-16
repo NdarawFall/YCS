@@ -47,14 +47,6 @@ export function ImageUploader({
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         
-        // Dimension check
-        const img = new Image();
-        img.src = URL.createObjectURL(file);
-        await new Promise((resolve) => (img.onload = resolve));
-        if (img.width !== 1280 || img.height !== 720) {
-          throw new Error("La miniature doit être en 1280×720px.");
-        }
-
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", uploadPreset);
