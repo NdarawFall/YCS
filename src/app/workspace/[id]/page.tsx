@@ -98,12 +98,12 @@ export default async function WorkspacePage({
                 className="group flex flex-col md:flex-row md:items-center gap-4 p-4 md:p-6 glass border-border/10 hover:border-red-600/50 rounded-3xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/5"
               >
                 {/* Thumbnail */}
-                <div className="shrink-0 w-full md:w-32 aspect-video rounded-2xl overflow-hidden flex items-center justify-center bg-[#0f0f13] border border-border/50">
+                <div className="shrink-0 w-full md:w-64 aspect-video rounded-2xl overflow-hidden flex items-center justify-center bg-[#0f0f13] border border-border/50">
                     {video.thumbnail_images && Array.isArray(video.thumbnail_images) && video.thumbnail_images.length > 0 ? (
                       <img src={video.thumbnail_images[0]} alt="Miniature" className="w-full h-full object-cover" />
                     ) : (
                       <div className={`w-full h-full flex items-center justify-center ${isComplete ? "text-emerald-500/50" : "text-red-500/30"}`}>
-                        <Film className="h-10 w-10" />
+                        <Film className="h-16 w-16" />
                       </div>
                     )}
                 </div>

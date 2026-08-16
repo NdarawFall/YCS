@@ -20,21 +20,22 @@ export default async function SettingsPage() {
     .eq("id", user.id)
     .single();
 
-  const fullName = profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "";
+  // Use the saved username if available, otherwise fallback
+  const fullName = profile?.full_name || "";
   const currentPlan = profile?.plan || "free";
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <div>
+    <div className="w-full max-w-5xl mx-auto space-y-10">
+      <div className="border-b border-border/50 pb-8">
         <Link 
           href="/dashboard" 
-          className="inline-flex items-center gap-2 text-xs font-semibold text-white/50 hover:text-white transition-colors mb-4 p-2 rounded-lg hover:bg-white/5"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-white/50 hover:text-white transition-colors mb-6 p-2 rounded-lg hover:bg-white/5"
         >
           <ArrowLeft className="h-4 w-4 text-red-500" />
           <span>Retour au tableau de bord</span>
         </Link>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white mb-2">Paramètres du compte</h1>
-        <p className="text-muted-foreground text-sm">Gérez vos informations personnelles et votre abonnement.</p>
+        <h1 className="text-4xl font-extrabold tracking-tight text-white mb-3">Paramètres</h1>
+        <p className="text-muted-foreground text-lg">Gérez vos informations personnelles et votre abonnement.</p>
       </div>
 
       <SettingsForm initialFullName={fullName} currentPlan={currentPlan} />
