@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus, Film, Users, User, Trash2, Clock, ArrowRight } from "lucide-react";
+import { Plus, Film, Users, User, Trash2, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 import { CreateVideoDialog } from "@/components/workspace/create-video-dialog";
 
 const STAGES = [
