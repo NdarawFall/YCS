@@ -66,7 +66,29 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
   const [notes, setNotes] = useState(video.thumbnail_notes || "");
   const [validated, setValidated] = useState(video.thumbnail_validated || false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-...
+
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+
+  function handleDragEnd(event: any) {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setThumbnails((items) => {
+        const oldIndex = items.indexOf(active.id);
+        const newIndex = items.indexOf(over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({ 
+      thumbnail_images: thumbnails, 
+      thumbnail_notes: notes, 
+      thumbnail_validated: validated 
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       <div className="space-y-2">
@@ -102,4 +124,38 @@ export function ThumbnailPanel({ video, onSave, saving }: any) {
           </div>
         </div>
       )}
-...
+
+      <div className="space-y-2">
+        <Label className="text-sm font-bold text-white">Instructions pour le designer</Label>
+        <Textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          placeholder="Texte max 3 mots, couleurs vives..."
+          className="min-h-[120px] bg-[#0f0f13] border-border/80 text-white rounded-xl resize-none"
+        />
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-[#0f0f13] border border-border/70 rounded-xl">
+        <div className="flex items-center gap-3">
+          <Checkbox
+            id="thumb-valid"
+            checked={validated}
+            onCheckedChange={(c) => setValidated(!!c)}
+            className="data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+          />
+          <Label htmlFor="thumb-valid" className="text-sm font-semibold text-white cursor-pointer">
+            Miniature validée — passer au SEO
+          </Label>
+        </div>
+        <Button
+          type="submit"
+          disabled={saving}
+          className="w-full sm:w-auto bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-xl px-5"
+        >
+          <Save className="mr-1.5 h-4 w-4" />
+          {saving ? "Enregistrement..." : "Enregistrer"}
+        </Button>
+      </div>
+    </form>
+  );
+}
