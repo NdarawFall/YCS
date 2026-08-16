@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
-import { Monitor, Laptop, ArrowLeft, Copy, Check, Sparkles } from "lucide-react";
+import { Monitor, Laptop, ArrowLeft, Copy, Check, Sparkles, LogOut } from "lucide-react";
 import { useState } from "react";
+import { logout } from "@/app/auth/actions";
 
 export default function DesktopOnlyPage() {
   const [copied, setCopied] = useState(false);
@@ -32,11 +33,11 @@ export default function DesktopOnlyPage() {
       {/* Top Header */}
       <header className="w-full max-w-xl flex items-center justify-between relative z-10 py-2">
         <Logo size="md" />
-        <Link href="/">
-          <Button variant="ghost" size="sm" className="text-white/60 hover:text-white rounded-xl text-xs">
-            <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Accueil
+        <form action={logout}>
+          <Button type="submit" variant="ghost" size="sm" className="text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl text-xs font-semibold cursor-pointer">
+            <LogOut className="mr-1.5 h-3.5 w-3.5 text-red-500" /> Déconnexion
           </Button>
-        </Link>
+        </form>
       </header>
 
       {/* Main Message Card */}
