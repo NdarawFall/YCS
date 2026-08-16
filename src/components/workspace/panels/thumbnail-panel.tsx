@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Save, GripVertical } from "lucide-react";
+import { Save, GripVertical, X } from "lucide-react";
 import { ImageUploader } from "@/components/ui/image-uploader";
 
 // Sortable Item Component
@@ -20,10 +20,33 @@ function SortableThumbnail({ url, index, onRemove }: { url: string, index: numbe
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
-    <div ref={setNodeRef} style={style} className="relative aspect-video rounded-lg overflow-hidden border border-border/80 bg-muted/40 shadow-sm">
+    <div ref={setNodeRef} style={style} className="relative aspect-video rounded-xl overflow-hidden border border-border/80 bg-muted/40 shadow-sm group">
       <img src={url} alt={`Miniature ${index + 1}`} className="w-full h-full object-cover" />
-      <button {...attributes} {...listeners} className="absolute top-1.5 left-1.5 p-1 bg-black/50 text-white rounded cursor-grab"><GripVertical className="h-4 w-4" /></button>
-      <button type="button" onClick={onRemove} className="absolute top-1.5 right-1.5 p-1 bg-black/70 hover:bg-red-600 text-white rounded-full">×</button>
+      
+      {/* Controls Overlay */}
+      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+        <button 
+          {...attributes} 
+          {...listeners} 
+          className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg cursor-grab active:cursor-grabbing"
+          title="Glisser pour réordonner"
+        >
+          <GripVertical className="h-5 w-5" />
+        </button>
+        <button 
+          type="button" 
+          onClick={onRemove} 
+          className="p-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg"
+          title="Supprimer"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Index badge */}
+      <span className="absolute top-2 left-2 text-[10px] font-bold bg-black/60 text-white px-2 py-1 rounded-md backdrop-blur-sm">
+        {index + 1}
+      </span>
     </div>
   );
 }

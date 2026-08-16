@@ -111,8 +111,8 @@ export default async function WorkspacePage({
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-white text-sm sm:text-base truncate group-hover:text-red-400 transition-colors">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="font-bold text-white text-base sm:text-lg truncate group-hover:text-red-400 transition-colors">
                         {video.title}
                       </h3>
                       {video.is_team_mode ? (
@@ -125,6 +125,7 @@ export default async function WorkspacePage({
                         </span>
                       )}
                     </div>
+
 
                     <div className="sm:hidden text-xs text-muted-foreground flex items-center gap-1">
                       <Clock className="h-3 w-3" />
