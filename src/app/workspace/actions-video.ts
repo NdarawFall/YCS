@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
 export async function updateVideoStage(videoId: string, workspaceId: string, updates: Record<string, unknown>) {
+  console.log("Updating video stage:", videoId, updates);
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Non autorisé' }
@@ -14,7 +15,10 @@ export async function updateVideoStage(videoId: string, workspaceId: string, upd
     .update({ ...updates, updated_at: new Date().toISOString() })
     .eq('id', videoId)
 
-  if (error) return { error: error.message }
+  if (error) {
+    console.error("Supabase update error:", error);
+    return { error: error.message }
+  }
   revalidatePath(`/workspace/${workspaceId}/video/${videoId}`)
   return { success: true }
 }
