@@ -36,7 +36,10 @@ export function CreateVideoDialog({ workspaceId }: { workspaceId: string }) {
       setIsLoading(false);
     } else {
       setOpen(false);
-      setIsLoading(false);
+      // Wait for dialog to close before redirect to prevent UI issues
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
