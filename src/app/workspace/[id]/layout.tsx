@@ -31,12 +31,13 @@ export default async function WorkspaceLayout({
   // Fetch user profile from database
   const { data: profile } = await supabase
     .from("users")
-    .select("full_name, avatar_url")
+    .select("full_name, avatar_url, plan")
     .eq("id", user.id)
     .single();
 
   const fullName = profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Créateur";
   const avatarUrl = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || undefined;
+  const plan = profile?.plan || 'free';
 
   return (
     <MobileGuard>
@@ -81,6 +82,7 @@ export default async function WorkspaceLayout({
                 email: user.email,
                 fullName,
                 avatarUrl,
+                plan,
               }} 
             />
           </div>

@@ -11,6 +11,7 @@ interface UserNavProps {
     email?: string;
     fullName?: string;
     avatarUrl?: string;
+    plan?: string;
   };
 }
 
@@ -20,17 +21,9 @@ export function UserNav({ user }: UserNavProps) {
 
   const fullName = user.fullName || user.email?.split("@")[0] || "Créateur";
   const initials = fullName.substring(0, 2).toUpperCase();
+  const planLabel = user.plan === 'premium' ? 'Plan Premium' : 'Plan Gratuit';
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // ... (rest of the component logic)
 
   return (
     <div className="relative flex items-center gap-3" ref={menuRef}>
@@ -56,7 +49,7 @@ export function UserNav({ user }: UserNavProps) {
 
         <div className="hidden md:flex flex-col text-left pr-2">
           <span className="text-xs font-bold text-white line-clamp-1">{fullName}</span>
-          <span className="text-[11px] text-muted-foreground line-clamp-1">{user.email}</span>
+          <span className={`text-[11px] font-bold ${user.plan === 'premium' ? 'text-red-400' : 'text-muted-foreground'} line-clamp-1`}>{planLabel}</span>
         </div>
 
         <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 hidden md:block ${isOpen ? "rotate-180" : ""}`} />
@@ -68,8 +61,9 @@ export function UserNav({ user }: UserNavProps) {
           {/* Header profil */}
           <div className="p-3 border-b border-border/50 mb-1">
             <p className="text-sm font-bold text-white line-clamp-1">{fullName}</p>
-            <p className="text-xs text-muted-foreground line-clamp-1">{user.email}</p>
+            <p className={`text-xs font-bold ${user.plan === 'premium' ? 'text-red-400' : 'text-muted-foreground'} line-clamp-1`}>{planLabel}</p>
           </div>
+          {/* ... (rest of the menu) */}
 
           {/* Liens */}
           <div className="space-y-1">

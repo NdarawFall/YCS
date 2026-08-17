@@ -117,16 +117,16 @@ export function SettingsForm({ initialFullName, currentPlan }: { initialFullName
                   ))}
                 </ul>
                 <Button 
-                  disabled={isCurrent}
+                  onClick={() => handleTogglePlan(plan.id === 'premium' ? 'free' : 'premium')}
+                  disabled={loading}
                   variant={isCurrent ? "outline" : "default"}
                   className={`w-full rounded-xl font-bold ${
                     isCurrent 
-                      ? 'bg-transparent border-red-500/30 text-red-400 hover:bg-transparent hover:text-red-400 opacity-80 cursor-default' 
-                      : 'bg-white text-black hover:bg-neutral-200 shadow-md shadow-white/10 cursor-not-allowed'
+                      ? 'bg-transparent border-red-500/30 text-red-400 hover:bg-transparent hover:text-red-400 opacity-80' 
+                      : 'bg-white text-black hover:bg-neutral-200 shadow-md shadow-white/10'
                   }`}
-                  title={isCurrent ? "Votre plan actuel" : "Prochainement disponible"}
                 >
-                  {isCurrent ? "Plan actuel" : "Mettre à niveau"}
+                  {isCurrent ? "Plan actuel" : plan.id === 'premium' ? "Passer au Premium" : "Passer en gratuit"}
                 </Button>
               </div>
             );
