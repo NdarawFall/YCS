@@ -47,3 +47,6 @@ next-env.d.ts
 
 # private sql
 supabase-commands.sql
+
+# project explanation file for AI assistants
+.project-explanation.md
