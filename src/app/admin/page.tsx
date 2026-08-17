@@ -1,7 +1,8 @@
 import { fetchAdminStats, fetchRecentVideos } from './actions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import { DashboardCharts } from './dashboard-charts';
 import { ShieldCheck, Film, Clock } from 'lucide-react';
+import { AdminController } from './admin-controller';
 
 export default async function AdminDashboardPage() {
   const stats = await fetchAdminStats();
@@ -36,20 +37,7 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="bg-[#141418] border-border/50 p-6">
             <CardTitle className="mb-6">Répartition des plans</CardTitle>
-            <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={data}>
-                        <XAxis dataKey="name" stroke="#6b7280" />
-                        <YAxis stroke="#6b7280" />
-                        <Tooltip contentStyle={{ backgroundColor: '#141418', border: '1px solid #374151' }} />
-                        <Bar dataKey="value">
-                            {data.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.color} />
-                            ))}
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
-            </div>
+            <DashboardCharts data={data} />
         </Card>
         
         <Card className="bg-[#141418] border-border/50 p-6">
