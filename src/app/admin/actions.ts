@@ -5,6 +5,20 @@ import { createClient } from '@/utils/supabase/server'
 // Remplacez cette constante par votre propre email pour restreindre l'accès
 const ADMIN_EMAILS = ['ndarawpro@gmail.com'];
 
+export async function fetchAdminStats() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
+    return { error: 'Non autorisé.' }
+  }
+
+  const { data: userStats } = await supabase.from('admin_user_stats').select('*').single()
+  const { data: wsStats } = await supabase.from('admin_workspace_stats').select('*').single()
+
+  return { userStats, wsStats }
+}
+
 export async function toggleUserPlan(userId: string, newPlan: 'free' | 'premium') {
   const supabase = await createClient()
 
