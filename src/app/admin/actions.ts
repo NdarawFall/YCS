@@ -19,6 +19,18 @@ export async function fetchAdminStats() {
   return { userStats, wsStats }
 }
 
+export async function fetchAdminUsers() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
+    return { error: 'Non autorisé.' }
+  }
+
+  const { data: users } = await supabase.from('admin_user_list').select('*')
+  return { users }
+}
+
 export async function toggleUserPlan(userId: string, newPlan: 'free' | 'premium') {
   const supabase = await createClient()
 

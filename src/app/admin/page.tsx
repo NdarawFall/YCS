@@ -1,65 +1,53 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
-import { AdminController } from './admin-controller';
-import { fetchAdminStats } from './actions';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ShieldCheck, User, Users, Film } from 'lucide-react';
+import { fetchAdminStats } from '../actions';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
-export default async function AdminPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user || user.email !== 'ndarawpro@gmail.com') {
-    redirect('/dashboard');
-  }
-
-  const { data: profile } = await supabase
-    .from('users')
-    .select('plan')
-    .eq('id', user.id)
-    .single();
-    
+export default async function AdminDashboardPage() {
   const stats = await fetchAdminStats();
+  
+  if (stats.error) return <div>{stats.error}</div>;
+
+  const data = [
+    { name: 'Premium', value: stats.userStats?.premium_users || 0, color: '#ef4444' },
+    { name: 'Free', value: stats.userStats?.free_users || 0, color: '#374151' },
+  ];
 
   return (
-    <div className="p-4 sm:p-10 min-h-screen bg-[#0b0b0d] text-white">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <h1 className="text-3xl font-extrabold tracking-tight">Panneau d'administration</h1>
-        
-        {/* Statistics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="bg-[#141418] border-border/50">
-                <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-white/60">Total Utilisateurs</CardTitle></CardHeader>
-                <CardContent><p className="text-3xl font-bold">{stats.userStats?.total_users || 0}</p></CardContent>
-            </Card>
-            <Card className="bg-[#141418] border-border/50">
-                <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-white/60">Premium / Free</CardTitle></CardHeader>
-                <CardContent><p className="text-3xl font-bold">{stats.userStats?.premium_users || 0} / {stats.userStats?.free_users || 0}</p></CardContent>
-            </Card>
-            <Card className="bg-[#141418] border-border/50">
-                <CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-white/60">Workspaces</CardTitle></CardHeader>
-                <CardContent><p className="text-3xl font-bold">{stats.wsStats?.total_workspaces || 0}</p></CardContent>
-            </Card>
-        </div>
-
+    <div className="space-y-6">
+      <h1 className="text-3xl font-extrabold">Dashboard</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="bg-[#141418] border-border/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-red-500" /> Gestion de votre accès
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-4 rounded-xl bg-[#0f0f13] border border-border/50">
-                <span className="font-medium text-white/60">Plan actuel</span>
-                <span className={`px-3 py-1 rounded-full text-xs font-bold ${profile?.plan === 'premium' ? 'bg-red-500/20 text-red-400' : 'bg-white/5 text-white'}`}>
-                    {profile?.plan?.toUpperCase()}
-                </span>
-            </div>
-          </CardContent>
+            <CardHeader><CardTitle className="text-sm font-medium text-white/60">Total Utilisateurs</CardTitle></CardHeader>
+            <CardContent><p className="text-3xl font-bold">{stats.userStats?.total_users || 0}</p></CardContent>
         </Card>
-
-        <AdminController userId={user.id} currentPlan={profile?.plan} />
+        <Card className="bg-[#141418] border-border/50">
+            <CardHeader><CardTitle className="text-sm font-medium text-white/60">Total Workspaces</CardTitle></CardHeader>
+            <CardContent><p className="text-3xl font-bold">{stats.wsStats?.total_workspaces || 0}</p></CardContent>
+        </Card>
+        <Card className="bg-[#141418] border-border/50">
+            <CardHeader><CardTitle className="text-sm font-medium text-white/60">Moy. Workspaces / Utilisateur</CardTitle></CardHeader>
+            <CardContent><p className="text-3xl font-bold">{stats.wsStats?.avg_workspaces_per_user?.toFixed(1) || 0}</p></CardContent>
+        </Card>
       </div>
+
+      <Card className="bg-[#141418] border-border/50 p-6">
+        <CardTitle className="mb-6">Répartition des plans</CardTitle>
+        <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={data}>
+                    <XAxis dataKey="name" stroke="#6b7280" />
+                    <YAxis stroke="#6b7280" />
+                    <Tooltip contentStyle={{ backgroundColor: '#141418', border: '1px solid #374151' }} />
+                    <Bar dataKey="value">
+                        {data.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                    </Bar>
+                </BarChart>
+            </ResponsiveContainer>
+        </div>
+      </Card>
     </div>
   );
 }
