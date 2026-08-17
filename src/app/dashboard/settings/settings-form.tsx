@@ -6,12 +6,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, Crown, Sparkles } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toggleUserPlan } from "@/app/admin/actions"; // Temporarily used for testing
 
-export function SettingsForm({ initialFullName, currentPlan }: { initialFullName: string, currentPlan: string }) {
+export function SettingsForm({ initialFullName, currentPlan, userId }: { initialFullName: string, currentPlan: string, userId: string }) {
   const [fullName, setFullName] = useState(initialFullName);
   const [isSaving, setIsSaving] = useState(false);
+  const [loading, setLoading] = useState(false); // Added
   const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const router = useRouter();
+
+  const handleTogglePlan = async (newPlan: 'free' | 'premium') => {
+    setLoading(true);
+    await toggleUserPlan(userId, newPlan);
+    setLoading(false);
+    router.refresh();
+  };
+//...
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

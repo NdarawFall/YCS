@@ -38,7 +38,7 @@ export default async function SettingsPage() {
         <p className="text-muted-foreground text-lg">Gérez vos informations personnelles et votre abonnement.</p>
       </div>
 
-      <SettingsForm initialFullName={fullName} currentPlan={currentPlan} />
+      <SettingsForm initialFullName={fullName} currentPlan={currentPlan} userId={user.id} />
     </div>
   );
 }
