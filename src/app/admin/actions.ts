@@ -31,6 +31,30 @@ export async function fetchAdminUsers() {
   return { users }
 }
 
+export async function fetchAdminWorkspaces() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
+    return { error: 'Non autorisé.' }
+  }
+
+  const { data: workspaces } = await supabase.from('admin_workspace_list').select('*')
+  return { workspaces }
+}
+
+export async function fetchRecentVideos() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user || !ADMIN_EMAILS.includes(user.email || '')) {
+    return { error: 'Non autorisé.' }
+  }
+
+  const { data: videos } = await supabase.from('admin_recent_videos').select('*')
+  return { videos }
+}
+
 export async function toggleUserPlan(userId: string, newPlan: 'free' | 'premium') {
   const supabase = await createClient()
 

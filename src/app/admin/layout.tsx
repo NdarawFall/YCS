@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { LayoutDashboard, Users, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Users, ArrowLeft, FolderKanban } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,11 +10,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <ArrowLeft className="h-4 w-4" /> Retour App
         </Link>
         <nav className="space-y-2">
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 font-semibold">
+          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 font-semibold">
             <LayoutDashboard className="h-5 w-5 text-red-500" /> Dashboard
           </Link>
-          <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:bg-white/5">
+          <Link href="/admin/users" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 font-semibold">
             <Users className="h-5 w-5 text-red-500" /> Utilisateurs
+          </Link>
+          <Link href="/admin/workspaces" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 font-semibold">
+            <FolderKanban className="h-5 w-5 text-red-500" /> Workspaces
           </Link>
         </nav>
       </aside>
