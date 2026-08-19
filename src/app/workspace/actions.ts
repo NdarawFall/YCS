@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { sendInvitationEmail } from './email'
 
 export async function createVideo(formData: FormData) {
   const supabase = await createClient()
@@ -95,17 +96,6 @@ export async function createTeam(workspaceId: string, name: string) {
   return { success: true, teamId: team.id }
 }
 
-'use server'
-
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export async function createVideo(formData: FormData) {
-...
 export async function inviteMember(workspaceId: string, email: string, role: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -122,24 +112,9 @@ export async function inviteMember(workspaceId: string, email: string, role: str
 
   if (error) return { error: error.message }
 
-  // Envoi email via Resend
-  try {
-    await resend.emails.send({
-      from: 'onboarding@resend.dev', // À remplacer par votre domaine vérifié plus tard
-      to: email,
-      subject: 'Invitation à collaborer sur YCS Studio',
-      html: `
-        <h2>Invitation YCS Studio</h2>
-        <p>Vous avez été invité à rejoindre un workspace en tant que <strong>${role}</strong>.</p>
-        <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard">Cliquez ici pour accéder à votre espace</a></p>
-      `
-    });
-  } catch (emailError) {
-    console.error('Erreur envoi email:', emailError);
-    // On ne bloque pas l'invitation en BDD si l'email échoue, mais on peut le gérer différemment
-  }
+  // Envoi email
+  await sendInvitationEmail(email, role);
 
   revalidatePath(`/workspace/${workspaceId}`)
   return { success: true }
 }
-
