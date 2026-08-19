@@ -40,8 +40,8 @@ export async function createVideo(formData: FormData) {
   if (countError) return { error: "Erreur lors de la vérification de vos vidéos." }
 
   // Appliquer les limites selon le plan
-  if (plan === 'free' && (videoCount || 0) >= 3) {
-    return { error: "Plan Débutant: Vous avez atteint la limite de 3 vidéos au total. Passez au plan Premium." }
+  if (plan === 'free' && (videoCount || 0) >= 1) {
+    return { error: "Plan Débutant: Vous avez atteint la limite de 1 vidéo au total. Passez au plan Premium." }
   }
   if (plan === 'premium' && (videoCount || 0) >= 10) {
     return { error: "Plan Premium: Vous avez atteint la limite maximale de 10 vidéos au total." }
