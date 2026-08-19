@@ -62,3 +62,59 @@ export async function createVideo(formData: FormData) {
   revalidatePath(`/workspace/${workspaceId}`)
   redirect(`/workspace/${workspaceId}/video/${video.id}`)
 }
+
+export async function createTeam(workspaceId: string, name: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Non autorisé' }
+
+  // Check plan
+  const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single()
+  if (profile?.plan !== 'premium') return { error: 'La création d\'équipe est réservée au plan Premium.' }
+
+  // Check workspace ownership
+  const { data: workspace } = await supabase.from('workspaces').select('id').eq('id', workspaceId).eq('user_id', user.id).single()
+  if (!workspace) return { error: 'Workspace non trouvé ou non autorisé' }
+
+  const { data: team, error } = await supabase
+    .from('teams')
+    .insert({ workspace_id: workspaceId, name })
+    .select('id')
+    .single()
+
+  if (error) return { error: error.message }
+  
+  // Add creator
+  await supabase.from('team_members').insert({
+    team_id: team.id,
+    user_id: user.id,
+    role: "Chef d'équipe"
+  })
+
+  revalidatePath(`/workspace/${workspaceId}`)
+  return { success: true, teamId: team.id }
+}
+
+export async function inviteMember(workspaceId: string, email: string, role: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Non autorisé' }
+
+  // Check plan
+  const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single()
+  if (profile?.plan !== 'premium') return { error: 'L\'invitation est réservée au plan Premium.' }
+
+  // Create invitation
+  const { error } = await supabase
+    .from('invitations')
+    .insert({ workspace_id: workspaceId, email, role })
+
+  if (error) return { error: error.message }
+
+  // HERE: Add logic to trigger email and in-app notification
+  console.log(`Sending invitation to ${email} for role ${role}`)
+
+  revalidatePath(`/workspace/${workspaceId}`)
+  return { success: true }
+}
+

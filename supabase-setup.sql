@@ -296,3 +296,31 @@ CREATE POLICY "Videos delete policy"
 
 ----
 ALTER TABLE public.users ADD COLUMN IF NOT EXISTS plan TEXT DEFAULT 'free' NOT NULL;
+
+CREATE TABLE IF NOT EXISTS public.invitations (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    workspace_id UUID REFERENCES public.workspaces(id) ON DELETE CASCADE NOT NULL,
+    email TEXT NOT NULL,
+    role TEXT NOT NULL,
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.invitations ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Invitations select policy" ON public.invitations;
+CREATE POLICY "Invitations select policy"
+  ON public.invitations FOR SELECT
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND (w.user_id = auth.uid() OR public.is_workspace_member(w.id, auth.uid())))
+    OR email = (SELECT email FROM auth.users WHERE id = auth.uid())
+  );
+
+DROP POLICY IF EXISTS "Invitations insert policy" ON public.invitations;
+CREATE POLICY "Invitations insert policy"
+  ON public.invitations FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND w.user_id = auth.uid())
+  );
