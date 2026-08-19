@@ -3,7 +3,18 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Plus, Film, Users, User, Trash2, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 import { CreateVideoDialog } from "@/components/workspace/create-video-dialog";
-import { TeamPanel } from "@/components/workspace/panels/team-panel";
+import { TeamDialog, type TeamMemberView } from "@/components/workspace/team-dialog";
+
+/** Profil joint via l'embed Supabase sur team_members. */
+type EmbeddedProfile = { full_name: string | null; avatar_url: string | null };
+
+type MemberRow = {
+  id: string;
+  role: string;
+  users: EmbeddedProfile | EmbeddedProfile[] | null;
+};
+
+type InvitationRow = { id: string; email: string; role: string };
 
 const STAGES = [
   { key: "idea_validated", label: "Idée" },
@@ -57,24 +68,95 @@ export default async function WorkspacePage({
   const done = list.filter((v) => (v as any).upload_validated).length;
   const inProgress = list.length - done;
 
+  // --- Équipe du workspace (une seule par workspace) ---
+  const [{ data: workspace }, { data: profile }, { data: team }, { data: pendingRows }] =
+    await Promise.all([
+      supabase.from("workspaces").select("user_id").eq("id", id).maybeSingle(),
+      supabase.from("users").select("plan").eq("id", user.id).maybeSingle(),
+      supabase
+        .from("teams")
+        .select("id, name")
+        .eq("workspace_id", id)
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle(),
+      supabase
+        .from("invitations")
+        .select("id, email, role")
+        .eq("workspace_id", id)
+        .eq("status", "pending")
+        .order("created_at", { ascending: true }),
+    ]);
+
+  const isOwner = workspace?.user_id === user.id;
+  const isPremium = profile?.plan === "premium";
+
+  let members: TeamMemberView[] = [];
+  if (team) {
+    const { data: memberRows } = await supabase
+      .from("team_members")
+      .select("id, role, user_id, users(full_name, avatar_url)")
+      .eq("team_id", team.id)
+      .order("created_at", { ascending: true });
+
+    members = ((memberRows || []) as MemberRow[]).map((row) => {
+      // L'embed Supabase renvoie un objet pour une relation many-to-one,
+      // mais on reste tolérant si un tableau remonte.
+      const profileRow = Array.isArray(row.users) ? row.users[0] : row.users;
+      return {
+        id: row.id,
+        role: row.role,
+        fullName: profileRow?.full_name || "Collaborateur",
+        avatarUrl: profileRow?.avatar_url || null,
+      };
+    });
+  }
+
+  const pending = ((pendingRows || []) as InvitationRow[]).map((row) => ({
+    id: row.id,
+    email: row.email,
+    role: row.role,
+  }));
+
   return (
     <div className="h-full flex flex-col gap-6 overflow-y-auto custom-scrollbar">
       {/* Stats bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-4 bg-[#141418] border border-red-500/30 rounded-2xl">
-        <div className="flex items-center justify-center gap-8 text-sm w-full md:w-auto">
-          <span className="text-muted-foreground">
-            <span className="text-white font-bold text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
-          </span>
-          <span className="text-muted-foreground">
-            <span className="text-amber-400 font-bold">{inProgress}</span> en production
-          </span>
-          <span className="text-muted-foreground">
-            <span className="text-emerald-400 font-bold">{done}</span> publiées
-          </span>
+      <div className="flex flex-col gap-4 rounded-2xl border border-border/50 bg-[#141418] p-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-5 sm:gap-7">
+          <div className="flex flex-col">
+            <span className="text-2xl font-black leading-none text-white">{list.length}</span>
+            <span className="mt-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Vidéo{list.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+
+          <div className="h-9 w-px shrink-0 bg-border/60" />
+
+          <div className="flex flex-col">
+            <span className="text-2xl font-black leading-none text-amber-400">{inProgress}</span>
+            <span className="mt-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              En production
+            </span>
+          </div>
+
+          <div className="h-9 w-px shrink-0 bg-border/60" />
+
+          <div className="flex flex-col">
+            <span className="text-2xl font-black leading-none text-emerald-400">{done}</span>
+            <span className="mt-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Publiées
+            </span>
+          </div>
         </div>
-        <div className="w-full md:w-auto flex justify-center">
-          <TeamPanel workspaceId={id} />
-        </div>
+
+        <TeamDialog
+          workspaceId={id}
+          teamName={team?.name ?? null}
+          members={members}
+          pending={pending}
+          isOwner={isOwner}
+          isPremium={isPremium}
+        />
       </div>
 
       {list.length === 0 ? (

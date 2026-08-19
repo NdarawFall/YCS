@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS public.team_members (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     team_id UUID REFERENCES public.teams(id) ON DELETE CASCADE NOT NULL,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE NOT NULL,
-    role TEXT NOT NULL CHECK (role IN ('Chef d''équipe', 'Copywriter', 'Voix off', 'Monteur', 'Miniamaker')),
+    role TEXT NOT NULL CHECK (role IN ('Chef d''équipe', 'Copywriter', 'Voix off', 'Monteur', 'Miniamaker', 'Designer', 'Musicien', 'Artiste 2D/3D')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     UNIQUE(team_id, user_id)
 );
@@ -324,3 +324,15 @@ CREATE POLICY "Invitations insert policy"
   WITH CHECK (
     EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND w.user_id = auth.uid())
   );
+
+DROP POLICY IF EXISTS "Invitations delete policy" ON public.invitations;
+CREATE POLICY "Invitations delete policy"
+  ON public.invitations FOR DELETE
+  TO authenticated
+  USING (
+    EXISTS (SELECT 1 FROM public.workspaces w WHERE w.id = workspace_id AND w.user_id = auth.uid())
+  );
+
+CREATE UNIQUE INDEX IF NOT EXISTS invitations_workspace_email_pending_idx
+  ON public.invitations (workspace_id, lower(email))
+  WHERE status = 'pending';

@@ -4,6 +4,98 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { sendInvitationEmail } from './email'
+import {
+  MAX_TEAM_SIZE,
+  OWNER_ROLE,
+  isAssignableRole,
+  isValidEmail,
+  normalizeEmail,
+} from './team-config'
+
+type ServerClient = Awaited<ReturnType<typeof createClient>>
+
+const DEFAULT_TEAM_NAME = 'Équipe Principale'
+
+/**
+ * Vérifie que l'utilisateur courant est bien propriétaire du workspace.
+ *
+ * Indispensable en plus des policies RLS : celles de `team_members` autorisent
+ * n'importe quel membre de l'équipe à en supprimer un autre.
+ */
+async function requireOwner(workspaceId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Non autorisé' }
+
+  const { data: workspace } = await supabase
+    .from('workspaces')
+    .select('id')
+    .eq('id', workspaceId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (!workspace) return { error: 'Workspace non trouvé ou non autorisé' }
+
+  return { supabase, user }
+}
+
+/**
+ * Récupère l'équipe du workspace, ou la crée si elle n'existe pas.
+ *
+ * Un workspace n'a qu'une seule équipe : elle est normalement créée avec le
+ * workspace (voir src/app/dashboard/actions.ts). On prend la plus ancienne pour
+ * rester déterministe si des doublons existent déjà en base.
+ */
+async function getOrCreateTeam(
+  supabase: ServerClient,
+  workspaceId: string,
+  ownerId: string,
+  name = DEFAULT_TEAM_NAME
+) {
+  const { data: existing } = await supabase
+    .from('teams')
+    .select('id, name')
+    .eq('workspace_id', workspaceId)
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .maybeSingle()
+
+  if (existing) return { team: existing }
+
+  const { data: team, error } = await supabase
+    .from('teams')
+    .insert({ workspace_id: workspaceId, name })
+    .select('id, name')
+    .single()
+
+  if (error) return { error: error.message }
+
+  await supabase.from('team_members').insert({
+    team_id: team.id,
+    user_id: ownerId,
+    role: OWNER_ROLE,
+  })
+
+  return { team }
+}
+
+/** Nombre de personnes déjà engagées : membres + invitations en attente. */
+async function countTeamSeats(supabase: ServerClient, workspaceId: string, teamId: string) {
+  const { count: memberCount } = await supabase
+    .from('team_members')
+    .select('*', { count: 'exact', head: true })
+    .eq('team_id', teamId)
+
+  const { data: pending } = await supabase
+    .from('invitations')
+    .select('email')
+    .eq('workspace_id', workspaceId)
+    .eq('status', 'pending')
+
+  const pendingEmails = new Set((pending || []).map((p) => normalizeEmail(p.email)))
+
+  return { members: memberCount || 0, pendingEmails }
+}
 
 export async function createVideo(formData: FormData) {
   const supabase = await createClient()
@@ -64,56 +156,163 @@ export async function createVideo(formData: FormData) {
   redirect(`/workspace/${workspaceId}/video/${video.id}`)
 }
 
-export async function createTeam(workspaceId: string, name: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'Non autorisé' }
+/**
+ * Crée l'équipe du workspace si elle n'existe pas, sinon la renomme.
+ *
+ * Pas de restriction Premium ici : une équipe est de toute façon créée
+ * automatiquement avec chaque workspace, quel que soit le plan. C'est
+ * l'invitation de collaborateurs qui est réservée au Premium.
+ */
+export async function saveTeamName(workspaceId: string, name: string) {
+  const ctx = await requireOwner(workspaceId)
+  if ('error' in ctx) return { error: ctx.error }
+  const { supabase, user } = ctx
 
-  // Check plan
-  const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single()
-  if (profile?.plan !== 'premium') return { error: 'La création d\'équipe est réservée au plan Premium.' }
+  const trimmed = name.trim()
+  if (!trimmed) return { error: "Le nom de l'équipe est obligatoire." }
+  if (trimmed.length > 60) return { error: "Le nom de l'équipe ne peut pas dépasser 60 caractères." }
 
-  // Check workspace ownership
-  const { data: workspace } = await supabase.from('workspaces').select('id').eq('id', workspaceId).eq('user_id', user.id).single()
-  if (!workspace) return { error: 'Workspace non trouvé ou non autorisé' }
+  const result = await getOrCreateTeam(supabase, workspaceId, user.id, trimmed)
+  if ('error' in result) return { error: result.error }
 
-  const { data: team, error } = await supabase
-    .from('teams')
-    .insert({ workspace_id: workspaceId, name })
-    .select('id')
-    .single()
+  if (result.team.name !== trimmed) {
+    const { error } = await supabase
+      .from('teams')
+      .update({ name: trimmed })
+      .eq('id', result.team.id)
 
-  if (error) return { error: error.message }
-  
-  // Add creator
-  await supabase.from('team_members').insert({
-    team_id: team.id,
-    user_id: user.id,
-    role: "Chef d'équipe"
-  })
+    if (error) return { error: error.message }
+  }
 
   revalidatePath(`/workspace/${workspaceId}`)
-  return { success: true, teamId: team.id }
+  return { success: true }
 }
 
-export async function inviteMember(workspaceId: string, email: string, role: string) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'Non autorisé' }
+/**
+ * Invite plusieurs collaborateurs d'un coup.
+ *
+ * Applique le plafond de MAX_TEAM_SIZE personnes (membres + invitations en
+ * attente) et refuse les doublons. Renvoie le détail des envois d'email afin que
+ * l'UI puisse signaler un échec au lieu de le masquer.
+ */
+export async function inviteMembers(
+  workspaceId: string,
+  invites: { email: string; role: string }[]
+) {
+  const ctx = await requireOwner(workspaceId)
+  if ('error' in ctx) return { error: ctx.error }
+  const { supabase, user } = ctx
 
-  // Check plan
   const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single()
-  if (profile?.plan !== 'premium') return { error: 'L\'invitation est réservée au plan Premium.' }
+  if (profile?.plan !== 'premium') {
+    return { error: "L'invitation de collaborateurs est réservée au plan Premium." }
+  }
 
-  // Create invitation
-  const { error } = await supabase
+  // Nettoyage et validation du formulaire
+  const cleaned: { email: string; role: string }[] = []
+  const seen = new Set<string>()
+
+  for (const invite of invites) {
+    const email = normalizeEmail(invite.email || '')
+    if (!email) continue
+
+    if (!isValidEmail(email)) return { error: `Adresse email invalide : ${invite.email}` }
+    if (!isAssignableRole(invite.role)) return { error: `Rôle invalide : ${invite.role}` }
+    if (seen.has(email)) return { error: `Cette adresse apparaît deux fois : ${email}` }
+
+    seen.add(email)
+    cleaned.push({ email, role: invite.role })
+  }
+
+  if (cleaned.length === 0) return { error: 'Ajoutez au moins une adresse email.' }
+
+  const teamResult = await getOrCreateTeam(supabase, workspaceId, user.id)
+  if ('error' in teamResult) return { error: teamResult.error }
+
+  const { members, pendingEmails } = await countTeamSeats(supabase, workspaceId, teamResult.team.id)
+
+  const alreadyPending = cleaned.filter((c) => pendingEmails.has(c.email))
+  if (alreadyPending.length > 0) {
+    return {
+      error: `Une invitation est déjà en attente pour : ${alreadyPending.map((c) => c.email).join(', ')}`,
+    }
+  }
+
+  const used = members + pendingEmails.size
+  if (used + cleaned.length > MAX_TEAM_SIZE) {
+    const remaining = Math.max(0, MAX_TEAM_SIZE - used)
+    return {
+      error: remaining === 0
+        ? `L'équipe est complète (${MAX_TEAM_SIZE} personnes maximum).`
+        : `Il ne reste que ${remaining} place${remaining > 1 ? 's' : ''} sur ${MAX_TEAM_SIZE} : vous en demandez ${cleaned.length}.`,
+    }
+  }
+
+  const { error: insertError } = await supabase.from('invitations').insert(
+    cleaned.map((c) => ({ workspace_id: workspaceId, email: c.email, role: c.role }))
+  )
+
+  if (insertError) return { error: insertError.message }
+
+  // Envoi des emails : on remonte les échecs plutôt que de les avaler
+  const failed: string[] = []
+  for (const c of cleaned) {
+    const res = await sendInvitationEmail(c.email, c.role)
+    if (res?.error) failed.push(c.email)
+  }
+
+  revalidatePath(`/workspace/${workspaceId}`)
+  return { success: true, sent: cleaned.length - failed.length, failed }
+}
+
+export async function removeMember(workspaceId: string, memberId: string) {
+  const ctx = await requireOwner(workspaceId)
+  if ('error' in ctx) return { error: ctx.error }
+  const { supabase } = ctx
+
+  // Restreindre la suppression aux équipes de ce workspace
+  const { data: teams } = await supabase.from('teams').select('id').eq('workspace_id', workspaceId)
+  const teamIds = (teams || []).map((t) => t.id)
+  if (teamIds.length === 0) return { error: 'Aucune équipe sur ce workspace.' }
+
+  const { data: member } = await supabase
+    .from('team_members')
+    .select('id, role')
+    .eq('id', memberId)
+    .in('team_id', teamIds)
+    .maybeSingle()
+
+  if (!member) return { error: 'Membre non trouvé.' }
+  if (member.role === OWNER_ROLE) return { error: "Le chef d'équipe ne peut pas être retiré." }
+
+  const { error } = await supabase.from('team_members').delete().eq('id', memberId)
+  if (error) return { error: error.message }
+
+  revalidatePath(`/workspace/${workspaceId}`)
+  return { success: true }
+}
+
+export async function cancelInvitation(workspaceId: string, invitationId: string) {
+  const ctx = await requireOwner(workspaceId)
+  if ('error' in ctx) return { error: ctx.error }
+  const { supabase } = ctx
+
+  const { data, error } = await supabase
     .from('invitations')
-    .insert({ workspace_id: workspaceId, email, role })
+    .delete()
+    .eq('id', invitationId)
+    .eq('workspace_id', workspaceId)
+    .select('id')
 
   if (error) return { error: error.message }
 
-  // Envoi email
-  await sendInvitationEmail(email, role);
+  // Sans policy RLS DELETE, Postgres renvoie 0 ligne sans erreur : on le détecte
+  // explicitement pour ne pas afficher un faux succès.
+  if (!data || data.length === 0) {
+    return {
+      error: "L'invitation n'a pas pu être annulée. Vérifiez que la policy de suppression a bien été exécutée (supabase-commands.sql).",
+    }
+  }
 
   revalidatePath(`/workspace/${workspaceId}`)
   return { success: true }
