@@ -1,5 +1,6 @@
-'use server'
-
+// Module serveur uniquement : appelé depuis actions.ts ('use server').
+// Ne pas ajouter 'use server' ici, sinon chaque export devient un endpoint
+// POST public et n'importe qui pourrait envoyer des invitations.
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
