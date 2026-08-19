@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Plus, Film, Users, User, Trash2, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 import { CreateVideoDialog } from "@/components/workspace/create-video-dialog";
+import { TeamPanel } from "@/components/workspace/panels/team-panel";
 
 const STAGES = [
   { key: "idea_validated", label: "Idée" },
@@ -59,16 +60,19 @@ export default async function WorkspacePage({
   return (
     <div className="h-full flex flex-col gap-6 overflow-y-auto custom-scrollbar">
       {/* Stats bar */}
-      <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm">
-        <span className="text-muted-foreground">
-          <span className="text-white font-bold text-base sm:text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
-        </span>
-        <span className="text-muted-foreground">
-          <span className="text-amber-400 font-bold">{inProgress}</span> en production
-        </span>
-        <span className="text-muted-foreground">
-          <span className="text-emerald-400 font-bold">{done}</span> publiées
-        </span>
+      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-6 text-xs sm:text-sm">
+        <div className="flex gap-6">
+          <span className="text-muted-foreground">
+            <span className="text-white font-bold text-base sm:text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
+          </span>
+          <span className="text-muted-foreground">
+            <span className="text-amber-400 font-bold">{inProgress}</span> en production
+          </span>
+          <span className="text-muted-foreground">
+            <span className="text-emerald-400 font-bold">{done}</span> publiées
+          </span>
+        </div>
+        <TeamPanel workspaceId={id} />
       </div>
 
       {list.length === 0 ? (

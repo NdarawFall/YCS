@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/ui/logo";
 import { UserNav } from "@/components/dashboard/user-nav";
+import { Notifications } from "@/components/dashboard/notifications";
 import { MobileGuard } from "@/components/mobile-guard";
 
 export const dynamic = 'force-dynamic';
@@ -37,6 +38,7 @@ export default async function DashboardLayout({
             <Logo size="md" />
           </div>
           <div className="flex items-center gap-4">
+            <Notifications />
             <UserNav
               user={{
                 email: user.email,
