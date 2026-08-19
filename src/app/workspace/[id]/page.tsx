@@ -60,10 +60,10 @@ export default async function WorkspacePage({
   return (
     <div className="h-full flex flex-col gap-6 overflow-y-auto custom-scrollbar">
       {/* Stats bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-6 text-xs sm:text-sm">
-        <div className="flex gap-6">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-4 bg-[#141418] border border-red-500/30 rounded-2xl">
+        <div className="flex items-center justify-center gap-8 text-sm w-full md:w-auto">
           <span className="text-muted-foreground">
-            <span className="text-white font-bold text-base sm:text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
+            <span className="text-white font-bold text-lg">{list.length}</span> vidéo{list.length !== 1 ? "s" : ""}
           </span>
           <span className="text-muted-foreground">
             <span className="text-amber-400 font-bold">{inProgress}</span> en production
@@ -72,7 +72,9 @@ export default async function WorkspacePage({
             <span className="text-emerald-400 font-bold">{done}</span> publiées
           </span>
         </div>
-        <TeamPanel workspaceId={id} />
+        <div className="w-full md:w-auto flex justify-center">
+          <TeamPanel workspaceId={id} />
+        </div>
       </div>
 
       {list.length === 0 ? (
