@@ -2,6 +2,9 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { CreateWorkspaceDialog } from "@/components/dashboard/create-workspace-dialog";
 import { WorkspaceCard } from "@/components/dashboard/workspace-card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -23,57 +26,50 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Dashboard Top Header */}
+      {/* Dashboard Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border/40">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
-            Vos Chaînes YouTube
+            Tableau de bord
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Gérez vos productions vidéos étape par étape dans chaque chaîne.
+            Gérez vos chaînes, productions et paramètres.
           </p>
         </div>
-
-        {/* Bouton unique dans le header UNIQUEMENT si au moins un workspace existe */}
-        {hasWorkspaces && (
-          <div>
-            <CreateWorkspaceDialog buttonText="Nouvelle Chaîne" />
-          </div>
-        )}
       </div>
 
-      {/* Content Area */}
-      {!hasWorkspaces ? (
-        /* Empty State UX : Point d'action unique au centre */
-        <div className="flex flex-col items-center justify-center p-12 md:p-16 border border-dashed rounded-3xl border-red-500/30 glass text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-radial from-red-600/5 via-transparent to-transparent pointer-events-none" />
-          
-          {/* YouTube 4-box Menu Icon */}
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FF0000] text-white shadow-xl shadow-red-600/30 mb-6 group-hover:scale-105 transition-transform">
-            <div className="grid grid-cols-2 gap-1.5 p-1">
-              <div className="w-2.5 h-2.5 bg-white rounded-xs" />
-              <div className="w-2.5 h-2.5 bg-white rounded-xs" />
-              <div className="w-2.5 h-2.5 bg-white rounded-xs" />
-              <div className="w-2.5 h-2.5 bg-white rounded-xs" />
-            </div>
+      <Tabs defaultValue="workspaces" className="space-y-6">
+        <TabsList className="bg-[#141418] border border-border/40">
+          <TabsTrigger value="workspaces">Mes Chaînes</TabsTrigger>
+          <TabsTrigger value="analytics" disabled>Analytiques (Bientôt)</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="workspaces" className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-bold text-white">Vos Workspaces</h2>
+            {hasWorkspaces && <CreateWorkspaceDialog buttonText="Nouvelle Chaîne" />}
           </div>
 
-          <h3 className="text-2xl font-bold text-white mb-2">Aucune chaîne configurée</h3>
-          <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed">
-            Créez votre première chaîne YouTube pour commencer à structurer et produire vos vidéos avec le tableau Kanban.
-          </p>
-
-          {/* Bouton d'action principal unique */}
-          <CreateWorkspaceDialog buttonText="Créer ma première chaîne" variant="hero" />
-        </div>
-      ) : (
-        /* Grid des Workspaces */
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {workspaces.map((workspace: any) => (
-            <WorkspaceCard key={workspace.id} workspace={workspace} />
-          ))}
-        </div>
-      )}
+          {/* Content Area */}
+          {!hasWorkspaces ? (
+            /* Empty State UX */
+            <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-3xl border-red-500/30 glass text-center relative overflow-hidden">
+              <h3 className="text-2xl font-bold text-white mb-2">Aucune chaîne configurée</h3>
+              <p className="text-muted-foreground mb-8 max-w-md text-sm leading-relaxed">
+                Créez votre première chaîne pour commencer.
+              </p>
+              <CreateWorkspaceDialog buttonText="Créer ma première chaîne" variant="hero" />
+            </div>
+          ) : (
+            /* Grid des Workspaces */
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {workspaces.map((workspace: any) => (
+                <WorkspaceCard key={workspace.id} workspace={workspace} />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
