@@ -13,11 +13,11 @@ import { Button } from "@/components/ui/button";
 
 export function Notifications() {
   // TODO: Fetch invitations from database
-  const invitations = [];
+  const invitations: any[] = [];
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-white">
           <Bell className="h-5 w-5" />
           {invitations.length > 0 && (

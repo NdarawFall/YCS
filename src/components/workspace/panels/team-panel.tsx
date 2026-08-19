@@ -64,7 +64,7 @@ export function TeamPanel({ workspaceId }: TeamPanelProps) {
             onChange={(e) => setInviteEmail(e.target.value)}
             className="rounded-xl"
           />
-          <Select onValueChange={setRole} value={role}>
+          <Select onValueChange={(val) => val && setRole(val)} value={role}>
             <SelectTrigger className="rounded-xl">
               <SelectValue placeholder="Rôle" />
             </SelectTrigger>
