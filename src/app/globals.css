@@ -226,6 +226,30 @@
   animation: orb-float 22s ease-in-out infinite;
 }
 
+/* === Gradient Shimmer Text === */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-bg-orb,
+  .float-animation,
+  .glow-red,
+  .gradient-x {
+    animation: none;
+  }
+}
+
 /* === Scrollbars === */
 * {
   scrollbar-width: thin;
