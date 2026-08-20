@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { CreateVideoDialog } from "@/components/workspace/create-video-dialog";
 import { UserNav } from "@/components/dashboard/user-nav";
+import { LogoMark } from "@/components/ui/logo";
 import { MobileGuard } from "@/components/mobile-guard";
 
 export default async function WorkspaceLayout({
@@ -56,15 +57,8 @@ export default async function WorkspaceLayout({
             <div className="h-5 w-px bg-border/60 shrink-0 hidden sm:block" />
 
             <div className="flex items-center gap-3 min-w-0">
-              {/* YouTube 4-box Menu Icon Badge */}
-              <div className="hidden sm:flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#FF0000] text-white shadow-xs">
-                <div className="grid grid-cols-2 gap-0.5 p-0.5">
-                  <div className="w-1.5 h-1.5 bg-white rounded-xs" />
-                  <div className="w-1.5 h-1.5 bg-white rounded-xs" />
-                  <div className="w-1.5 h-1.5 bg-white rounded-xs" />
-                  <div className="w-1.5 h-1.5 bg-white rounded-xs" />
-                </div>
-              </div>
+              {/* Marvid brand mark */}
+              <LogoMark size="sm" className="hidden sm:flex" />
               <div className="flex items-center gap-2 min-w-0">
                 <span className="font-bold text-white text-sm sm:text-base leading-tight truncate">{workspace.name}</span>
                 <span className="hidden sm:inline-flex rounded-full bg-red-600/15 text-red-400 border border-red-600/25 px-2.5 py-0.5 text-xs font-semibold shrink-0">

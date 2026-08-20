@@ -14,24 +14,17 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#FF0000",
+          background: "linear-gradient(135deg, #ff0000 0%, #a80000 100%)",
           borderRadius: "8px",
+          color: "white",
+          fontSize: 24,
+          fontWeight: 900,
+          letterSpacing: "-0.05em",
+          // Compense l'espace sous la ligne de base pour centrer la lettre
+          paddingBottom: 2,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            width: "60%",
-            height: "60%",
-            gap: "10%",
-          }}
-        >
-          <div style={{ width: "45%", height: "45%", backgroundColor: "white", borderRadius: "2px" }} />
-          <div style={{ width: "45%", height: "45%", backgroundColor: "white", borderRadius: "2px" }} />
-          <div style={{ width: "45%", height: "45%", backgroundColor: "white", borderRadius: "2px" }} />
-          <div style={{ width: "45%", height: "45%", backgroundColor: "white", borderRadius: "2px" }} />
-        </div>
+        M
       </div>
     ),
     { ...size }
