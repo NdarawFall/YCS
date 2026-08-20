@@ -50,3 +50,8 @@ supabase-commands.sql
 
 # project explanation file for AI assistants
 .project-explanation.md
+
+# playwright
+/screenshots
+/test-results
+/playwright-report
