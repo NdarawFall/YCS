@@ -10,6 +10,8 @@ import { StageMarquee } from "@/components/landing/stage-marquee";
 import { Reveal } from "@/components/landing/reveal";
 import { SpotlightCard } from "@/components/landing/spotlight-card";
 import { PricingCards } from "@/components/landing/pricing-cards";
+import { FadeInWrapper } from "@/components/ui/fade-in-wrapper";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 const FEATURES = [
   {
@@ -45,17 +47,20 @@ export default async function LandingPage() {
   const isLoggedIn = !!user;
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#08080c] text-[#ececf1]">
+    <div className="flex min-h-screen flex-col bg-[#08080c] text-[#ececf1] relative">
+      <BackgroundGradient />
       <LandingNav isLoggedIn={isLoggedIn} />
 
       <main className="flex-1">
         <Hero isLoggedIn={isLoggedIn} />
 
-        <StageMarquee />
+        <FadeInWrapper>
+          <StageMarquee />
+        </FadeInWrapper>
 
         {/* Produit */}
         <section id="produit" className="border-b border-white/[0.06]">
-          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
+          <FadeInWrapper className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
             <Reveal>
               <div className="max-w-2xl">
                 <Eyebrow>Produit</Eyebrow>
@@ -83,12 +88,12 @@ export default async function LandingPage() {
                 </Reveal>
               ))}
             </div>
-          </div>
+          </FadeInWrapper>
         </section>
 
         {/* Solo / Équipe */}
         <section id="equipe" className="border-b border-white/[0.06]">
-          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-20">
+          <FadeInWrapper className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-20">
             <Reveal>
               <div className="max-w-2xl">
                 <Eyebrow>Équipe</Eyebrow>
@@ -165,12 +170,12 @@ export default async function LandingPage() {
                 écran.
               </p>
             </Reveal>
-          </div>
+          </FadeInWrapper>
         </section>
 
         {/* Tarifs */}
         <section id="tarifs" className="border-b border-white/[0.06]">
-          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
+          <FadeInWrapper className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
             <Reveal>
               <div className="max-w-2xl">
                 <Eyebrow>Tarifs</Eyebrow>
@@ -185,12 +190,12 @@ export default async function LandingPage() {
             </Reveal>
 
             <PricingCards />
-          </div>
+          </FadeInWrapper>
         </section>
 
         {/* CTA final */}
         <section>
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-24">
+          <FadeInWrapper className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-24">
             <Reveal>
               <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0d0d13]/80 px-8 py-16 text-center backdrop-blur-xl sm:px-16">
                 <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[36rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(230,0,0,0.25),transparent)] blur-2xl" />
@@ -217,7 +222,7 @@ export default async function LandingPage() {
                 </div>
               </div>
             </Reveal>
-          </div>
+          </FadeInWrapper>
         </section>
       </main>
 
