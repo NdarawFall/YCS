@@ -196,7 +196,7 @@ function PipelineCard() {
 
 export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 md:pb-28">
+    <section className="relative overflow-hidden pt-24 pb-12 sm:pt-28 md:pb-16 lg:pt-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <motion.div
           variants={container}
@@ -215,7 +215,7 @@ export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
 
           <motion.h1
             variants={item}
-            className="mt-8 max-w-4xl text-balance text-5xl font-semibold leading-[1.04] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl"
+            className="mt-5 max-w-4xl text-balance text-4xl font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl"
           >
             La production de vos vidéos YouTube,{" "}
             <span className="gradient-x bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">
@@ -225,7 +225,7 @@ export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
 
           <motion.p
             variants={item}
-            className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-white/55 sm:text-xl"
+            className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-white/55 sm:text-lg"
           >
             Marvid remplace les listes éparpillées et les messages perdus par un
             suivi unique en 8 étapes. Vous savez toujours où en est chaque vidéo
@@ -234,7 +234,7 @@ export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
 
           <motion.div
             variants={item}
-            className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+            className="mt-6 flex flex-col items-center gap-3 sm:flex-row"
           >
             <Link href={isLoggedIn ? "/dashboard" : "/auth/signup"}>
               <Button
@@ -256,12 +256,12 @@ export function Hero({ isLoggedIn }: { isLoggedIn: boolean }) {
             </Link>
           </motion.div>
 
-          <motion.p variants={item} className="mt-5 text-sm text-white/35">
+          <motion.p variants={item} className="mt-3.5 text-sm text-white/35">
             Gratuit pour une chaîne. Aucune carte bancaire demandée.
           </motion.p>
         </motion.div>
 
-        <div className="relative mx-auto mt-20 max-w-3xl sm:mt-24">
+        <div className="relative mx-auto mt-12 max-w-3xl sm:mt-16">
           <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[3rem] bg-[radial-gradient(60%_60%_at_50%_40%,rgba(230,0,0,0.16),transparent_70%)] blur-2xl" />
           <PipelineCard />
         </div>

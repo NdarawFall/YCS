@@ -36,24 +36,36 @@ export function LandingNav({ isLoggedIn }: { isLoggedIn: boolean }) {
         <Logo size="md" />
 
         <div className="hidden items-center gap-1 md:flex">
-          <a
-            href="#produit"
+          <Link
+            href="/#produit"
             className="rounded-lg px-3 py-2 text-sm text-white/55 transition-colors hover:text-white"
           >
             Produit
-          </a>
-          <a
-            href="#equipe"
+          </Link>
+          <Link
+            href="/#equipe"
             className="rounded-lg px-3 py-2 text-sm text-white/55 transition-colors hover:text-white"
           >
             Équipe
-          </a>
-          <a
-            href="#tarifs"
+          </Link>
+          <Link
+            href="/#tarifs"
             className="rounded-lg px-3 py-2 text-sm text-white/55 transition-colors hover:text-white"
           >
             Tarifs
-          </a>
+          </Link>
+          <Link
+            href="/a-propos"
+            className="rounded-lg px-3 py-2 text-sm text-white/55 transition-colors hover:text-white"
+          >
+            À propos
+          </Link>
+          <Link
+            href="/blog"
+            className="rounded-lg px-3 py-2 text-sm text-white/55 transition-colors hover:text-white"
+          >
+            Blog
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">
