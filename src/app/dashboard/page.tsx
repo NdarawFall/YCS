@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { CreateWorkspaceDialog } from "@/components/dashboard/create-workspace-dialog";
 import { WorkspaceCard } from "@/components/dashboard/workspace-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FadeInWrapper } from "@/components/ui/fade-in-wrapper";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 export const dynamic = 'force-dynamic';
 
@@ -25,9 +27,10 @@ export default async function DashboardPage() {
   const hasWorkspaces = workspaces && workspaces.length > 0;
 
   return (
-    <div className="space-y-8">
+    <FadeInWrapper className="relative p-6">
+      <BackgroundGradient />
       {/* Dashboard Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border/40">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-border/40 mb-8">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
             Tableau de bord
@@ -70,6 +73,6 @@ export default async function DashboardPage() {
           )}
         </TabsContent>
       </Tabs>
-    </div>
+    </FadeInWrapper>
   );
 }

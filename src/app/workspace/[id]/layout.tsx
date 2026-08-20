@@ -6,6 +6,7 @@ import { CreateVideoDialog } from "@/components/workspace/create-video-dialog";
 import { UserNav } from "@/components/dashboard/user-nav";
 import { LogoMark } from "@/components/ui/logo";
 import { MobileGuard } from "@/components/mobile-guard";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 export default async function WorkspaceLayout({
   children,
@@ -42,7 +43,8 @@ export default async function WorkspaceLayout({
 
   return (
     <MobileGuard>
-      <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#0b0b0d]">
+      <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#0b0b0d] relative">
+        <BackgroundGradient />
         {/* Top Navbar */}
         <header className="h-16 shrink-0 border-b border-border/50 bg-[#101014]/95 backdrop-blur-md px-3 sm:px-6 flex items-center justify-between z-30">
           <div className="flex items-center gap-2 sm:gap-4 min-w-0">
