@@ -16,10 +16,11 @@ export function FadeInWrapper({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={cn("h-full", className)}
+      className={cn(className)}
     >
       {children}
     </motion.div>
