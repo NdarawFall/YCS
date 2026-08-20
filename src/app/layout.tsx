@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "YCS – YouTube Creator Studio",
+  title: "Marvid – Studio de production YouTube",
   description: "Gérez votre chaîne YouTube comme un pro. Pipeline de production, gestion d'équipe, upload HD.",
 };
 

@@ -10,9 +10,9 @@ export async function sendInvitationEmail(email: string, role: string) {
     await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: email,
-      subject: 'Invitation à collaborer sur YCS Studio',
+      subject: 'Invitation à collaborer sur Marvid',
       html: `
-        <h2>Invitation YCS Studio</h2>
+        <h2>Invitation Marvid</h2>
         <p>Vous avez été invité à rejoindre un workspace en tant que <strong>${role}</strong>.</p>
         <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/dashboard">Cliquez ici pour accéder à votre espace</a></p>
       `

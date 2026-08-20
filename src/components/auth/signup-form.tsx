@@ -14,7 +14,7 @@ export function SignupForm() {
           <Sparkles className="h-5 w-5 text-red-500" />
         </div>
         <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-          Rejoindre YCS Studio
+          Rejoindre Marvid
         </h1>
         <p className="text-sm text-white/50 leading-relaxed">
           Créez votre espace créateur en 1 clic avec votre compte Google.

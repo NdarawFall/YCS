@@ -49,7 +49,7 @@ export function Logo({ className, size = "md", withLink = true }: LogoProps) {
       {/* Brand Text */}
       <div className="flex items-center gap-1.5">
         <span className={cn("font-extrabold tracking-tight text-white flex items-center", sizeClasses.text)}>
-          YCS
+          Marvid
         </span>
         <span
           className={cn(

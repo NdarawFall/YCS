@@ -26,7 +26,7 @@ export default function MentionsLegalesPage() {
           <section className="space-y-2">
             <h2 className="text-lg font-bold text-white">1. Éditeur de la Plateforme</h2>
             <p>
-              Le site web et l'application <strong>YCS (YouTube Creator Studio)</strong> sont édités à des fins d'organisation et de gestion de workflows vidéo pour les créateurs de contenu YouTube.
+              Le site web et l'application <strong>Marvid</strong> sont édités à des fins d'organisation et de gestion de workflows vidéo pour les créateurs de contenu YouTube.
             </p>
           </section>
 
@@ -44,14 +44,14 @@ export default function MentionsLegalesPage() {
           <section className="space-y-2">
             <h2 className="text-lg font-bold text-white">3. Propriété Intellectuelle</h2>
             <p>
-              L'ensemble des contenus (textes, visuels, logos, interfaces, code source) de la plateforme YCS est protégé par les lois relatives à la propriété intellectuelle. Toute reproduction non autorisée est strictement interdite.
+              L'ensemble des contenus (textes, visuels, logos, interfaces, code source) de la plateforme Marvid est protégé par les lois relatives à la propriété intellectuelle. Toute reproduction non autorisée est strictement interdite.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="text-lg font-bold text-white">4. Contact</h2>
             <p>
-              Pour toute question concernant l'utilisation de la plateforme, vous pouvez nous contacter via notre page de contact ou par e-mail à l'adresse support de YCS Studio.
+              Pour toute question concernant l'utilisation de la plateforme, vous pouvez nous contacter via notre page de contact ou par e-mail à l'adresse support de Marvid.
             </p>
           </section>
         </div>

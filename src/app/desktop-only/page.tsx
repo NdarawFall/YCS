@@ -54,7 +54,7 @@ export default function DesktopOnlyPage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-950/60 border border-red-500/40 text-red-400 text-xs font-bold">
             <Sparkles className="h-3.5 w-3.5 text-red-500" />
-            <span>YouTube Creator Studio</span>
+            <span>Studio de production YouTube</span>
           </div>
 
           {/* Title & Explanation */}
@@ -63,7 +63,7 @@ export default function DesktopOnlyPage() {
               Conçu pour Grand Écran
             </h1>
             <p className="text-sm text-white/60 leading-relaxed font-medium">
-              Pour une expérience optimale et un confort de production maximal, YouTube Creator Studio est conçu pour être utilisé sur ordinateur (<strong className="text-white font-semibold">PC ou Mac</strong>).
+              Pour une expérience optimale et un confort de production maximal, Marvid est conçu pour être utilisé sur ordinateur (<strong className="text-white font-semibold">PC ou Mac</strong>).
             </p>
           </div>
 
@@ -95,7 +95,7 @@ export default function DesktopOnlyPage() {
 
       {/* Footer */}
       <footer className="w-full text-center text-xs text-white/30 relative z-10 py-2 font-mono">
-        © {new Date().getFullYear()} YouTube Creator Studio – Grand écran recommandé
+        © {new Date().getFullYear()} Marvid – Grand écran recommandé
       </footer>
     </div>
   );

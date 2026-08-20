@@ -28,7 +28,7 @@ export default function AuthLayout({
           <div className="absolute inset-0 z-0">
             <Image
               src="/auth-banner-v2.jpg"
-              alt="YCS Red Fluid Artwork"
+              alt="Marvid Red Fluid Artwork"
               fill
               className="object-cover scale-105"
               priority

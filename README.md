@@ -1,4 +1,4 @@
-# YCS - YouTube Creator Studio
+# Marvid – Studio de production YouTube
 
 > Plateforme de gestion et de production de vidéos YouTube (faceless & créateurs de contenu) avec pipeline Kanban, gestion d'équipe et intégration Cloudinary / Supabase.
 

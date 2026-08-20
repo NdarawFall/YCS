@@ -19,7 +19,7 @@ export default function ContactPage() {
             <Mail className="h-3.5 w-3.5" />
             <span>Support & Assistance</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Contactez l'équipe YCS</h1>
+          <h1 className="text-3xl font-extrabold text-white">Contactez l'équipe Marvid</h1>
           <p className="text-white/50 text-sm mt-1">Une question, une suggestion ou besoin d'aide ? Écrivez-nous.</p>
         </div>
 

@@ -74,10 +74,10 @@ export default async function LandingPage() {
         <section className="w-full pt-8 pb-14 md:pt-14 md:pb-20 flex flex-col items-center justify-center text-center px-4 md:px-6 relative overflow-hidden">
           <div className="relative z-10 max-w-[900px] space-y-6 flex flex-col items-center">
             
-            {/* YouTube Creator Studio Main Badge */}
+            {/* Marvid Main Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-950/40 px-4 py-1.5 text-xs font-bold text-red-400 backdrop-blur-md shadow-lg shadow-red-500/10">
               <Sparkles className="h-3.5 w-3.5 text-red-500 animate-pulse" />
-              <span>YouTube Creator Studio (YCS)</span>
+              <span>Marvid — Studio de production YouTube</span>
             </div>
 
             {/* Main Headline */}
@@ -159,7 +159,7 @@ export default async function LandingPage() {
           <div className="container px-4 md:px-6 mx-auto max-w-5xl">
             <div className="text-center mb-10 space-y-2">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-red-500 tracking-wider uppercase">
-                <Sparkles className="h-4 w-4" /> YouTube Creator Studio
+                <Sparkles className="h-4 w-4" /> Studio de production YouTube
               </div>
               <h2 className="text-3xl font-extrabold text-white">Une organisation sur-mesure</h2>
             </div>
@@ -291,7 +291,7 @@ export default async function LandingPage() {
                     <span className="bg-gradient-to-r from-white to-red-400 bg-clip-text text-transparent">les grands écrans & ordinateurs</span>
                   </h2>
                   <p className="text-white/60 text-sm md:text-base leading-relaxed">
-                    Pour vous offrir une expérience optimale et un confort de production maximal, YouTube Creator Studio est conçu pour être utilisé sur PC ou Mac.
+                    Pour vous offrir une expérience optimale et un confort de production maximal, Marvid est conçu pour être utilisé sur PC ou Mac.
                   </p>
                   <div className="pt-2 flex flex-wrap justify-center md:justify-start gap-3 text-xs font-semibold text-white/80">
                     <span className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10">
@@ -410,7 +410,7 @@ export default async function LandingPage() {
           <div className="container px-4 md:px-6 mx-auto flex flex-col items-center justify-center text-center space-y-6 max-w-3xl">
             <Logo size="lg" withLink={false} />
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
-              Propulsez vos vidéos avec YouTube Creator Studio
+              Propulsez vos vidéos avec Marvid
             </h2>
             <p className="text-white/50 text-base">
               Rejoignez les créateurs qui organisent leur succès dès aujourd'hui.
@@ -431,7 +431,7 @@ export default async function LandingPage() {
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
             <Logo size="sm" withLink={false} />
-            <p className="text-xs">© {new Date().getFullYear()} YCS Studio. Tous droits réservés.</p>
+            <p className="text-xs">© {new Date().getFullYear()} Marvid. Tous droits réservés.</p>
           </div>
           <div className="flex gap-6 text-xs">
             <Link href="/mentions-legales" className="hover:text-white transition-colors">Mentions légales</Link>
